@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+
+import { PageTemplate } from "../pages/project_pages/PageTemplate";
 import { TropicalPlantsPage } from "../pages/project_pages/TropicalPlantsPage";
 import {AsteroidGenPage} from "../pages/project_pages/AsteroidGenPage";
+import { MacroMossPage } from "../pages/project_pages/MacroMossPage";
 
 // --- Project data ---
 const projects = [
@@ -10,7 +13,7 @@ const projects = [
         description: "Houdini Digital Asset",
         image: "src/assets/projects/tropical_plants/card_img_plant_tool.png",
         tags: ["Procedural"],
-        detailComponent: <TropicalPlantsPage />
+        detailComponent: <TropicalPlantsPage/>
     },
     {
         id: 2, 
@@ -26,7 +29,7 @@ const projects = [
         description: "Houdini Digital Asset",
         image: "src/assets/projects/macro_moss/card_img_macromoss.png",
         tags: ["Procedural"],
-        detailComponent: <div className="p-8 text-white">Macro-Moss detail coming soon.</div>
+        detailComponent: <MacroMossPage />
     },
     {
         id: 4, 
@@ -116,7 +119,7 @@ const ProjectDrawer = ({ project, onClose }) => {
                                bg-background/90 backdrop-blur-sm border-b border-foreground/5
                                text-foreground/40 hover:text-foreground text-sm transition-colors"
                 >
-                    <span className="text-lg leading-none">←</span> Back to projects
+                    <span className="text-lg leading-none">←</span> Back to projects <span className="ml-auto text-foreground/70 text-align-right">{project.title}</span>
                 </button>
 
                 {/* Project-specific content */}
