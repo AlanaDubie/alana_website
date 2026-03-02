@@ -1,14 +1,11 @@
 export const HeroSection = () => {
     return (
     <section id="hero" 
-    className="relative min-h-screen flex flex-col items-center justify-center px-4"
+        className="relative w-full overflow-hidden"
     >
-        <div className="container max-w-8xl mx-auto text-center z-10">
-            <div> video
-
-            </div>
-
-        </div>
-        
+        <video autoPlay muted loop playsInline 
+            className="w-full block">
+            <source src="src/assets/HeroVideo.mp4" type="video/mp4" />
+        </video>
     </section>)
 }
