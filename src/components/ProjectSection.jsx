@@ -127,13 +127,13 @@ const ProjectDrawer = ({ project, onClose }) => {
         <button
           onClick={onClose}
           className="sticky top-0 z-20 w-full
-             bg-background/90 backdrop-blur-sm border-b border-foreground/5
-             text-foreground/40 hover:text-foreground text-sm transition-colors"
+             bg-background/90 backdrop-blur-sm border-b border-primary/10
+             text-foreground/50 hover:text-primary font-mono text-[11px] uppercase tracking-[0.2em] transition-colors"
         >
           <div className="container flex items-center gap-2 py-4">
             <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
             Back to projects
-            <span className="ml-auto text-foreground/70">{project.title}</span>
+            <span className="ml-auto text-foreground/80 normal-case tracking-normal font-sans text-sm">{project.title}</span>
           </div>
         </button>
 
@@ -150,34 +150,32 @@ export const ProjectSection = () => {
   return (
     <section id="projects" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-8xl">
-        <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center">
-          Projects
-        </h2>
+        <p className="eyebrow text-center mb-3">PROJECTS</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
           {projects.map((project, key) => (
             <div
               key={key}
               onClick={() => setSelected(project)}
-              className="group relative border border-0.5 border-primary/5 bg-card rounded-sm overflow-hidden shadow-xs card-hover cursor-pointer"
+              className="group relative border border-primary/10 bg-card rounded-sm overflow-hidden card-hover hover:border-primary/30 cursor-pointer"
             >
               {/* Image */}
               <div className="min-h-64 max-h-80 h-full overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
 
               {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+              <div className="absolute inset-0 bg-linear-to-t from-background via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-5">
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, i) => (
                     <span
                       key={i}
-                      className="text-xs font-light tracking-widest uppercase text-primary/90"
+                      className="text-[10px] font-mono tracking-[0.3em] uppercase text-primary/90"
                     >
                       {tag}
                     </span>
@@ -185,12 +183,12 @@ export const ProjectSection = () => {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-white text-left text-2xl font-normal leading-tight mb-2 mt-2">
+                <h3 className="text-foreground text-left text-2xl font-serif font-light leading-tight mb-2 mt-2">
                   {project.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-white/70 text-left text-sm">
+                <p className="text-foreground/60 text-left text-sm">
                   {project.description}
                 </p>
               </div>

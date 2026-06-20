@@ -25,6 +25,12 @@ export const Home = () => {
         </main>
 
         {/* Footer */}
+
+        <footer className="px-6 md:px-16 pb-10 max-w-7xl mx-auto flex justify-center">
+          <p className="text-[9px] font-mono tracking-[0.3em] uppercase text-foreground/30">
+            © Copyright Alana Dubie 2024. All rights reserved.
+          </p>
+        </footer>
     </div>
   );
 }

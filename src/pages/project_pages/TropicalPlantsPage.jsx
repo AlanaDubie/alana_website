@@ -15,12 +15,12 @@ const heroMedia = [
 ];
 
 const ParamTable = ({ params }) => (
-  <div className="border border-foreground/5 rounded-md overflow-hidden bg-card mb-4">
+  <div className="border border-primary/10 rounded-md overflow-hidden bg-card mb-4">
     {params.map(([name, desc], i) => (
       <div
         key={name}
         className={`flex items-baseline gap-4 px-4 py-3 hover:bg-primary/5 transition-colors ${
-          i !== 0 ? "border-t border-foreground/5" : ""
+          i !== 0 ? "border-t border-primary/10" : ""
         }`}
       >
         <span className="font-mono text-xs text-primary/90 shrink-0 w-44">{name}</span>
@@ -42,7 +42,7 @@ const JumpNav = () => (
       <a
         key={href}
         href={href}
-        className="text-xs font-light tracking-widest uppercase border border-foreground/10 rounded-md px-3 py-1.5 text-foreground/50 hover:text-foreground/90 hover:border-primary/40 transition-colors"
+        className="font-mono text-[10px] tracking-[0.25em] uppercase border border-primary/10 rounded-sm px-3 py-1.5 text-foreground/50 hover:text-primary hover:border-primary/40 transition-colors"
       >
         {label}
       </a>
@@ -65,7 +65,7 @@ const EditorialGrid = ({ images, alt = "" }) => {
             key={src}
             src={src}
             alt={`${alt} ${i + 1}`}
-            className="w-full object-cover border border-foreground/5"
+            className="w-full object-cover border border-primary/10"
             style={{
               aspectRatio: "4/3",
               borderRadius: i === 0 ? "4px 0 0 0" : i === 2 ? "0 4px 0 0" : "0",
@@ -82,7 +82,7 @@ const EditorialGrid = ({ images, alt = "" }) => {
               key={src}
               src={src}
               alt={`${alt} ${top.length + i + 1}`}
-              className="w-full object-cover object-top border border-foreground/5"
+              className="w-full object-cover object-top border border-primary/10"
               style={{
                 aspectRatio: "16/11",
                 borderRadius:
@@ -126,10 +126,10 @@ export const TropicalPlantsPage = () => (
     <div className="pt-6 container max-w-5xl mx-auto">
 
       {/* ── TITLE BLOCK ── */}
-      <span className="text-xs font-light tracking-widest uppercase text-primary/70">
+      <span className="eyebrow">
         Procedural · SOPS · COPs
       </span>
-      <h1 className="text-foreground text-6xl font-bold mt-2 mb-4">
+      <h1 className="text-foreground text-6xl font-serif font-light mt-2 mb-4">
         Tropical Plants
       </h1>
       <p className="text-foreground/60 text-base leading-relaxed mb-3 max-w-2xl">
@@ -137,9 +137,9 @@ export const TropicalPlantsPage = () => (
         stylized environments of Kingdom Hearts. The goal was to be able to generate a wide range of tropical
         plant variants through parameters alone, without going back to model everything from scratch.
       </p>
-      <p className="text-foreground/40 text-sm mb-8">
+      <p className="text-foreground/40 text-xs font-mono uppercase tracking-widest mb-8">
         Tools:
-        <span className="text-foreground/70 border border-primary/30 rounded-md px-2 py-1 ml-2">
+        <span className="text-foreground/70 font-mono text-xs border border-primary/20 rounded-sm px-2 py-1 ml-2 tracking-wide normal-case">
           Houdini
         </span>
       </p>
@@ -150,22 +150,22 @@ export const TropicalPlantsPage = () => (
           01 — PROCEDURAL RESULTS
       ══════════════════════════════════════════ */}
       <section id="results" className="mb-14 scroll-mt-8">
-        <span className="text-xs font-light tracking-widest uppercase text-foreground/40">
+        <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-foreground/40">
           Procedural Results
         </span>
-        <h2 className="text-3xl font-bold mt-2 mb-4">Generated Plant Designs</h2>
+        <h2 className="text-3xl font-serif font-light mt-2 mb-4">Generated Plant Designs</h2>
         <p className="text-foreground/70 text-sm leading-relaxed mb-6 max-w-2xl">
           All the variations below come from just the two tools with no manual modeling involved. Tweaking things like seed, bend angle,
           leaf count, color ramp, and layer configuration is enough to get to a completely different looking plant.
           It made exploring plant designs feel fast and genuinely fun!
         </p>
 
-        <span className="text-xs font-light tracking-widest uppercase text-foreground/30 block mb-3">
+        <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-foreground/30 block mb-3">
           Palm Tree Tool
         </span>
         <EditorialGrid images={palmImages} alt="Palm variation" />
 
-        <span className="text-xs font-light tracking-widest uppercase text-foreground/30 block mb-3 mt-8">
+        <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-foreground/30 block mb-3 mt-8">
           Layered Plant Tool
         </span>
         <EditorialGrid images={layeredImages} alt="Layered plant variation" />
@@ -175,21 +175,21 @@ export const TropicalPlantsPage = () => (
         </p>
       </section>
 
-      <hr className="border-foreground/5 mb-14" />
+      <hr className="border-primary/10 mb-14" />
 
       {/* ══════════════════════════════════════════
           CONCEPT & REFERENCES
       ══════════════════════════════════════════ */}
       <section id="refs" className="mb-14 scroll-mt-8">
-        <span className="text-xs font-light tracking-widest uppercase text-primary/70">
+        <span className="eyebrow">
           Inspiration
         </span>
-        <h2 className="text-3xl font-bold mt-2 mb-5">Concept & References</h2>
+        <h2 className="text-3xl font-serif font-light mt-2 mb-5">Concept & References</h2>
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-8 items-start">
           <div className="text-foreground/70 text-sm leading-relaxed space-y-4">
             <p>
               The plants in Kingdom Hearts have simple silhouettes and vibrant colors reminiscent of Disney's 2D animations,
-              giving the environments a feel like they were painted in watercolor.
+              giving the environments a feel like they were painted in <span className="shimmer-text">watercolor</span>.
             </p>
             <p>
               I pulled references from Destiny Islands to understand the art direction and grounded each plant in real tropical forms (palms, banana leaves)
@@ -199,29 +199,29 @@ export const TropicalPlantsPage = () => (
           </div>
           <img
             src="assets/projects/tropical_plants/references.png"
-            className="w-full rounded-md border border-foreground/5"
+            className="w-full rounded-md border border-primary/10"
             alt="References"
           />
         </div>
       </section>
 
-      <hr className="border-foreground/5 mb-14" />
+      <hr className="border-primary/10 mb-14" />
 
       {/* ══════════════════════════════════════════
           TOOL OVERVIEW CARDS
       ══════════════════════════════════════════ */}
       <section className="mb-14">
-        <span className="text-xs font-light tracking-widest uppercase text-primary/70">
+        <span className="eyebrow">
           Overview
         </span>
-        <h2 className="text-3xl font-bold mt-2 mb-5">The Two Tools</h2>
+        <h2 className="text-3xl font-serif font-light mt-2 mb-5">The Two Tools</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <a
             href="#palm"
-            className="group border border-foreground/5 rounded-md p-5 bg-card hover:border-primary/30 transition-colors"
+            className="group border border-primary/10 rounded-md p-5 bg-card hover:border-primary/30 transition-colors"
           >
-            <span className="text-xs font-light tracking-widest uppercase text-primary/60 block mb-2">Tool 01</span>
-            <h3 className="text-lg font-semibold mb-2 group-hover:text-primary/90 transition-colors">
+            <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/60 block mb-2">Tool 01</span>
+            <h3 className="text-lg font-serif font-normal mb-2 group-hover:text-primary/90 transition-colors">
               Palm Tree Tool
             </h3>
             <div className="text-foreground/60 text-xs leading-relaxed">
@@ -231,10 +231,10 @@ export const TropicalPlantsPage = () => (
           </a>
           <a
             href="#layered"
-            className="group border border-foreground/5 rounded-md p-5 bg-card hover:border-primary/30 transition-colors"
+            className="group border border-primary/10 rounded-md p-5 bg-card hover:border-primary/30 transition-colors"
           >
-            <span className="text-xs font-light tracking-widest uppercase text-primary/60 block mb-2">Tool 02</span>
-            <h3 className="text-lg font-semibold mb-2 group-hover:text-primary/90 transition-colors">
+            <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary/60 block mb-2">Tool 02</span>
+            <h3 className="text-lg font-serif font-normal mb-2 group-hover:text-primary/90 transition-colors">
               Layered Plant Tool
             </h3>
             <div className="text-foreground/60 text-xs leading-relaxed">
@@ -245,16 +245,16 @@ export const TropicalPlantsPage = () => (
         </div>
       </section>
 
-      <hr className="border-foreground/5 mb-14" />
+      <hr className="border-primary/10 mb-14" />
 
       {/* ══════════════════════════════════════════
           PALM TREE PROCEDURAL
       ══════════════════════════════════════════ */}
       <section id="palm" className="mb-14 scroll-mt-8">
-        <span className="text-xs font-light tracking-widest uppercase text-primary/70">
+        <span className="eyebrow">
           Tool 01
         </span>
-        <h2 className="text-3xl font-bold mt-2 mb-5">Palm Tree Procedural</h2>
+        <h2 className="text-3xl font-serif font-light mt-2 mb-5">Palm Tree Procedural</h2>
         <div className="text-foreground/70 text-sm leading-relaxed mb-8 space-y-3 max-w-2xl">
           <p>
             I broke the tool into three sections:{" "}
@@ -271,21 +271,21 @@ export const TropicalPlantsPage = () => (
             title="Palm Tree Tool Demo"
             allow="autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
-            className="w-full h-full rounded-md border border-foreground/5"
+            className="w-full h-full rounded-md border border-primary/10"
           />
         </div>
 
-        <span className="text-xs font-light tracking-widest uppercase text-foreground/40">SOP Network</span>
+        <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-foreground/40">SOP Network</span>
         <img
           src="assets/projects/tropical_plants/palm_section/palm_sop.png"
-          className="w-xl rounded-md border border-foreground/5 mt-3 mb-2"
+          className="w-xl rounded-md border border-primary/10 mt-3 mb-2"
           alt="Palm SOP network"
         />
         <p className="text-xs font-light text-foreground/40 italic mb-10">
           Full network. Green = leaf shape, tan = stem, dark yellow = palm trunk. Everything merges at the bottom before output.
         </p>
 
-        <h3 className="text-lg font-semibold mb-3">Trunk</h3>
+        <h3 className="text-lg font-serif font-normal mb-3">Trunk</h3>
         <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-start mb-10">
           <div>
             <div className="text-foreground/70 text-sm leading-relaxed mb-4 space-y-2">
@@ -302,12 +302,12 @@ export const TropicalPlantsPage = () => (
           </div>
           <img
             src="assets/projects/tropical_plants/palm_section/trunk_sop.png"
-            className="rounded-md border border-foreground/5 w-36 shrink-0"
+            className="rounded-md border border-primary/10 w-36 shrink-0"
             alt="Trunk SOP"
           />
         </div>
 
-        <h3 className="text-lg font-semibold mb-3">Leaves</h3>
+        <h3 className="text-lg font-serif font-normal mb-3">Leaves</h3>
         <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-start mb-10">
           <div>
             <div className="text-foreground/70 text-sm leading-relaxed mb-4 space-y-2">
@@ -327,12 +327,12 @@ export const TropicalPlantsPage = () => (
           </div>
           <img
             src="assets/projects/tropical_plants/palm_section/leaves_sop.png"
-            className="rounded-md border border-foreground/5 w-36 shrink-0"
+            className="rounded-md border border-primary/10 w-36 shrink-0"
             alt="Leaves SOP"
           />
         </div>
 
-        <h3 className="text-lg font-semibold mb-3">Branches</h3>
+        <h3 className="text-lg font-serif font-normal mb-3">Branches</h3>
         <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-start mb-10">
           <div>
             <p className="text-foreground/70 text-sm leading-relaxed mb-4">
@@ -346,22 +346,22 @@ export const TropicalPlantsPage = () => (
           </div>
           <img
             src="assets/projects/tropical_plants/palm_section/branch_sop.png"
-            className="rounded-md border border-foreground/5 w-36 shrink-0"
+            className="rounded-md border border-primary/10 w-36 shrink-0"
             alt="Branch SOP"
           />
         </div>
       </section>
 
-      <hr className="border-foreground/5 mb-14" />
+      <hr className="border-primary/10 mb-14" />
 
       {/* ══════════════════════════════════════════
           LAYERED PLANT PROCEDURAL
       ══════════════════════════════════════════ */}
       <section id="layered" className="mb-14 scroll-mt-8">
-        <span className="text-xs font-light tracking-widest uppercase text-primary/70">
+        <span className="eyebrow">
           Tool 02
         </span>
-        <h2 className="text-3xl font-bold mt-2 mb-5">Layered Plant Procedural</h2>
+        <h2 className="text-3xl font-serif font-light mt-2 mb-5">Layered Plant Procedural</h2>
         <div className="text-foreground/70 text-sm leading-relaxed mb-8 space-y-3 max-w-2xl">
           <p>
             This one is built around multiple leaf layers and a stem, all independently controlled or toggleable.
@@ -376,21 +376,21 @@ export const TropicalPlantsPage = () => (
             title="Layered Plant Tool Demo"
             allow="autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
-            className="w-full h-full rounded-md border border-foreground/5"
+            className="w-full h-full rounded-md border border-primary/10"
           />
         </div>
 
-        <span className="text-xs font-light tracking-widest uppercase text-foreground/40">SOP Network</span>
+        <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-foreground/40">SOP Network</span>
         <img
           src="assets/projects/tropical_plants/layered_plant_section/lp_sop.png"
-          className="w-full rounded-md border border-foreground/5 mt-3 mb-2"
+          className="w-full rounded-md border border-primary/10 mt-3 mb-2"
           alt="Layered plant SOP network"
         />
         <p className="text-xs font-light text-foreground/40 italic mb-10">
           Top leaves layer (left), bottom leaves layer (center), stem (right).
         </p>
 
-        <h3 className="text-lg font-semibold mb-3">Leaf Layers (Top and Bottom)</h3>
+        <h3 className="text-lg font-serif font-normal mb-3">Leaf Layers (Top and Bottom)</h3>
         <div className="text-foreground/70 text-sm leading-relaxed mb-6 space-y-2 max-w-2xl">
           <p>
             Both layers use the same setup. Two bend nodes control curvature in different directions to help shape the leaves and petals.
@@ -399,13 +399,13 @@ export const TropicalPlantsPage = () => (
           </p>
         </div>
 
-        <h4 className="text-sm font-semibold text-foreground mb-2">Bend</h4>
+        <h4 className="text-sm font-serif font-normal text-foreground mb-2">Bend</h4>
         <ParamTable params={[
           ["leaves bend (x direction)", "curvature along the x axis"],
           ["leaves bend (y direction)", "curvature along the y axis"],
         ]} />
 
-        <h4 className="text-sm font-semibold text-foreground mb-2">Scaling</h4>
+        <h4 className="text-sm font-serif font-normal text-foreground mb-2">Scaling</h4>
         <ParamTable params={[
           ["leaf count",     "how many petals in the layer"],
           ["leaf width",     "width of each petal"],
@@ -414,7 +414,7 @@ export const TropicalPlantsPage = () => (
           ["plant rotation", "rotates the layer — offset top and bottom so petals don't stack directly on each other"],
         ]} />
 
-        <h4 className="text-sm font-semibold text-foreground mb-2">Coloring</h4>
+        <h4 className="text-sm font-serif font-normal text-foreground mb-2">Coloring</h4>
         <ParamTable params={[
           ["hue shift",          "shifts the layer hue"],
           ["brightness",         "overall brightness"],
@@ -426,11 +426,11 @@ export const TropicalPlantsPage = () => (
 
         <img
           src="assets/projects/tropical_plants/layered_plant_section/lp_leaves.png"
-          className="w-4xl rounded-md border border-foreground/5 mt-2 mb-10"
+          className="w-4xl rounded-md border border-primary/10 mt-2 mb-10"
           alt="Leaf layer network"
         />
 
-        <h3 className="text-lg font-semibold mb-3">Stem</h3>
+        <h3 className="text-lg font-serif font-normal mb-3">Stem</h3>
         <div className="text-foreground/70 text-sm leading-relaxed mb-4 space-y-2 max-w-2xl">
           <p>
             Built in its own sub-network and toggleable. A sort node is used to find the top point of
@@ -446,21 +446,21 @@ export const TropicalPlantsPage = () => (
         ]} />
         <img
           src="assets/projects/tropical_plants/layered_plant_section/lp_stem.png"
-          className="w-xl rounded-md border border-foreground/5 mt-4 mb-10"
+          className="w-xl rounded-md border border-primary/10 mt-4 mb-10"
           alt="Stem network"
         />
       </section>
 
-      <hr className="border-foreground/5 mb-14" />
+      <hr className="border-primary/10 mb-14" />
 
       {/* ══════════════════════════════════════════
           COPS MATERIAL
       ══════════════════════════════════════════ */}
       <section id="materials" className="mb-14 scroll-mt-8">
-        <span className="text-xs font-light tracking-widest uppercase text-primary/70">
+        <span className="eyebrow">
           03
         </span>
-        <h2 className="text-3xl font-bold mt-2 mb-5">COPs Material</h2>
+        <h2 className="text-3xl font-serif font-light mt-2 mb-5">COPs Material</h2>
         <div className="text-foreground/70 text-sm leading-relaxed mb-8 space-y-3 max-w-2xl">
           <p>All PBR maps were built procedurally inside Houdini COPs.</p>
           <p>
@@ -474,19 +474,19 @@ export const TropicalPlantsPage = () => (
           </p>
         </div>
 
-        <h3 className="text-lg font-semibold mb-4">Leaves Material</h3>
-        <span className="text-xs font-light tracking-widest uppercase text-foreground/40">Base Color — 2 variants</span>
-        <img src="assets/projects/tropical_plants/cops_section/cops_leaves_base.png" className="w-full rounded-md border border-foreground/5 mt-3 mb-6" alt="Leaves base color" />
-        <span className="text-xs font-light tracking-widest uppercase text-foreground/40">Roughness · Normal · Opacity</span>
-        <img src="assets/projects/tropical_plants/cops_section/cops_leaves_rno.png" className="w-full rounded-md border border-foreground/5 mt-3 mb-10" alt="Leaves roughness normal opacity" />
+        <h3 className="text-lg font-serif font-normal mb-4">Leaves Material</h3>
+        <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-foreground/40">Base Color — 2 variants</span>
+        <img src="assets/projects/tropical_plants/cops_section/cops_leaves_base.png" className="w-full rounded-md border border-primary/10 mt-3 mb-6" alt="Leaves base color" />
+        <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-foreground/40">Roughness · Normal · Opacity</span>
+        <img src="assets/projects/tropical_plants/cops_section/cops_leaves_rno.png" className="w-full rounded-md border border-primary/10 mt-3 mb-10" alt="Leaves roughness normal opacity" />
 
-        <h3 className="text-lg font-semibold mb-4">Trunk Material</h3>
-        <span className="text-xs font-light tracking-widest uppercase text-foreground/40">Base Color</span>
-        <img src="assets/projects/tropical_plants/cops_section/cops_trunk_base.png" className="w-full rounded-md border border-foreground/5 mt-3 mb-6" alt="Trunk base color" />
-        <span className="text-xs font-light tracking-widest uppercase text-foreground/40">Roughness</span>
-        <img src="assets/projects/tropical_plants/cops_section/cops_trunk_rough.png" className="w-full rounded-md border border-foreground/5 mt-3 mb-6" alt="Trunk roughness" />
-        <span className="text-xs font-light tracking-widest uppercase text-foreground/40">Normal</span>
-        <img src="assets/projects/tropical_plants/cops_section/cops_trunk_normal.png" className="w-xl rounded-md border border-foreground/5 mt-3 mb-8" alt="Trunk normal" />
+        <h3 className="text-lg font-serif font-normal mb-4">Trunk Material</h3>
+        <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-foreground/40">Base Color</span>
+        <img src="assets/projects/tropical_plants/cops_section/cops_trunk_base.png" className="w-full rounded-md border border-primary/10 mt-3 mb-6" alt="Trunk base color" />
+        <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-foreground/40">Roughness</span>
+        <img src="assets/projects/tropical_plants/cops_section/cops_trunk_rough.png" className="w-full rounded-md border border-primary/10 mt-3 mb-6" alt="Trunk roughness" />
+        <span className="font-mono text-[10px] tracking-[0.35em] uppercase text-foreground/40">Normal</span>
+        <img src="assets/projects/tropical_plants/cops_section/cops_trunk_normal.png" className="w-xl rounded-md border border-primary/10 mt-3 mb-8" alt="Trunk normal" />
       </section>
 
     </div>

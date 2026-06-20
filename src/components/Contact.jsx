@@ -4,8 +4,9 @@ import { MdEmail } from "react-icons/md";
 export const Contact = () => {
   return (
     <section id="contact" className="py-24 px-4 relative">
+      
       <div className="container mx-auto max-w-8xl">
-        <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center">
+        <h2 className="text-3xl md:text-5xl font-serif font-light mb-12 text-center">
           Contact
         </h2>
 
@@ -19,7 +20,7 @@ export const Contact = () => {
               <MdEmail size={32} />
             </a>
 
-            <a href="https://linkedin.com/in/alana-dubie" target="_blank" rel="noopener noreferrer" className="text-foreground/60 hover:text-primary transition-colors duration-300">
+            <a href="https://linkedin.com/in/alana-dubie" target="_blank" rel="noopener noreferrer" className="text-foreground/60 hover:text-accent transition-colors duration-300">
               <FaLinkedin size={32} />
             </a>
 
@@ -27,12 +28,13 @@ export const Contact = () => {
               <FaGithub size={32} />
             </a>
 
-            <a href="https://discord.com/users/alana808" target="_blank" rel="noopener noreferrer" className="text-foreground/60 hover:text-primary transition-colors duration-300">
+            <a href="https://discord.com/users/alana808" target="_blank" rel="noopener noreferrer" className="text-foreground/60 hover:text-accent transition-colors duration-300">
               <FaDiscord size={32} />
             </a>
           </div>
         </div>
       </div>
+
     </section>
   );
 };

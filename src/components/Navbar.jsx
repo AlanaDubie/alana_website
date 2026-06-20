@@ -25,22 +25,22 @@ export const Navbar = () => {
     return (
         <nav 
             className={cn(
-                "fixed w-full z-40 transition-all duration-300", 
-                isScrolled ? "py-3 px-4 bg-background/80 backdrop-blur-md shadow-xs" : "py-5 px-4 bg-linear-to-b from-black/20 to-transparent"
+                "fixed w-full z-40 transition-all duration-500", 
+                isScrolled ? "py-3 px-4 bg-background/80 backdrop-blur-md border-b border-primary/10" : "py-5 px-4 bg-linear-to-b from-black/20 to-transparent"
             )}
         >
             <div className="container flex items-center justify-between">
                 <a 
-                    className="text-xl font-bold text-primary flex items-center"
+                    className="text-xl font-serif font-light text-primary flex items-center tracking-wide"
                     href="#hero"
                 > 
                     <span className="relative z-10 text-glow text-foreground">Alana Dubie</span>
                 </a>
 
                 {/* desktop nav items */}
-                <div className="hidden md:flex space-x-8">
+                <div className="hidden md:flex space-x-10">
                     {navItems.map((item, key) => (
-                        <a key={key} href={item.href} className="text-foreground/80 hover:text-primary transition-colors duration-300"> 
+                        <a key={key} href={item.href} className="font-mono text-[11px] uppercase tracking-[0.25em] text-foreground/60 hover:text-primary transition-colors duration-300"> 
                         {item.name}
                         </a>
                     ))}
@@ -59,12 +59,12 @@ export const Navbar = () => {
                     "transition-all duration-300 md:hidden",
                     isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
                 )}>
-                    <div className="flex flex-col space-y-8 text-xl">
+                    <div className="flex flex-col space-y-8">
                     {navItems.map((item, key) => (
                         <a 
                             key={key}
                             href={item.href} 
-                            className="text-foreground/80 hover:text-primary transition-colors duration-300"
+                            className="font-mono text-sm uppercase tracking-[0.25em] text-foreground/70 hover:text-primary transition-colors duration-300"
                             onClick={() => setIsMenuOpen(false)}
                         >
                         {item.name}
