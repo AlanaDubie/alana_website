@@ -133,7 +133,7 @@ const ProjectDrawer = ({ project, onClose }) => {
           <div className="container flex items-center gap-2 py-4">
             <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
             Back to projects
-            <span className="ml-auto text-foreground/80 normal-case tracking-normal font-sans text-sm">{project.title}</span>
+            <span className="ml-auto text-foreground/60 font-sans text-[11px] uppercase tracking-[0.2em]">{project.title}</span>
           </div>
         </button>
 

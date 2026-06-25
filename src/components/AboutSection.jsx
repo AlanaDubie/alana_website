@@ -16,7 +16,7 @@ export const AboutSection = () => {
                 <div className="space-y-6 lg:pl-14 md:pl-12 justify-center"> 
                     <h2 className="font-serif text-left text-6xl font-light leading-[0.9] mb-10"
                     >
-                        Hey there!  <br />I'm <span className="italic text-primary">  Alana </span>.
+                        Hey there! I'm <span className="italic text-primary">  Alana</span>.
                     </h2>
                     
                     <p className="text-muted-foreground text-lg text-left leading-relaxed font-light">I'm a Computer Science student with an insatiable curiosity and 

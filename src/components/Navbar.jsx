@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navItems = [
-    { name: "Home", href: "#hero" },
     { name: "Projects", href: "#projects" },
      { name: "About", href: "#about" },
     { name: "Contact", href: "#contact" },
@@ -26,7 +25,7 @@ export const Navbar = () => {
         <nav 
             className={cn(
                 "fixed w-full z-40 transition-all duration-500", 
-                isScrolled ? "py-3 px-4 bg-background/80 backdrop-blur-md border-b border-primary/10" : "py-5 px-4 bg-linear-to-b from-black/20 to-transparent"
+                isScrolled ? "py-3 px-4 bg-background/80 backdrop-blur-md border-b border-primary/10" : "py-5 px-4 bg-linear-to-b from-black/10 to-transparent"
             )}
         >
             <div className="container flex items-center justify-between">
@@ -34,7 +33,7 @@ export const Navbar = () => {
                     className="text-xl font-serif font-light text-primary flex items-center tracking-wide"
                     href="#hero"
                 > 
-                    <span className="relative z-10 text-glow text-foreground">Alana Dubie</span>
+                    <span className="relative z-10 text-foreground">Alana Dubie</span>
                 </a>
 
                 {/* desktop nav items */}

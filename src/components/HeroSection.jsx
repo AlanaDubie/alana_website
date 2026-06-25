@@ -6,7 +6,7 @@ export const HeroSection = () => {
         className="relative w-full min-h-screen overflow-hidden bg-background"
     >
         <video autoPlay muted loop playsInline 
-            className="absolute inset-0 w-full h-full object-cover opacity-30 dark:opacity-20">
+            className="absolute inset-0 w-full h-full object-cover opacity-30 dark:opacity-90">
             <source src="assets/HeroVideo.mp4" type="video/mp4" />
         </video>
 
@@ -23,9 +23,6 @@ export const HeroSection = () => {
 
                     <div className="lg:pb-3 lg:max-w-xs text-left">
                         <p className="label-mono mb-5">Technical Artist</p>
-                        <p className="text-sm leading-[1.85] font-light mb-8 text-foreground/60">
-                            Procedural tools & 3D environments. Building worlds that feel alive — and the pipelines that make them possible.
-                        </p>
                         <p className="text-[9px] font-mono uppercase tracking-[0.4em] text-foreground/40">
                             Games &amp; Animation
                         </p>

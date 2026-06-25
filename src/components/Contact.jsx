@@ -4,15 +4,16 @@ import { MdEmail } from "react-icons/md";
 export const Contact = () => {
   return (
     <section id="contact" className="py-24 px-4 relative">
-      
       <div className="container mx-auto max-w-8xl">
+        <p className="eyebrow text-center mb-3">Contact</p>
+
         <h2 className="text-3xl md:text-5xl font-serif font-light mb-12 text-center">
-          Contact
+          Lets Connect!
         </h2>
 
         <div className="max-w-xl mx-auto space-y-6">
           <p className="text-muted-foreground text-lg text-center">
-            Feel free to reach out and connect! :)
+            I'm always open to new opportunities and collaborations
           </p>
 
           <div className="flex gap-8 justify-center pt-4">
@@ -34,7 +35,6 @@ export const Contact = () => {
           </div>
         </div>
       </div>
-
     </section>
   );
 };
