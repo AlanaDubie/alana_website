@@ -1,66 +1,67 @@
 @import "tailwindcss";
 
+/* ============================================================
+   DESIGN TOKENS — Rank 02 Muted Cyan palette
+   BG #111113 · INK #f5f4f4 · ACCENT #00aaa8
+   ============================================================ */
 @theme {
-  --color-border: hsl(var(--border));
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-
-  --color-primary: hsl(var(--primary));
+  /* ── Color tokens ── */
+  --color-border:             hsl(var(--border));
+  --color-background:         hsl(var(--background));
+  --color-foreground:         hsl(var(--foreground));
+  --color-primary:            hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary:          hsl(var(--secondary));
+  --color-accent:             hsl(var(--accent));
+  --color-accent-foreground:  hsl(var(--accent-foreground));
+  --color-muted:              hsl(var(--muted));
+  --color-muted-foreground:   hsl(var(--muted-foreground));
+  --color-card:               hsl(var(--card));
 
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-
-  --color-card: hsl(var(--card));
-
-  /* TODO: define --color-secondary once palette is locked.
-     bg-secondary/30 in ProjectSection + SkillsSection currently falls
-     through to Tailwind's default gray. Replace with your token. */
-
-  --font-serif: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  /* Space Grotesk covers all UI, body, labels, and mono-style text.
-     Remove Space Mono from your Google Fonts <link> in index.html. */
+  /* ── Font families ── */
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-sans:  "Space Grotesk", sans-serif;
+  --font-mono:  "Space Grotesk", sans-serif;
 }
 
+/* Expose font stacks as native CSS custom properties so @utility
+   blocks and arbitrary CSS can reference them with var() */
+:root {
+  --ff-serif:   "Fraunces", Georgia, serif;
+  --ff-grotesk: "Space Grotesk", sans-serif;
+}
+
+/* ============================================================
+   PALETTE — single dark mode only (design doc is dark-only)
+   ============================================================ */
 @layer base {
   :root {
-    --background: 180 25% 97%;
-    --foreground: 200 30% 12%;
+    /* Background: #111113 */
+    --background: 240 4% 7%;
 
-    --card: 0 0% 100%;
+    /* Foreground (ink): #f5f4f4 */
+    --foreground: 30 6% 96%;
 
-    --primary: 185 75% 36%;
-    --primary-foreground: 180 25% 97%;
+    /* Card: slightly lighter surface — derived surface2 ≈ ink 7% on bg */
+    --card: 240 4% 10%;
 
-    --accent: 158 60% 34%;
-    --accent-foreground: 180 25% 97%;
+    /* Secondary — same as card for section bg tints */
+    --secondary: 240 4% 10%;
 
-    --muted: 180 20% 94%;
-    --muted-foreground: 200 12% 40%;
+    /* Primary = ACCENT: #00aaa8  (hsl ≈ 179 100% 33%) */
+    --primary: 179 100% 33%;
+    --primary-foreground: 240 4% 7%;
 
-    --border: 185 30% 88%;
-  }
+    /* Accent — same value, used for icon hover etc */
+    --accent: 179 100% 33%;
+    --accent-foreground: 240 4% 7%;
 
-  .dark {
-    --background: 180 20% 2%;
-    --foreground: 163 10% 86%;
+    /* Muted: ink at 58% opacity → for body text */
+    --muted: 240 4% 10%;
+    --muted-foreground: 30 6% 63%;   /* ≈ #f5f4f4 at ~58% */
 
-    --card: 180 15% 6%;
-
-    --primary: 185 100% 65%;
-    --primary-foreground: 180 20% 2%;
-
-    --accent: 158 70% 55%;
-    --accent-foreground: 180 20% 2%;
-
-    --muted: 180 12% 10%;
-    --muted-foreground: 200 6% 62%;
-
-    --border: 185 100% 65%;
+    /* Border: #095656 derived from design doc */
+    --border: 179 74% 18%;
   }
 
   * {
@@ -72,71 +73,129 @@
   }
 
   body {
-    @apply bg-background text-foreground transition-colors duration-300 font-sans;
+    @apply bg-background text-foreground;
+    font-family: var(--ff-grotesk);
+    font-size: 17px;
+    line-height: 1.6;
+    letter-spacing: 0em;
+    -webkit-font-smoothing: antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
-  }
-
-  .dark body {
-    background-image:
-      radial-gradient(ellipse 70% 45% at 12% -5%, hsl(var(--primary) / 0.07), transparent),
-      radial-gradient(ellipse 60% 40% at 92% 10%, hsl(var(--accent) / 0.05), transparent);
-    background-attachment: fixed;
   }
 }
 
+/* ============================================================
+   LAYOUT UTILITY
+   ============================================================ */
 @utility container {
   margin-inline: auto;
 
-  @media (width >= 640px) {
-    max-width: 640px;
-    padding-inline: 1rem;
-  }
-  @media (width >= 768px) {
-    max-width: 768px;
-    padding-inline: 2rem;
-  }
-  @media (width >= 1024px) {
-    max-width: 1024px;
-    padding-inline: 3rem;
-  }
-  @media (width >= 1280px) {
-    max-width: 1280px;
-    padding-inline: 4rem;
-  }
-  @media (width >= 1400px) {
-    max-width: 1400px;
-    padding-inline: 5rem;
-  }
+  @media (width >= 640px)  { max-width: 640px;  padding-inline: 1rem; }
+  @media (width >= 768px)  { max-width: 768px;  padding-inline: 2rem; }
+  @media (width >= 1024px) { max-width: 1024px; padding-inline: 3rem; }
+  @media (width >= 1280px) { max-width: 1280px; padding-inline: 4rem; }
+  @media (width >= 1400px) { max-width: 1400px; padding-inline: 5rem; }
 }
 
-@utility text-glow {
-  @apply relative;
-  text-shadow: 0 0 14px hsl(var(--primary) / 0.45);
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+   Aligned to design-doc hierarchy
+   ============================================================ */
+
+/* ── Type scale — Perfect Fourth 1.333× · base 17px ─────────
+   Values copied verbatim from .p4-* specimens in the reference doc
+   ────────────────────────────────────────────────────────────── */
+
+/* Hero · 4.4719rem · 71.55px */
+@utility t-hero {
+  font-family: var(--ff-serif);
+  font-size: clamp(2.5rem, 10vw, 6.4719rem);
+  font-weight: 200;
+  font-variation-settings: "opsz" 144;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: hsl(var(--foreground));
 }
 
-@utility card-hover {
-  @apply transition-all duration-500 hover:-translate-y-0.5;
+/* H1 · 2.5169rem · 40.27px */
+@utility t-h1 {
+  font-family: var(--ff-serif);
+  font-size: 2.5169rem;
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: hsl(var(--foreground));
 }
 
-/* Widely-tracked uppercase label — eyebrows, tags, nav */
+/* H2 · 1.8881rem · 30.21px */
+@utility t-h2 {
+  font-family: var(--ff-serif);
+  font-size: 1.8881rem;
+  font-weight: 300;
+  font-variation-settings: "opsz" 20;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: hsl(var(--foreground));
+}
+
+/* Body */
+@utility t-body {
+  font-family: var(--ff-grotesk);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, hsl(var(--foreground)) 58%, transparent);
+}
+
+/* Label - Section Headers */
 @utility eyebrow {
-  @apply font-sans text-[10px] tracking-[0.35em] uppercase text-primary/60;
+  font-family: var(--ff-grotesk);
+  font-size: 0.7969rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: hsl(var(--primary));
 }
 
-/* Gradient italic serif accent — used sparingly */
+/* Caption */
+@utility caption-text {
+  font-family: var(--ff-grotesk);
+  font-size: 0.5981rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, hsl(var(--foreground)) 38%, transparent);
+}
+
+/* Shimmer — italic gradient serif accent, used sparingly */
 @utility shimmer-text {
-  @apply italic;
-  background-image: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)));
+  font-style: italic;
+  background-image: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.6));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
+/* Subtle lift on interactive cards */
+@utility card-hover {
+  @apply transition-all duration-500 hover:-translate-y-0.5;
+}
+
+/* Glow for primary-colored text */
+@utility text-glow {
+  text-shadow: 0 0 14px hsl(var(--primary) / 0.4);
+}
+
+/* ============================================================
+   DRAWER ANIMATION
+   ============================================================ */
 @keyframes drawerIn {
   from { transform: translateX(100%); }
   to   { transform: translateX(0); }
 }
 
+/* ============================================================
+   ROOT SHELL
+   ============================================================ */
 #root {
   max-width: 100%;
   margin: 0 auto;

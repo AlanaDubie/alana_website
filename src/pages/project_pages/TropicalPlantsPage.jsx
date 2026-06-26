@@ -3,7 +3,7 @@ import MediaCarousel from "../../components/MediaCarousel";
 /* ── Local components ───────────────────────────────────────────────────── */
 
 const ParamTable = ({ params }) => (
-  <div className="border border-primary/10 rounded-md overflow-hidden bg-card mb-4">
+  <div className="border border-primary/10 rounded-sm overflow-hidden bg-card mb-4">
     {params.map(([name, desc], i) => (
       <div
         key={name}
@@ -11,8 +11,8 @@ const ParamTable = ({ params }) => (
           i !== 0 ? "border-t border-primary/10" : ""
         }`}
       >
-        <span className="font-sans text-xs text-primary/90 shrink-0 w-44">{name}</span>
-        <span className="text-foreground/70 text-xs">{desc}</span>
+        <span className="eyebrow normal-case text-primary/90 shrink-0 w-44">{name}</span>
+        <span className="t-body">{desc}</span>
       </div>
     ))}
   </div>
@@ -61,11 +61,7 @@ const EditorialGrid = ({ images, alt = "" }) => {
 /* ── Media ──────────────────────────────────────────────────────────────── */
 
 const heroMedia = [
-  {
-    type: "videoFile",
-    src: "assets/projects/tropical_plants/palm_turnaround.mp4",
-    thumb: "assets/projects/tropical_plants/card_img_plant_tool.png",
-  },
+  { type: "videoFile", src: "assets/projects/tropical_plants/palm_turnaround.mp4", thumb: "assets/projects/tropical_plants/card_img_plant_tool.png" },
   { type: "image", src: "assets/projects/tropical_plants/palm_render.png" },
   { type: "video", src: "https://www.youtube.com/embed/bwpmfcf_J-U?rel=0&modestbranding=1" },
   { type: "image", src: "assets/projects/tropical_plants/palm_ex_full.png" },
@@ -100,17 +96,15 @@ export const TropicalPlantsPage = () => (
     <div className="pt-6 container max-w-5xl mx-auto">
 
       <span className="eyebrow">Procedural · SOPs · COPs</span>
-      <h1 className="text-foreground text-6xl font-serif font-light mt-2 mb-4">
-        Tropical Plants
-      </h1>
-      <p className="text-foreground/40 text-xs font-sans uppercase tracking-widest mb-3">
+      <h1 className="t-h1 mt-2 mb-4">Tropical Plants</h1>
+      <p className="caption-text mb-3 normal-case">
         Tools:
-        <span className="text-foreground/70 font-sans text-xs border border-primary/20 rounded-sm px-2 py-1 ml-2 tracking-wide normal-case">
+        <span className="caption-text normal-case text-foreground/70 border border-primary/20 rounded-sm px-2 py-1 ml-2">
           Houdini
         </span>
       </p>
 
-      <p className="text-foreground/60 text-base leading-relaxed mb-3 max-w-2xl">
+      <p className="t-body mb-3 max-w-2xl">
         Two artist-friendly procedural vegetation tools built in Houdini, inspired by the
         stylized environments of Kingdom Hearts. The goal was to generate a wide range of
         tropical plant variants through parameters alone, without going back to model
@@ -121,13 +115,13 @@ export const TropicalPlantsPage = () => (
 
       {/* ── Generated Plant Designs ── */}
       <section id="results" className="mb-14 scroll-mt-8">
-        <h2 className="text-3xl font-serif font-light mb-4">Generated Plant Designs</h2>
-        <p className="text-foreground/70 text-sm leading-relaxed mb-6 max-w-2xl">
+        <h2 className="t-h1 mb-4">Generated Plant Designs</h2>
+        <p className="t-body mb-6 max-w-2xl">
           All variations below come from the{" "}
           <a href="#palm" className="text-primary/80 hover:text-primary transition-colors">Palm Tree Tool</a>
           {" "}and{" "}
           <a href="#layered" className="text-primary/80 hover:text-primary transition-colors">Layered Plant Tool</a>
-          . Different are designed by tweaking seed, bend angle, leaf count, color ramp, and layer configurations.
+          . Designs are made by tweaking seed, bend angle, leaf count, color ramp, and layer configurations.
         </p>
         <span className="eyebrow block mb-3">Palm Tree Tool</span>
         <EditorialGrid images={palmImages} alt="Palm variation" />
@@ -135,7 +129,7 @@ export const TropicalPlantsPage = () => (
         <span className="eyebrow block mb-3 mt-8">Layered Plant Tool</span>
         <EditorialGrid images={layeredImages} alt="Layered plant variation" />
 
-        <p className="text-xs font-light text-foreground/40 italic mt-3">
+        <p className="caption-text mt-3 normal-case text-foreground/40 italic">
           Variations of scatter seed, leaf count, bend angle, color ramp, and layer configuration.
         </p>
       </section>
@@ -144,15 +138,15 @@ export const TropicalPlantsPage = () => (
 
       {/* ── Concept & References ── */}
       <section id="refs" className="mb-14 scroll-mt-8">
-        <h2 className="text-3xl font-serif font-light mb-5">Concept & References</h2>
+        <h2 className="t-h1 mb-5">Concept & References</h2>
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-8 items-start">
-          <div className="text-foreground/70 text-sm leading-relaxed space-y-4">
-            <p>
+          <div className="space-y-4">
+            <p className="t-body">
               The plants in Kingdom Hearts have simple silhouettes and vibrant colors reminiscent
               of Disney's 2D animations, giving the environments a feel like they were painted in{" "}
               <span className="shimmer-text">watercolor</span>.
             </p>
-            <p>
+            <p className="t-body">
               I pulled references from Destiny Islands to understand the art direction and
               grounded each plant in real tropical forms (palms, banana leaves) to make sure the
               shapes stayed accurate underneath the stylization.
@@ -160,7 +154,7 @@ export const TropicalPlantsPage = () => (
           </div>
           <img
             src="assets/projects/tropical_plants/references.png"
-            className="w-full rounded-md border border-primary/10"
+            className="w-full rounded-sm border border-primary/10"
             alt="References"
           />
         </div>
@@ -168,12 +162,11 @@ export const TropicalPlantsPage = () => (
 
       <hr className="border-primary/10 mb-14" />
 
-    
       {/* ── Palm Tree Tool ── */}
       <section id="palm" className="mb-14 scroll-mt-8">
         <span className="eyebrow">Tool 01</span>
-        <h2 className="text-3xl font-serif font-light mt-2 mb-5">Palm Tree Procedural</h2>
-        <p className="text-foreground/70 text-sm leading-relaxed mb-8 max-w-2xl">
+        <h2 className="t-h1 mt-2 mb-5">Palm Tree Procedural</h2>
+        <p className="t-body mb-8 max-w-2xl">
           I broke the tool into three sections:{" "}
           <strong className="text-foreground/90 font-medium">trunk, leaves, and branches</strong>.
           Each is its own sub-network that merges at the end, making it easy to iterate on
@@ -186,17 +179,17 @@ export const TropicalPlantsPage = () => (
             title="Palm Tree Tool Demo"
             allow="autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
-            className="w-full h-full rounded-md border border-primary/10"
+            className="w-full h-full rounded-sm border border-primary/10"
           />
         </div>
 
         <span className="eyebrow block">SOP Network</span>
         <img
           src="assets/projects/tropical_plants/palm_section/palm_sop.png"
-          className="w-xl rounded-md border border-primary/10 mt-3 mb-2"
+          className="w-xl rounded-sm border border-primary/10 mt-3 mb-2"
           alt="Palm SOP network"
         />
-        <p className="text-xs text-foreground/40 italic mb-10">
+        <p className="caption-text normal-case text-foreground/40 italic mb-10">
           Green = leaf shape, tan = stem, dark yellow = palm trunk. Everything merges at the bottom before output.
         </p>
 
@@ -235,11 +228,11 @@ export const TropicalPlantsPage = () => (
         ].map(({ title, body, img, alt, params }) => (
           <div key={title} className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-start mb-10">
             <div>
-              <h3 className="text-lg font-serif font-normal mb-3">{title}</h3>
-              <p className="text-foreground/70 text-sm leading-relaxed mb-4">{body}</p>
+              <h3 className="t-h2 mb-3">{title}</h3>
+              <p className="t-body mb-4">{body}</p>
               <ParamTable params={params} />
             </div>
-            <img src={img} alt={alt} className="rounded-md border border-primary/10 w-36 shrink-0" />
+            <img src={img} alt={alt} className="rounded-sm border border-primary/10 w-36 shrink-0" />
           </div>
         ))}
       </section>
@@ -249,8 +242,8 @@ export const TropicalPlantsPage = () => (
       {/* ── Layered Plant Tool ── */}
       <section id="layered" className="mb-14 scroll-mt-8">
         <span className="eyebrow">Tool 02</span>
-        <h2 className="text-3xl font-serif font-light mt-2 mb-5">Layered Plant Procedural</h2>
-        <p className="text-foreground/70 text-sm leading-relaxed mb-8 max-w-2xl">
+        <h2 className="t-h1 mt-2 mb-5">Layered Plant Procedural</h2>
+        <p className="t-body mb-8 max-w-2xl">
           Built around multiple leaf layers and a stem, all independently controlled or
           toggleable. Each layer has full control over shape, curvature, color, and rotation,
           enabling a wide range of plant designs from one tool.
@@ -262,22 +255,22 @@ export const TropicalPlantsPage = () => (
             title="Layered Plant Tool Demo"
             allow="autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
-            className="w-full h-full rounded-md border border-primary/10"
+            className="w-full h-full rounded-sm border border-primary/10"
           />
         </div>
 
         <span className="eyebrow block">SOP Network</span>
         <img
           src="assets/projects/tropical_plants/layered_plant_section/lp_sop.png"
-          className="w-full rounded-md border border-primary/10 mt-3 mb-2"
+          className="w-full rounded-sm border border-primary/10 mt-3 mb-2"
           alt="Layered plant SOP network"
         />
-        <p className="text-xs text-foreground/40 italic mb-10">
+        <p className="caption-text normal-case text-foreground/40 italic mb-10">
           Top leaves layer (left), bottom leaves layer (center), stem (right).
         </p>
 
-        <h3 className="text-lg font-serif font-normal mb-3">Leaf Layers (Top and Bottom)</h3>
-        <p className="text-foreground/70 text-sm leading-relaxed mb-6 max-w-2xl">
+        <h3 className="t-h2 mb-3">Leaf Layers (Top and Bottom)</h3>
+        <p className="t-body mb-6 max-w-2xl">
           Both layers use the same setup. Two bend nodes control curvature in different
           directions. Noise is kept toward the center to avoid distorting the edges. Color is
           handled per layer, and the top layer can be toggled off.
@@ -314,19 +307,19 @@ export const TropicalPlantsPage = () => (
           },
         ].map(({ heading, params }) => (
           <div key={heading}>
-            <h4 className="text-sm font-serif font-normal text-foreground mb-2">{heading}</h4>
+            <h4 className="eyebrow normal-case text-foreground mb-2">{heading}</h4>
             <ParamTable params={params} />
           </div>
         ))}
 
         <img
           src="assets/projects/tropical_plants/layered_plant_section/lp_leaves.png"
-          className="w-4xl rounded-md border border-primary/10 mt-2 mb-10"
+          className="w-4xl rounded-sm border border-primary/10 mt-2 mb-10"
           alt="Leaf layer network"
         />
 
-        <h3 className="text-lg font-serif font-normal mb-3">Stem</h3>
-        <p className="text-foreground/70 text-sm leading-relaxed mb-4 max-w-2xl">
+        <h3 className="t-h2 mb-3">Stem</h3>
+        <p className="t-body mb-4 max-w-2xl">
           Built in its own sub-network and toggleable. A sort node finds the top point of the
           plant and a blast node isolates it so the stem always connects at the correct position
           regardless of transform. Noise is added at the end for surface variation.
@@ -338,7 +331,7 @@ export const TropicalPlantsPage = () => (
         ]} />
         <img
           src="assets/projects/tropical_plants/layered_plant_section/lp_stem.png"
-          className="w-xl rounded-md border border-primary/10 mt-4 mb-10"
+          className="w-xl rounded-sm border border-primary/10 mt-4 mb-10"
           alt="Stem network"
         />
       </section>
@@ -348,14 +341,14 @@ export const TropicalPlantsPage = () => (
       {/* ── COPs Material ── */}
       <section id="materials" className="mb-14 scroll-mt-8">
         <span className="eyebrow">03</span>
-        <h2 className="text-3xl font-serif font-light mt-2 mb-5">COPs Material</h2>
-        <div className="text-foreground/70 text-sm leading-relaxed mb-8 space-y-3 max-w-2xl">
-          <p>All PBR maps were built procedurally inside Houdini COPs.</p>
-          <p>
+        <h2 className="t-h1 mt-2 mb-5">COPs Material</h2>
+        <div className="space-y-3 mb-8 max-w-2xl">
+          <p className="t-body">All PBR maps were built procedurally inside Houdini COPs.</p>
+          <p className="t-body">
             The main advantage of this approach is that textures stay tied to the geometry —
             if the model changes, re-cooking the network updates them automatically.
           </p>
-          <p>
+          <p className="t-body">
             I used this as an opportunity to build a full PBR workflow from scratch and really
             understand how each map contributes to the final look.
           </p>
@@ -379,11 +372,11 @@ export const TropicalPlantsPage = () => (
           },
         ].map(({ heading, maps }) => (
           <div key={heading} className="mb-10">
-            <h3 className="text-lg font-serif font-normal mb-4">{heading}</h3>
+            <h3 className="t-h2 mb-4">{heading}</h3>
             {maps.map(({ label, src, alt, className = "w-full" }) => (
               <div key={label} className="mb-6">
                 <span className="eyebrow block">{label}</span>
-                <img src={src} className={`${className} rounded-md border border-primary/10 mt-3`} alt={alt} />
+                <img src={src} className={`${className} rounded-sm border border-primary/10 mt-3`} alt={alt} />
               </div>
             ))}
           </div>
