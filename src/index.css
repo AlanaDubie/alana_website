@@ -2,7 +2,8 @@
 
 /* ============================================================
    DESIGN TOKENS — Rank 02 Muted Cyan palette
-   BG #111113 · INK #f5f4f4 · ACCENT #00aaa8
+   DARK (default): BG #111113 · INK #f5f4f4 · ACCENT #00aaa8
+   LIGHT: BG #f7ebde (Sandy, fcebda-based) · INK #3b3128 · ACCENT #0c6462
    ============================================================ */
 @theme {
   /* ── Color tokens ── */
@@ -29,13 +30,25 @@
 :root {
   --ff-serif:   "Fraunces", Georgia, serif;
   --ff-grotesk: "Space Grotesk", sans-serif;
+
+  /* Type gap tokens (spacing between type roles) */
+  --gap-hero-label:   48px;   /* Hero → Section Label */
+  --gap-label-h1:     12px;   /* Section Label → H1   */
+  --gap-h1-h2:        24px;   /* H1 → H2               */
+  --gap-h2-body:      24px;   /* H2 → Body             */
+  --gap-body-body:    16px;   /* Body → Body           */
+  --gap-body-caption: 24px;   /* Body → Caption        */
 }
 
 /* ============================================================
-   PALETTE — single dark mode only (design doc is dark-only)
+   PALETTE — dark default, light override via .light class
+   IMPORTANT: ThemeToggle.jsx must be updated to match — it now
+   needs to toggle a "light" class (not "dark"), with dark as the
+   default/no-class state. See ThemeToggle.jsx in this same output.
    ============================================================ */
 @layer base {
   :root {
+    /* ── DARK THEME (default) ── */
     /* Background: #111113 */
     --background: 240 4% 7%;
 
@@ -64,6 +77,36 @@
     --border: 179 74% 18%;
   }
 
+  .light {
+    /* ── LIGHT THEME — Sandy (fcebda-based, S60) ── */
+    /* Background: #f7ebde */
+    --background: 31 61% 92%;
+
+    /* Foreground (ink): #3b3128 — UNCHANGED, same value as design doc */
+    --foreground: 28 19% 19%;
+
+    /* Card: derived surface ≈ ink 5% on bg */
+    --card: 31 42% 88%;
+
+    /* Secondary — derived surface2 ≈ ink 8% on bg */
+    --secondary: 31 35% 86%;
+
+    /* Primary = ACCENT: #0c6462 — UNCHANGED, same value as design doc */
+    --primary: 179 79% 22%;
+    --primary-foreground: 31 61% 92%;
+
+    /* Accent — same value, used for icon hover etc */
+    --accent: 179 79% 22%;
+    --accent-foreground: 31 61% 92%;
+
+    /* Muted: solid warm gray for body text — 4.83:1 on bg */
+    --muted: 31 35% 86%;
+    --muted-foreground: 29 10% 40%;   /* ≈ #70655b */
+
+    /* Border: derived ≈ accent 35% on bg, warmed to match sand */
+    --border: 157 15% 69%;
+  }
+
   * {
     @apply border-border;
   }
@@ -80,6 +123,7 @@
     letter-spacing: 0em;
     -webkit-font-smoothing: antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
@@ -108,9 +152,9 @@
 /* Hero · 4.4719rem · 71.55px */
 @utility t-hero {
   font-family: var(--ff-serif);
-  font-size: clamp(2.5rem, 10vw, 6.4719rem);
+  font-size: clamp(2.5rem, 10vw, 5.4719rem);
   font-weight: 200;
-  font-variation-settings: "opsz" 144;
+  font-variation-settings: "opsz" 120;
   letter-spacing: -0.025em;
   line-height: 1.05;
   color: hsl(var(--foreground));
@@ -186,11 +230,34 @@
 }
 
 /* ============================================================
+   TYPE GAP RULES
+   Applies --gap-* tokens automatically when one typography
+   role is immediately followed by another in markup.
+   ============================================================ */
+.t-hero + .eyebrow      { margin-top: var(--gap-hero-label); }
+.eyebrow + .t-h1         { margin-top: var(--gap-label-h1); }
+.t-h1 + .t-h2            { margin-top: var(--gap-h1-h2); }
+.t-h2 + .t-body          { margin-top: var(--gap-h2-body); }
+.t-body + .t-body        { margin-top: var(--gap-body-body); }
+.t-body + .caption-text  { margin-top: var(--gap-body-caption); }
+
+/* ============================================================
    DRAWER ANIMATION
    ============================================================ */
 @keyframes drawerIn {
   from { transform: translateX(100%); }
   to   { transform: translateX(0); }
+}
+
+/* ============================================================
+   PROJECT GRID FILTER ANIMATION
+   Fade + slight scale-in, matching the card-hover lift's
+   transition timing. Used when the filter pills change which
+   cards are visible.
+   ============================================================ */
+@keyframes fadeScaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 /* ============================================================

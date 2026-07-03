@@ -1,6 +1,9 @@
 import { cn } from "../lib/utils";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { FaGithub, FaLinkedin, FaDiscord } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+
 
 const navItems = [
   { name: "PROJECTS", href: "#projects" },
@@ -18,16 +21,25 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => { document.body.style.overflow = "unset"; };
+  }, [isMenuOpen]);
+
   return (
     <nav
       className={cn(
-        "fixed w-full z-40 transition-all duration-500",
+        "fixed top-0 left-0 w-full z-40 transition-all duration-500",
         isScrolled
           ? "py-3 px-4 bg-background/90 backdrop-blur-md border-b border-primary/15"
-          : "py-5 px-4 bg-linear-to-b from-black/20 to-transparent"
+          : "py-5 px-4 pb-10 backdrop-blur-sm [mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)]"
       )}
     >
-      <div className="container flex items-center justify-between">
+      <div className="container flex items-center justify-between relative">
 
         {/* Logo — Fraunces serif 300 */}
         <a href="#hero" className="t-h2 font-normal font-serif tracking-tight text-lg text-foreground hover:text-primary transition-colors duration-300">
@@ -47,22 +59,46 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setIsMenuOpen((prev) => !prev)}
-          className="md:hidden p-2 text-foreground z-50"
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile hamburger toggle — hidden once the overlay is open,
+            since the overlay has its own header row with the X */}
+        {!isMenuOpen && (
+          <button
+            onClick={() => setIsMenuOpen(true)}
+            className="md:hidden p-2 text-foreground relative z-50"
+            aria-label="Open menu"
+          >
+            <Menu size={24} />
+          </button>
+        )}
 
-        {/* Mobile overlay */}
+        {/* Mobile overlay — fixed to the viewport (top-0 left-0 w-full h-screen,
+            not inset-0) so it always covers the full screen regardless of
+            where <nav> sits or how tall it is */}
         <div className={cn(
-          "fixed inset-0 bg-background/95 backdrop-blur-md z-40 flex flex-col items-center justify-center",
-          "transition-all duration-300 md:hidden",
+          "fixed top-0 left-0 w-full h-screen bg-background backdrop-blur-md z-40 flex flex-col md:hidden",
+          "transition-all duration-300",
           isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}>
-          <div className="flex flex-col space-y-8">
+          {/* Overlay header row — logo on the left, close button on the right,
+              mirrors the main nav row's layout */}
+          <div className="flex items-center justify-between px-4 py-5">
+            <a
+              href="#hero"
+              onClick={() => setIsMenuOpen(false)}
+              className="t-h2 font-normal font-serif tracking-tight text-lg text-foreground hover:text-primary transition-colors duration-300"
+            >
+              Alana Dubie
+            </a>
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="p-2 text-foreground relative z-50"
+              aria-label="Close menu"
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          <div className="flex-1 flex flex-col items-center justify-center space-y-8">
             {navItems.map((item, key) => (
               <a
                 key={key}
@@ -73,7 +109,30 @@ export const Navbar = () => {
                 {item.name}
               </a>
             ))}
+
+            <div className="flex gap-6 justify-center pt-4 mt-49">
+              <a href="mailto:alanaldubie@gmail.com"
+                className="text-foreground/50 hover:text-primary transition-colors duration-300">
+                <MdEmail size={25} />
+              </a>
+              <a href="https://linkedin.com/in/alana-dubie" target="_blank" rel="noopener noreferrer"
+                className="text-foreground/50 hover:text-primary transition-colors duration-300">
+                <FaLinkedin size={25} />
+              </a>
+              <a href="https://github.com/alanadubie" target="_blank" rel="noopener noreferrer"
+                className="text-foreground/50 hover:text-primary transition-colors duration-300">
+                <FaGithub size={25} />
+              </a>
+              <a href="https://discord.com/users/alana808" target="_blank" rel="noopener noreferrer"
+                className="text-foreground/50 hover:text-primary transition-colors duration-300">
+                <FaDiscord size={25} />
+              </a>
+            </div>
+
           </div>
+
+
+
         </div>
       </div>
     </nav>

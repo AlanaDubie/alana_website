@@ -3,26 +3,26 @@ import { MdEmail } from "react-icons/md";
 
 export const AboutSection = () => {
   return (
-    <section id="about" className="py-24 px-12 relative">
+    <section id="about" className="pt-24 px-12 relative">
       <div className="container mx-auto max-w-8xl">
 
         <p className="eyebrow text-center mb-3">About</p>
 
-        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-12 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 items-start">
 
           <div className="flex justify-center">
             <img
               src="assets/Profile.jpg"
               alt="Alana's Profile"
-              className="rounded-sm shadow-lg w-64 xl:w-72 h-auto object-cover object-[center_30%] border border-primary/12"
+              className="rounded-sm shadow-lg w-64 xl:w-72 h-auto object-cover object-[center_30%] border border-primary/25"
             />
           </div>
 
-          <div className="space-y-6 lg:pl-14 md:pl-12">
+          <div className="space-y-2 lg:pl-14 md:pl-12">
 
-            <h2 className="t-h1 text-left mb-10">
-              Hey there! I'm{" "}
-              <em className="italic">Alana</em>.
+            <h2 className="t-h1 text-6xl text-left mb-10">
+              Hey there! I'm {" "}
+              <em className="not-italic">Alana</em>.
             </h2>
 
             <p className="t-body text-left">

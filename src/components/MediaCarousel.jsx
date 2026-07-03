@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function MediaCarousel({ items }) {
   const [index, setIndex] = useState(0);
@@ -9,20 +10,20 @@ export default function MediaCarousel({ items }) {
 
   return (
     <div className="w-full mb-12 flex justify-center">
-      <div className="w-full bg-linear-to-b from-black via-zinc-950 to-black px-6">
+      <div className="w-full bg-[linear-gradient(to_bottom,hsl(var(--background)),color-mix(in_srgb,hsl(var(--foreground))_10%,hsl(var(--background))),hsl(var(--background)))] px-6">
         {/* ───── MAIN ROW ───── */}
-        <div className="flex items-center justify-center gap-10">
+        <div className="flex items-center justify-center lg:gap-10">
           {/* LEFT */}
           <button
             onClick={prev}
-            className="text-zinc-400 hover:text-zinc-100 text-6xl px-6 transition select-none"
+            className="text-foreground/40 hover:text-primary px-6 transition select-none"
           >
-            ‹
+            <ChevronLeft size={48} strokeWidth={1.5} />
           </button>
 
           {/* ───── VIEWPORT ───── */}
           <div
-            className="relative w-full max-w-5xl overflow-hidden rounded-sm shadow-lg shadow-black/50"
+            className="relative w-full min-w-sm max-w-5xl overflow-hidden rounded-sm shadow-lg shadow-background"
             style={{ aspectRatio: "16/9" }}
           >
             <div
@@ -36,7 +37,7 @@ export default function MediaCarousel({ items }) {
                 <div
                   key={i}
                   style={{ minWidth: "100%", width: "100%" }}
-                  className="h-full shrink-0 flex items-center justify-center bg-black"
+                  className="h-full shrink-0 flex items-center justify-center bg-background"
                 >
                   {/* IMAGE */}
                   {item.type === "image" && (
@@ -78,9 +79,9 @@ export default function MediaCarousel({ items }) {
           {/* RIGHT */}
           <button
             onClick={next}
-            className="text-zinc-400 hover:text-zinc-100 text-6xl px-6 transition select-none"
+            className="text-foreground/40 hover:text-primary px-6 transition select-none"
           >
-            ›
+            <ChevronRight size={48} strokeWidth={1.5} />
           </button>
         </div>
 
@@ -99,8 +100,8 @@ export default function MediaCarousel({ items }) {
                   className={`h-16 w-28 rounded-md transition duration-300
                     ${
                       active
-                        ? "scale-105 ring-2 ring-zinc-200 shadow-lg shadow-black/40"
-                        : "scale-100 ring-1 ring-zinc-700/40 opacity-60 hover:opacity-100"
+                        ? "scale-105 ring-2 ring-primary shadow-lg shadow-background"
+                        : "scale-100 ring-1 ring-primary/20 opacity-60 hover:opacity-100"
                     }`}
                 >
                   <div className="w-full h-full rounded-md overflow-hidden">

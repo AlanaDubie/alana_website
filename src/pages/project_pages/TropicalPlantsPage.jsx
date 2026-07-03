@@ -1,23 +1,30 @@
 import MediaCarousel from "../../components/MediaCarousel";
 
 /* ── Local components ───────────────────────────────────────────────────── */
-
 const ParamTable = ({ params }) => (
-  <div className="border border-primary/10 rounded-sm overflow-hidden bg-card mb-4">
-    {params.map(([name, desc], i) => (
-      <div
-        key={name}
-        className={`flex items-baseline gap-4 px-4 py-3 hover:bg-primary/5 transition-colors ${
+  <div className="grid grid-cols-[auto_1fr] border border-primary/10 rounded-sm overflow-hidden bg-card mt-4 mb-10">
+    {params.flatMap(([name, desc], i) => [
+      <span
+        key={`${name}-label`}
+        className={`caption-text uppercase text-xs text-primary/90 px-4 py-3 transition-colors ${
           i !== 0 ? "border-t border-primary/10" : ""
         }`}
       >
-        <span className="eyebrow normal-case text-primary/90 shrink-0 w-44">{name}</span>
-        <span className="t-body">{desc}</span>
-      </div>
-    ))}
+        {name}
+      </span>,
+      <span
+        key={`${name}-desc`}
+        className={`eyebrow tracking-wide italic text-foreground/70 lowercase px-4 py-3 transition-colors ${
+          i !== 0 ? "border-t border-primary/10" : ""
+        }`}
+      >
+        {desc}
+      </span>,
+    ])}
   </div>
 );
 
+/* TODO: Make as component*/
 const EditorialGrid = ({ images, alt = "" }) => {
   const top = images.slice(0, 3);
   const bottom = images.slice(3, 5);
@@ -93,18 +100,18 @@ export const TropicalPlantsPage = () => (
 
     <MediaCarousel items={heroMedia} />
 
-    <div className="pt-6 container max-w-5xl mx-auto">
+    <div className="container pt-6 max-w-5xl px-4 mx-auto">
 
       <span className="eyebrow">Procedural · SOPs · COPs</span>
-      <h1 className="t-h1 mt-2 mb-4">Tropical Plants</h1>
-      <p className="caption-text mb-3 normal-case">
+      <h1 className="t-hero text-7xl mt-2 mb-4">Tropical Plants</h1>
+      <p className="eyebrow text-foreground/70 mb-8 normal-case">
         Tools:
-        <span className="caption-text normal-case text-foreground/70 border border-primary/20 rounded-sm px-2 py-1 ml-2">
+        <span className="eyebrow normal-case text-foreground/70 border border-primary/20 rounded-sm px-2 py-1 ml-2">
           Houdini
         </span>
       </p>
 
-      <p className="t-body mb-3 max-w-2xl">
+      <p className="t-body mb-3">
         Two artist-friendly procedural vegetation tools built in Houdini, inspired by the
         stylized environments of Kingdom Hearts. The goal was to generate a wide range of
         tropical plant variants through parameters alone, without going back to model
@@ -116,11 +123,11 @@ export const TropicalPlantsPage = () => (
       {/* ── Generated Plant Designs ── */}
       <section id="results" className="mb-14 scroll-mt-8">
         <h2 className="t-h1 mb-4">Generated Plant Designs</h2>
-        <p className="t-body mb-6 max-w-2xl">
+        <p className="t-body mb-6">
           All variations below come from the{" "}
-          <a href="#palm" className="text-primary/80 hover:text-primary transition-colors">Palm Tree Tool</a>
+          <a href="#palm" className="font-semibold underline hover:text-primary transition-colors">Palm Tree Tool</a>
           {" "}and{" "}
-          <a href="#layered" className="text-primary/80 hover:text-primary transition-colors">Layered Plant Tool</a>
+          <a href="#layered" className="font-semibold underline hover:text-primary transition-colors">Layered Plant Tool</a>
           . Designs are made by tweaking seed, bend angle, leaf count, color ramp, and layer configurations.
         </p>
         <span className="eyebrow block mb-3">Palm Tree Tool</span>
@@ -129,7 +136,7 @@ export const TropicalPlantsPage = () => (
         <span className="eyebrow block mb-3 mt-8">Layered Plant Tool</span>
         <EditorialGrid images={layeredImages} alt="Layered plant variation" />
 
-        <p className="caption-text mt-3 normal-case text-foreground/40 italic">
+        <p className="caption-text mt-3 normal-case text-foreground/40">
           Variations of scatter seed, leaf count, bend angle, color ramp, and layer configuration.
         </p>
       </section>
@@ -143,8 +150,7 @@ export const TropicalPlantsPage = () => (
           <div className="space-y-4">
             <p className="t-body">
               The plants in Kingdom Hearts have simple silhouettes and vibrant colors reminiscent
-              of Disney's 2D animations, giving the environments a feel like they were painted in{" "}
-              <span className="shimmer-text">watercolor</span>.
+              of Disney's 2D animations, giving the environments a feel like they were painted in watercolor.
             </p>
             <p className="t-body">
               I pulled references from Destiny Islands to understand the art direction and
@@ -166,7 +172,7 @@ export const TropicalPlantsPage = () => (
       <section id="palm" className="mb-14 scroll-mt-8">
         <span className="eyebrow">Tool 01</span>
         <h2 className="t-h1 mt-2 mb-5">Palm Tree Procedural</h2>
-        <p className="t-body mb-8 max-w-2xl">
+        <p className="t-body mb-8">
           I broke the tool into three sections:{" "}
           <strong className="text-foreground/90 font-medium">trunk, leaves, and branches</strong>.
           Each is its own sub-network that merges at the end, making it easy to iterate on
@@ -189,7 +195,7 @@ export const TropicalPlantsPage = () => (
           className="w-xl rounded-sm border border-primary/10 mt-3 mb-2"
           alt="Palm SOP network"
         />
-        <p className="caption-text normal-case text-foreground/40 italic mb-10">
+        <p className="caption-text normal-case text-foreground/40 mb-10">
           Green = leaf shape, tan = stem, dark yellow = palm trunk. Everything merges at the bottom before output.
         </p>
 
@@ -243,7 +249,7 @@ export const TropicalPlantsPage = () => (
       <section id="layered" className="mb-14 scroll-mt-8">
         <span className="eyebrow">Tool 02</span>
         <h2 className="t-h1 mt-2 mb-5">Layered Plant Procedural</h2>
-        <p className="t-body mb-8 max-w-2xl">
+        <p className="t-body mb-8">
           Built around multiple leaf layers and a stem, all independently controlled or
           toggleable. Each layer has full control over shape, curvature, color, and rotation,
           enabling a wide range of plant designs from one tool.
@@ -265,12 +271,12 @@ export const TropicalPlantsPage = () => (
           className="w-full rounded-sm border border-primary/10 mt-3 mb-2"
           alt="Layered plant SOP network"
         />
-        <p className="caption-text normal-case text-foreground/40 italic mb-10">
+        <p className="caption-text normal-case text-foreground/40 mb-10">
           Top leaves layer (left), bottom leaves layer (center), stem (right).
         </p>
 
         <h3 className="t-h2 mb-3">Leaf Layers (Top and Bottom)</h3>
-        <p className="t-body mb-6 max-w-2xl">
+        <p className="t-body mb-6">
           Both layers use the same setup. Two bend nodes control curvature in different
           directions. Noise is kept toward the center to avoid distorting the edges. Color is
           handled per layer, and the top layer can be toggled off.
@@ -319,7 +325,7 @@ export const TropicalPlantsPage = () => (
         />
 
         <h3 className="t-h2 mb-3">Stem</h3>
-        <p className="t-body mb-4 max-w-2xl">
+        <p className="t-body mb-4">
           Built in its own sub-network and toggleable. A sort node finds the top point of the
           plant and a blast node isolates it so the stem always connects at the correct position
           regardless of transform. Noise is added at the end for surface variation.
@@ -342,7 +348,7 @@ export const TropicalPlantsPage = () => (
       <section id="materials" className="mb-14 scroll-mt-8">
         <span className="eyebrow">03</span>
         <h2 className="t-h1 mt-2 mb-5">COPs Material</h2>
-        <div className="space-y-3 mb-8 max-w-2xl">
+        <div className="space-y-3 mb-8">
           <p className="t-body">All PBR maps were built procedurally inside Houdini COPs.</p>
           <p className="t-body">
             The main advantage of this approach is that textures stay tied to the geometry —

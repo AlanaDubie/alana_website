@@ -4,18 +4,18 @@ export const HeroSection = () => {
   return (
     <section id="hero" className="relative w-full min-h-screen overflow-hidden bg-background">
       <video autoPlay muted loop playsInline
-        className="absolute inset-0 w-full h-full object-cover opacity-30"
+        className="absolute inset-0 w-full h-full object-cover opacity-96"
       >
         <source src="assets/HeroVideo.mp4" type="video/mp4" />
       </video>
 
-      <div className="absolute inset-0 bg-linear-to-b from-background/40 via-background/70 to-background" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(var(--background)/0)_0%,hsl(var(--background)/0.08)_30%,hsl(var(--background)/0.3)_60%,hsl(var(--background)/0.7)_90%,hsl(var(--background)/1)_100%)]" />
 
       <div className="relative z-10 min-h-screen flex flex-col justify-end pb-24 md:pb-28 px-6 md:px-16">
-        <div className="container max-w-7xl mx-auto w-full">
+        <div className="container max-w-8xl mx-auto w-full">
 
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-16">
-            <h1 className="t-hero text-left">
+            <h1 className="t-hero text-left lg:font-extralight md:font-light sm:font-light font-normal">
               Alana<br />
               Dubie
             </h1>

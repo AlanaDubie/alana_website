@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
+import {ProjectFilter} from "./ProjectFilter";
 
 import { TropicalPlantsPage }   from "../pages/project_pages/TropicalPlantsPage";
 import { AsteroidGenPage }      from "../pages/project_pages/AsteroidGenPage";
@@ -11,6 +12,7 @@ import { BuilderBeaversPage }   from "../pages/project_pages/BuilderBeaversPage"
 import { HouseLightingPage }    from "../pages/project_pages/HouseLightingPage";
 import { OutsideDinePage }      from "../pages/project_pages/OutsideDinePage";
 import { UnderwaterScenePage }  from "../pages/project_pages/UnderwaterScenePage";
+import { NotFound }             from "../pages/NotFound.jsx";
 
 const projects = [
   { id: 1,  title: "Tropical Plants",                     description: "Houdini Digital Asset",     image: "assets/projects/tropical_plants/card_img_plant_tool.png",       tags: ["Procedural"], detailComponent: <TropicalPlantsPage /> },
@@ -23,9 +25,13 @@ const projects = [
   { id: 8,  title: "House Lighting",                      description: "3D Lighting Studies",       image: "assets/projects/house_lighting/card_img_house_light.png",        tags: ["3D"],         detailComponent: <HouseLightingPage /> },
   { id: 9,  title: "Outside Dining",                      description: "3D Lighting Studies",       image: "assets/projects/outside_dining/card_img_outside_dining.jpg",    tags: ["3D"],         detailComponent: <OutsideDinePage /> },
   { id: 10, title: "Underwater Scene",                    description: "3D Lighting Environment",   image: "assets/projects/underwater_scene/card_img_underwater_scene.jpg",tags: ["3D"],         detailComponent: <UnderwaterScenePage /> },
+  { id: 11, title: "ML Texture Organizer",                description: "Maya Python Script",        image: "assets/projects/underwater_scene/card_img_underwater_scene.jpg",tags: ["Coding"],     detailComponent: <NotFound /> },
 ];
 
+const allTags = [...new Set(projects.flatMap((p) => p.tags))];
+
 /* ── Drawer ─────────────────────────────────────────────────── */
+/* TODO: Make into component */
 const ProjectDrawer = ({ project, onClose }) => {
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -54,7 +60,7 @@ const ProjectDrawer = ({ project, onClose }) => {
                      tracking-[0.2em] font-bold
                      transition-colors"
         >
-          <div className="container flex items-center gap-2 py-4">
+          <div className="container flex items-center gap-2 px-4 py-4">
             <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
             Back to projects
             <span className="ml-auto tracking-[0.2em] font-bold caption-text uppercase text-foreground/50">
@@ -72,6 +78,11 @@ const ProjectDrawer = ({ project, onClose }) => {
 /* ── Main Section ───────────────────────────────────────────── */
 export const ProjectSection = () => {
   const [selected, setSelected] = useState(null);
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  const visibleProjects = projects.filter(
+    (project) => activeFilter === "All" || project.tags.includes(activeFilter)
+  );
 
   return (
     <section id="projects" className="py-24 px-4 relative">
@@ -80,21 +91,30 @@ export const ProjectSection = () => {
         {/* Section label — eyebrow tier, accent */}
         <p className="eyebrow text-center mb-3">Projects</p>
 
+        {/* Filter pills */}
+        <ProjectFilter
+          tags={allTags}
+          active={activeFilter}
+          onChange={setActiveFilter}
+        />
+
         {/* 3-column grid — layout unchanged */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-          {projects.map((project, key) => (
+          {visibleProjects.map((project) => (
             <div
-              key={key}
+              key={project.id}
               onClick={() => setSelected(project)}
               className="group relative border border-primary/10 bg-card rounded-sm overflow-hidden
-                         card-hover hover:border-primary/30 cursor-pointer"
+                         card-hover hover:border-primary/30 cursor-pointer
+                         transition-all duration-500 ease-out
+                         animate-[fadeScaleIn_0.4s_ease-out]"
             >
               {/* Image */}
               <div className="min-h-64 max-h-80 h-full overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
 
@@ -111,12 +131,12 @@ export const ProjectSection = () => {
                   ))}
                 </div>
 
-                <h3 className="t-h2 text-left mb-2 mt-2">
+                <h3 className="t-h2 text-left mt-2">
                   {project.title}
                 </h3>
 
                 {/* Description — eyebrow without uppercase */}
-                <p className="t-body normal-case text-left text-foreground/55">
+                <p className="t-body mt-1! normal-case text-left text-foreground/55">
                   {project.description}
                 </p>
               </div>
