@@ -36,7 +36,7 @@ export const Navbar = () => {
         "fixed top-0 left-0 w-full z-40 transition-all duration-500",
         isScrolled
           ? "py-3 px-4 bg-background/90 backdrop-blur-md border-b border-primary/15"
-          : "py-5 px-4 pb-10 backdrop-blur-sm [mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)]"
+          : "py-5 px-4 pb-10 backdrop-blur-sm mask-[linear-gradient(to_bottom,black_55%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)]"
       )}
     >
       <div className="container flex items-center justify-between relative">

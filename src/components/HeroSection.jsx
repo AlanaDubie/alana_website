@@ -9,26 +9,20 @@ export const HeroSection = () => {
         <source src="assets/HeroVideo.mp4" type="video/mp4" />
       </video>
 
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(var(--background)/0)_0%,hsl(var(--background)/0.08)_30%,hsl(var(--background)/0.3)_60%,hsl(var(--background)/0.7)_90%,hsl(var(--background)/1)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(var(--background)/0)_40%,hsl(var(--background)/0.1)_50%,hsl(var(--background)/0.25)_60%,hsl(var(--background)/0.6)_85%,hsl(var(--background)/1)_100%)]" />
 
       <div className="relative z-10 min-h-screen flex flex-col justify-end pb-24 md:pb-28 px-6 md:px-16">
-        <div className="container max-w-8xl mx-auto w-full">
+        <div className="container max-w-8xl mx-auto w-full text-left">
 
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-16">
-            <h1 className="t-hero text-left lg:font-extralight md:font-light sm:font-light font-normal">
-              Alana<br />
-              Dubie
-            </h1>
+          <h1 className="t-hero text-left lg:font-extralight md:font-light sm:font-light font-normal">
+            Alana<br />Dubie
+          </h1>
 
-            <div className="lg:pb-3 lg:max-w-xs text-left">
-              {/* eyebrow = section label tier */}
-              <p className="eyebrow mb-5">Technical Artist</p>
-              {/* caption-text = metadata tier */}
-              <p className="caption-text">Games &amp; Animation</p>
-            </div>
+          <div className="mt-6 mb-10">
+            <p className="eyebrow">CS Student · Tools Developer · Technical Artist</p>
           </div>
 
-          <div className="mt-10 h-px bg-primary/12" />
+          <div className="h-px bg-primary/12" />
         </div>
       </div>
 

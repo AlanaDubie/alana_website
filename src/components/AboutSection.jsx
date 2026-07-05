@@ -46,7 +46,7 @@ export const AboutSection = () => {
                 <MdEmail size={16} />
                 CONTACT ME
               </a>
-              <a href="/resume.pdf" target="_blank"
+              <a href="public/assets/AlanaResume.pdf" target="_blank"
                 className="caption-text font-medium tracking-[0.2em] text-foreground/55 hover:text-primary transition-colors duration-300 flex items-center gap-2">
                 <FaFileAlt size={14} />
                 VIEW RESUME
