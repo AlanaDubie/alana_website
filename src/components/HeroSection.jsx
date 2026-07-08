@@ -1,4 +1,5 @@
 import { ChevronDown } from "lucide-react";
+import { cldVideo } from "../lib/cloudinary";
 
 export const HeroSection = () => {
   return (
@@ -6,7 +7,7 @@ export const HeroSection = () => {
       <video autoPlay muted loop playsInline
         className="absolute inset-0 w-full h-full object-cover opacity-96"
       >
-        <source src="assets/HeroVideo.mp4" type="video/mp4" />
+        <source src={cldVideo("HeroVideo", { quality: "showcase" })} type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(var(--background)/0)_40%,hsl(var(--background)/0.1)_50%,hsl(var(--background)/0.25)_60%,hsl(var(--background)/0.6)_85%,hsl(var(--background)/1)_100%)]" />

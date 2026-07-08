@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Type Scale Comparison — Major Third vs Perfect Fourth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ff-serif:   "Fraunces", Georgia, serif;
+    --ff-grotesk: "Space Grotesk", "Helvetica Neue", sans-serif;
+    --bg:     #111113;
+    --ink:    #f5f4f4;
+    --accent: #00aaa8;
+    --muted:     color-mix(in srgb, var(--ink) 58%, transparent);
+    --muted-lo:  color-mix(in srgb, var(--ink) 38%, transparent);
+    --hair:      color-mix(in srgb, var(--ink) 10%, transparent);
+    --accent-lo: color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  body {
+    background: #0a0a0a;
+    font-family: var(--ff-grotesk);
+    font-size: 17px;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── page header ─────────────────────────────────────────── */
+  .page-header {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 40px 40px;
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    border-bottom: 1px solid #1e1e1e;
+  }
+  .page-title {
+    font-family: var(--ff-serif);
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: #f3f3f3;
+  }
+  .page-sub {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #4a4a4a;
+  }
+
+  /* ── two col grid ────────────────────────────────────────── */
+  .grid {
+    max-width: 720px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: #1a1a1a;
+  }
+  .col {
+    background: var(--bg);
+    padding: 56px 48px 72px;
+  }
+
+  /* ── col header ──────────────────────────────────────────── */
+  .col-tag {
+    font-size: 0.64rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .col-ratio {
+    font-size: 0.64rem;
+    letter-spacing: 0.2em;
+    color: var(--muted-lo);
+    margin-bottom: 40px;
+  }
+
+  /* ── scale rows ──────────────────────────────────────────── */
+  .scale-rows { margin-bottom: 56px; }
+  .scale-row {
+    display: grid;
+    grid-template-columns: 72px 1fr 80px;
+    align-items: baseline;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--hair);
+  }
+  .scale-row:last-child { border-bottom: none; }
+  .row-meta { display: flex; flex-direction: column; gap: 3px; align-self: center; }
+  .row-step { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted-lo); }
+  .row-px   { font-size: 0.6rem; color: var(--accent); }
+  .row-css  { font-size: 0.6rem; color: var(--muted-lo); text-align: right; align-self: center; }
+
+  /* ── divider ─────────────────────────────────────────────── */
+  .t-divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0.3;
+    margin-bottom: 40px;
+  }
+  .context-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted-lo);
+    margin-bottom: 28px;
+  }
+
+  /* ── Major Third specimens ───────────────────────────────── */
+  .m3-hero    { font-family: var(--ff-serif); font-size: 3.2425rem; font-weight: 300; letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); }
+  .m3-hero em { font-style: italic; color: var(--accent); }
+  .m3-h1      { font-family: var(--ff-serif); font-size: 2.0750rem; font-weight: 300; letter-spacing: -0.025em; line-height: 1.15; color: var(--ink); }
+  .m3-h2      { font-family: var(--ff-serif); font-size: 1.6600rem; font-weight: 300; letter-spacing: -0.02em;  line-height: 1.2;  color: var(--ink); }
+  .m3-body    { font-family: var(--ff-grotesk); font-size: 1.0625rem; line-height: 1.75; color: var(--muted); }
+  .m3-label   { font-family: var(--ff-grotesk); font-size: 0.85rem;   letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .m3-caption { font-family: var(--ff-grotesk); font-size: 0.68rem;   letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted-lo); }
+
+  /* ── Perfect Fourth specimens ────────────────────────────── */
+  .p4-hero    { font-family: var(--ff-serif); font-size: 4.4719rem; font-weight: 300; letter-spacing: -0.025em; line-height: 1.05; color: var(--ink); }
+  .p4-hero em { font-style: italic; color: var(--accent); }
+  .p4-h1      { font-family: var(--ff-serif); font-size: 2.5169rem; font-weight: 300; letter-spacing: -0.025em; line-height: 1.15; color: var(--ink); }
+  .p4-h2      { font-family: var(--ff-serif); font-size: 1.8881rem; font-weight: 300; letter-spacing: -0.02em;  line-height: 1.2;  color: var(--ink); }
+  .p4-body    { font-family: var(--ff-grotesk); font-size: 1.0625rem; line-height: 1.75; color: var(--muted); }
+  .p4-label   { font-family: var(--ff-grotesk); font-size: 0.7969rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .p4-caption { font-family: var(--ff-grotesk); font-size: 0.5981rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted-lo); }
+
+  /* ── context spacing ─────────────────────────────────────── */
+  .ctx > * + * { margin-top: 0; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-title">Type Scale Comparison</div>
+  <div class="page-sub">Perfect Fourth 1.333× · Base 17px · Muted Cyan</div>
+</div>
+
+<div class="grid">
+
+  <!-- ══ PERFECT FOURTH ════════════════════════════════════════ -->
+  <div class="col" style="border-left: 1px solid #1a1a1a;">
+    <div class="col-tag">Perfect Fourth</div>
+    <div class="col-ratio">1.333× ratio · each step × 1.333</div>
+
+    <div class="scale-rows">
+      <div class="scale-row">
+        <div class="row-meta"><span class="row-step">Hero</span><span class="row-px">71.55px</span></div>
+        <span class="p4-hero">Alana <em>Dubie</em></span>
+        <span class="row-css">4.4719rem</span>
+      </div>
+      <div class="scale-row">
+        <div class="row-meta"><span class="row-step">H1</span><span class="row-px">40.27px</span></div>
+        <span class="p4-h1">Selected Work</span>
+        <span class="row-css">2.5169rem</span>
+      </div>
+      <div class="scale-row">
+        <div class="row-meta"><span class="row-step">H2</span><span class="row-px">30.21px</span></div>
+        <span class="p4-h2">Tropical Plants Tool</span>
+        <span class="row-css">1.8881rem</span>
+      </div>
+      <div class="scale-row">
+        <div class="row-meta"><span class="row-step">Body</span><span class="row-px">17px</span></div>
+        <span class="p4-body">A procedural Houdini tool for generating tropical plant varieties with ramp-controlled frond profiles.</span>
+        <span class="row-css">1.0625rem</span>
+      </div>
+      <div class="scale-row">
+        <div class="row-meta"><span class="row-step">Label</span><span class="row-px">12.75px</span></div>
+        <span class="p4-label">Selected Projects · 2024</span>
+        <span class="row-css">0.7969rem</span>
+      </div>
+      <div class="scale-row">
+        <div class="row-meta"><span class="row-step">Caption</span><span class="row-px">9.57px</span></div>
+        <span class="p4-caption">variations of scatter seed, leaf count, bend angle</span>
+        <span class="row-css">0.5981rem</span>
+      </div>
+    </div>
+
+    <div class="t-divider"></div>
+    <div class="context-tag" style="margin-bottom:16px;">Spacing tokens</div>
+    <div style="font-size:0.6rem; letter-spacing:0.05em; color:var(--muted-lo); line-height:2.4; margin-bottom:40px; padding:16px 20px; border:1px solid var(--hair); border-radius:2px;">
+      <span style="color:var(--muted);">Hero → Label</span> &nbsp;·&nbsp; 48px (2XL) &nbsp;&nbsp;
+      <span style="color:var(--muted);">Label → H1</span> &nbsp;·&nbsp; 12px (between SM–MD) &nbsp;&nbsp;
+      <span style="color:var(--muted);">H1 → H2</span> &nbsp;·&nbsp; 24px (LG) &nbsp;&nbsp;
+      <span style="color:var(--muted);">H2 → Body</span> &nbsp;·&nbsp; 24px (LG) &nbsp;&nbsp;
+      <span style="color:var(--muted);">Body → Body</span> &nbsp;·&nbsp; 16px (MD) &nbsp;&nbsp;
+      <span style="color:var(--muted);">Body → Caption</span> &nbsp;·&nbsp; 24px (LG) &nbsp;&nbsp;
+      <span style="color:var(--muted);">Between sections</span> &nbsp;·&nbsp; 96px (3XL)
+    </div>
+    <div class="context-tag">In context</div>
+    <div class="ctx">
+      <div class="ctx-hero p4-hero" style="margin-bottom:48px;">Alana<br /><em>Dubie</em></div>
+      <div class="p4-label" style="margin-bottom:12px;">Selected Work</div>
+      <div class="p4-h1" style="margin-bottom:24px;">Tropical Plants Tool</div>
+      <div class="p4-h2" style="margin-bottom:24px;">Procedural Generation</div>
+      <div class="p4-body" style="margin-bottom:16px;">A fully procedural Houdini tool for generating tropical plant varieties. Ramp-controlled frond profiles and scatter-driven leaf distribution combine to produce infinite variation from a single asset.</div>
+      <div class="p4-body" style="margin-bottom:16px;">Built for production use on environment pipelines requiring high botanical variation without hand-modelling overhead.</div>
+      <div class="p4-caption">variations of scatter seed, leaf count, bend angle, color ramp, and layer configuration.</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Palette Comparison v4 — Alana Dubie System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  :root {
+    --ff-serif: "Fraunces", Georgia, serif;
+    --ff-grotesk: "Space Grotesk", "Helvetica Neue", sans-serif;
+  }
+  body {
+    background: #0a0a0a;
+    font-family: var(--ff-grotesk);
+    font-size: 13px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .intro {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 64px 40px 32px;
+    color: #c7c7c7;
+  }
+  .intro-eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: #6b8a88;
+    margin-bottom: 18px;
+  }
+  .intro h1 {
+    font-family: var(--ff-serif);
+    font-weight: 300;
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: -0.03em;
+    color: #f3f3f3;
+    margin-bottom: 14px;
+  }
+  .intro p {
+    font-size: 12px;
+    color: #8d8d8d;
+    max-width: 56ch;
+    line-height: 1.8;
+  }
+
+  .quicknav {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    max-width: 960px;
+    margin: 28px auto 0;
+    padding: 0 40px 40px;
+  }
+  .quicknav a {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #8d8d8d;
+    text-decoration: none;
+    padding: 7px 14px;
+    border: 1px solid #2a2a2a;
+    border-radius: 2px;
+  }
+  .quicknav a span { opacity: .5; margin-right: 6px; }
+
+  .score-bar-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .score-label {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #6b6b6b;
+    width: 170px;
+    flex-shrink: 0;
+  }
+  .score-track {
+    flex: 1;
+    height: 4px;
+    background: #1e1e1e;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .score-fill { height: 100%; border-radius: 2px; }
+  .score-val {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: #6b6b6b;
+    width: 52px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .score-pass { color: #5fd99a; font-size: 9px; width: 52px; flex-shrink: 0; }
+  .score-fail { color: #e8716a; font-size: 9px; width: 52px; flex-shrink: 0; }
+
+  .palette-stage {
+    --muted:     color-mix(in srgb, var(--ink) 58%, transparent);
+    --muted-lo:  color-mix(in srgb, var(--ink) 38%, transparent);
+    --hair:      color-mix(in srgb, var(--ink) 10%, transparent);
+    --surface:   color-mix(in srgb, var(--ink) 4%, var(--bg));
+    --surface2:  color-mix(in srgb, var(--ink) 7%, var(--bg));
+    --accent-lo: color-mix(in srgb, var(--accent) 45%, transparent);
+    --accent-bg: color-mix(in srgb, var(--accent) 16%, transparent);
+    background: var(--bg);
+    color: var(--ink);
+    border-top: 1px solid #1a1a1a;
+  }
+  .stage-inner { max-width: 960px; margin: 0 auto; padding: 72px 40px 88px; }
+
+  .stage-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--hair);
+  }
+  .stage-num {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .stage-title {
+    font-family: var(--ff-serif);
+    font-weight: 300;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  .stage-hexes {
+    text-align: right;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    line-height: 1.9;
+  }
+
+  .swatch-strip {
+    display: flex;
+    height: 56px;
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid var(--hair);
+    margin-bottom: 24px;
+  }
+  .swatch-seg {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 7px 10px;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .seg-60 { width: 60%; background: var(--bg); color: var(--muted); }
+  .seg-30 { width: 30%; }
+  .seg-10 { width: 10%; background: var(--accent); }
+  .seg-30, .seg-10 { border-left: 1px solid var(--hair); }
+
+  .contrast-panel {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    border-radius: 2px;
+  }
+  .contrast-cell { flex: 1; min-width: 190px; }
+  .contrast-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .contrast-sample { font-size: 18px; margin-bottom: 4px; }
+  .contrast-note { font-size: 11px; }
+  .pass { color: #5fd99a; }
+  .fail { color: #e8716a; }
+
+  .rank-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: -6px;
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--hair);
+    max-width: 60ch;
+    line-height: 1.75;
+  }
+
+  .stage-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 22px;
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    border-radius: 2px;
+    margin-bottom: 48px;
+  }
+  .stage-nav-logo { font-family: var(--ff-serif); font-size: 1rem; font-weight: 400; }
+  .stage-nav-links { display: flex; gap: 26px; list-style: none; }
+  .stage-nav-links a {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .stage-label {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .stage-hero {
+    font-family: var(--ff-serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 18px;
+  }
+  .stage-body {
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 54ch;
+    margin-bottom: 36px;
+  }
+
+  .stage-btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+  .s-btn {
+    font-family: var(--ff-grotesk);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 11px 22px;
+    border-radius: 2px;
+    border: none;
+    cursor: default;
+  }
+  .s-btn-primary { background: var(--accent); }
+  .s-btn-outline { background: var(--accent-bg); color: var(--ink); border: 1px solid var(--accent-lo); }
+  .s-btn-ghost   { background: transparent; color: var(--muted); border: 1px solid var(--hair); }
+
+  .stage-badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 44px; }
+  .s-badge {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border-radius: 2px;
+  }
+  .s-badge-accent  { color: var(--accent); background: var(--accent-bg); border: 1px solid var(--accent-lo); }
+  .s-badge-neutral { color: var(--muted); border: 1px solid var(--hair); }
+
+  .stage-card {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border: 1px solid var(--hair);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .stage-card-img {
+    background: linear-gradient(135deg, var(--surface2), var(--surface));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted-lo);
+    min-height: 120px;
+  }
+  .stage-card-body { padding: 20px 22px; }
+  .stage-card-tag {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .stage-card-title {
+    font-family: var(--ff-serif);
+    font-weight: 300;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+  .stage-card-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+  @media (max-width: 620px) {
+    .stage-inner { padding: 48px 24px 64px; }
+    .stage-card { grid-template-columns: 1fr; }
+    .stage-card-img { height: 90px; }
+    .contrast-panel { flex-direction: column; }
+    .score-label { width: 120px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <div class="intro-eyebrow">Color Test v4 · 60 / 30 / 10 · Ranked</div>
+  <h1>Palette Comparison — Round 4</h1>
+  <p>Three candidates. P3 and P2 are close cousins varying only in accent
+  brightness and bg tint. P5 is a darker, more muted teal accent.
+  Ranked by accent/bg contrast ratio.</p>
+</div>
+
+<div class="quicknav">
+  <a href="#p3"><span>01</span>Slate Cyan</a>
+  <a href="#p2"><span>02</span>Muted Cyan</a>
+  <a href="#p5"><span>03</span>Harbor Teal</a>
+</div>
+
+<div class="score-bar-wrap">
+  <div style="font-size:9px; letter-spacing:.3em; text-transform:uppercase; color:#3a3a3a; margin-bottom:8px;">Accent / BG contrast (max shown: 10:1)</div>
+  <div class="score-row">
+    <div class="score-label">P3 Slate Cyan #15b2af</div>
+    <div class="score-track"><div class="score-fill" style="width:73.3%; background:#15b2af;"></div></div>
+    <div class="score-val">7.33:1</div>
+    <div class="score-pass">AA ✓</div>
+  </div>
+  <div class="score-row">
+    <div class="score-label">P2 Muted Cyan #00aaa8</div>
+    <div class="score-track"><div class="score-fill" style="width:65.7%; background:#00aaa8;"></div></div>
+    <div class="score-val">6.57:1</div>
+    <div class="score-pass">AA ✓</div>
+  </div>
+  <div class="score-row">
+    <div class="score-label">P5 Harbor Teal #0090a3</div>
+    <div class="score-track"><div class="score-fill" style="width:49.6%; background:#0090a3;"></div></div>
+    <div class="score-val">4.96:1</div>
+    <div class="score-pass">AA ✓</div>
+  </div>
+</div>
+
+
+<!-- ══════════════ P3 — RANK 01 -->
+<section class="palette-stage" id="p3" style="--bg:#0d0f12; --ink:#f3f2f5; --accent:#15b2af;">
+  <div class="stage-inner">
+    <div class="stage-head">
+      <div>
+        <div class="stage-num">Rank 01 · 7.33:1 · AA + Near AAA</div>
+        <div class="stage-title">Slate Cyan</div>
+      </div>
+      <div class="stage-hexes">BG #0d0f12 · 60%<br>SURFACE #f3f2f5 · 30%<br>ACCENT #15b2af · 10%<br><span style="opacity:.6;">BORDER #115859 · FILL #0e292b (derived)</span></div>
+    </div>
+    <div class="swatch-strip">
+      <div class="swatch-seg seg-60">#0d0f12</div>
+      <div class="swatch-seg seg-30" style="background:#f3f2f5; color:#0d0f12;">#f3f2f5</div>
+      <div class="swatch-seg seg-10" style="color:#0d0f12;">#15b2af</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:18px; margin-bottom:24px; font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted);">
+      <span style="display:flex; align-items:center; gap:8px;">
+        <span style="width:20px; height:20px; border-radius:2px; border:2px solid #115859; flex-shrink:0;"></span>
+        Border #115859
+      </span>
+      <span style="display:flex; align-items:center; gap:8px;">
+        <span style="width:20px; height:20px; border-radius:2px; background:#0e292b; flex-shrink:0;"></span>
+        Fill #0e292b
+      </span>
+    </div>
+    <p class="rank-note">Highest ratio of the four at 7.33:1. The blue-grey bg tint gives it the coolest, most polished feel. Accent has a slight warm lean vs the pure cyan of P1. Dark text on the accent fill also lands at 7.33:1 — a clean AAA button. Never put light surface text on the fill (2.35:1).</p>
+    <div class="contrast-panel">
+      <div class="contrast-cell">
+        <div class="contrast-label">Accent as text on BG</div>
+        <div class="contrast-sample" style="color:#15b2af;">Aa — 7.33:1</div>
+        <div class="contrast-note pass">AA pass · AAA pass</div>
+      </div>
+      <div class="contrast-cell">
+        <div class="contrast-label">Dark text on accent fill</div>
+        <div class="contrast-sample"><span style="background:#15b2af; color:#0d0f12; padding:2px 8px; border-radius:2px; display:inline-block;">Aa — 7.33:1</span></div>
+        <div class="contrast-note pass">AA pass · AAA pass</div>
+      </div>
+      <div class="contrast-cell">
+        <div class="contrast-label">Surface text on accent fill</div>
+        <div class="contrast-sample"><span style="background:#15b2af; color:#f3f2f5; padding:2px 8px; border-radius:2px; display:inline-block;">Aa — 2.35:1</span></div>
+        <div class="contrast-note fail">Fails — use dark text on fill</div>
+      </div>
+    </div>
+    <div class="stage-nav">
+      <div class="stage-nav-logo">Alana Dubie</div>
+      <ul class="stage-nav-links"><li><a>Home</a></li><li><a>Projects</a></li><li><a>About</a></li><li><a>Contact</a></li></ul>
+    </div>
+    <div class="stage-label">Selected Projects · 2024</div>
+    <div class="stage-hero">Tropical Plants</div>
+    <p class="stage-body">A procedural Houdini tool for generating tropical plant varieties with ramp-controlled frond profiles.</p>
+    <div class="stage-btn-row">
+      <span class="s-btn s-btn-outline">Outline / Secondary</span>
+      <span class="s-btn s-btn-ghost">Ghost / Tertiary</span>
+    </div>
+    <div class="stage-badge-row">
+      <span class="s-badge s-badge-accent">Procedural</span>
+      <span class="s-badge s-badge-accent">Houdini</span>
+      <span class="s-badge s-badge-neutral">2024</span>
+      <span class="s-badge s-badge-neutral">3D</span>
+    </div>
+    <div class="stage-card">
+      <div class="stage-card-img">4 : 3 image</div>
+      <div class="stage-card-body">
+        <div class="stage-card-tag">Procedural</div>
+        <div class="stage-card-title">Tropical Plants</div>
+        <div class="stage-card-desc">A fully procedural Houdini tool for generating tropical plant varieties.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════ P2 — RANK 02 -->
+<section class="palette-stage" id="p2" style="--bg:#111113; --ink:#f5f4f4; --accent:#00aaa8;">
+  <div class="stage-inner">
+    <div class="stage-head">
+      <div>
+        <div class="stage-num">Rank 02 · 6.57:1 · AA Pass</div>
+        <div class="stage-title">Muted Cyan</div>
+      </div>
+      <div class="stage-hexes">BG #111113 · 60%<br>SURFACE #f5f4f4 · 30%<br>ACCENT #00aaa8 · 10%<br><span style="opacity:.6;">BORDER #095656 · FILL #0e292b (derived)</span></div>
+    </div>
+    <div class="swatch-strip">
+      <div class="swatch-seg seg-60">#111113</div>
+      <div class="swatch-seg seg-30" style="background:#f5f4f4; color:#111113;">#f5f4f4</div>
+      <div class="swatch-seg seg-10" style="color:#111113;">#00aaa8</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:18px; margin-bottom:24px; font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted);">
+      <span style="display:flex; align-items:center; gap:8px;">
+        <span style="width:20px; height:20px; border-radius:2px; border:2px solid #095656; flex-shrink:0;"></span>
+        Border #095656
+      </span>
+      <span style="display:flex; align-items:center; gap:8px;">
+        <span style="width:20px; height:20px; border-radius:2px; background:#0e292b; flex-shrink:0;"></span>
+        Fill #0e292b
+      </span>
+    </div>
+    <p class="rank-note">6.57:1 — comfortably clears AA, the calmest of the three passing accents. Reads as a slightly greener, more desaturated teal vs P1's cyan. The 0.6:1 gap below rank 02 is visible side by side but won't matter in real use — both are well past the 4.5 floor. Same dark-text-on-fill rule applies.</p>
+    <div class="contrast-panel">
+      <div class="contrast-cell">
+        <div class="contrast-label">Accent as text on BG</div>
+        <div class="contrast-sample" style="color:#00aaa8;">Aa — 6.57:1</div>
+        <div class="contrast-note pass">AA pass · AAA pass</div>
+      </div>
+      <div class="contrast-cell">
+        <div class="contrast-label">Dark text on accent fill</div>
+        <div class="contrast-sample"><span style="background:#00aaa8; color:#111113; padding:2px 8px; border-radius:2px; display:inline-block;">Aa — 6.57:1</span></div>
+        <div class="contrast-note pass">AA pass · AAA pass</div>
+      </div>
+      <div class="contrast-cell">
+        <div class="contrast-label">Surface text on accent fill</div>
+        <div class="contrast-sample"><span style="background:#00aaa8; color:#f5f4f4; padding:2px 8px; border-radius:2px; display:inline-block;">Aa — 2.61:1</span></div>
+        <div class="contrast-note fail">Fails — use dark text on fill</div>
+      </div>
+    </div>
+    <div class="stage-nav">
+      <div class="stage-nav-logo">Alana Dubie</div>
+      <ul class="stage-nav-links"><li><a>Home</a></li><li><a>Projects</a></li><li><a>About</a></li><li><a>Contact</a></li></ul>
+    </div>
+    <div class="stage-label">Selected Projects · 2024</div>
+    <div class="stage-hero">Tropical Plants</div>
+    <p class="stage-body">A procedural Houdini tool for generating tropical plant varieties with ramp-controlled frond profiles.</p>
+    <div class="stage-btn-row">
+      <span class="s-btn s-btn-outline">Outline / Secondary</span>
+      <span class="s-btn s-btn-ghost">Ghost / Tertiary</span>
+    </div>
+    <div class="stage-badge-row">
+      <span class="s-badge s-badge-accent">Procedural</span>
+      <span class="s-badge s-badge-accent">Houdini</span>
+      <span class="s-badge s-badge-neutral">2024</span>
+      <span class="s-badge s-badge-neutral">3D</span>
+    </div>
+    <div class="stage-card">
+      <div class="stage-card-img">4 : 3 image</div>
+      <div class="stage-card-body">
+        <div class="stage-card-tag">Procedural</div>
+        <div class="stage-card-title">Tropical Plants</div>
+        <div class="stage-card-desc">A fully procedural Houdini tool for generating tropical plant varieties.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════ P5 — RANK 03 -->
+<section class="palette-stage" id="p5" style="--bg:#111113; --ink:#f5f4f4; --accent:#0090a3;">
+  <div class="stage-inner">
+    <div class="stage-head">
+      <div>
+        <div class="stage-num">Rank 03 · 4.96:1 · AA Pass</div>
+        <div class="stage-title">Harbor Teal</div>
+      </div>
+      <div class="stage-hexes">BG #111113 · 60%<br>SURFACE #f5f4f4 · 30%<br>ACCENT #0090a3 · 10%<br><span style="opacity:.6;">BORDER #094a54 · FILL #0e252a (derived)</span></div>
+    </div>
+    <div class="swatch-strip">
+      <div class="swatch-seg seg-60">#111113</div>
+      <div class="swatch-seg seg-30" style="background:#f5f4f4; color:#111113;">#f5f4f4</div>
+      <div class="swatch-seg seg-10" style="color:#f5f4f4;">#0090a3</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:18px; margin-bottom:24px; font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted);">
+      <span style="display:flex; align-items:center; gap:8px;">
+        <span style="width:20px; height:20px; border-radius:2px; border:2px solid #094a54; flex-shrink:0;"></span>
+        Border #094a54
+      </span>
+      <span style="display:flex; align-items:center; gap:8px;">
+        <span style="width:20px; height:20px; border-radius:2px; background:#0e252a; flex-shrink:0;"></span>
+        Fill #0e252a
+      </span>
+    </div>
+    <p class="rank-note">4.96:1 against the dark background — comfortably clears AA text. The tradeoff flips here though: as a fill color with surface text on top, it drops to 3.47:1, under the 4.5 AA floor (still clears the 3:1 UI minimum). Best used as direct text/icon color on dark backgrounds rather than as a button fill.</p>
+    <div class="contrast-panel">
+      <div class="contrast-cell">
+        <div class="contrast-label">Accent as text on BG</div>
+        <div class="contrast-sample" style="color:#0090a3;">Aa — 4.96:1</div>
+        <div class="contrast-note pass">AA pass</div>
+      </div>
+      <div class="contrast-cell">
+        <div class="contrast-label">Dark text on accent fill</div>
+        <div class="contrast-sample"><span style="background:#0090a3; color:#111113; padding:2px 8px; border-radius:2px; display:inline-block;">Aa — 4.96:1</span></div>
+        <div class="contrast-note pass">AA pass · use dark text on fill</div>
+      </div>
+      <div class="contrast-cell">
+        <div class="contrast-label">Surface text on accent fill</div>
+        <div class="contrast-sample"><span style="background:#0090a3; color:#f5f4f4; padding:2px 8px; border-radius:2px; display:inline-block;">Aa — 3.47:1</span></div>
+        <div class="contrast-note fail">Fails text (4.5) · passes UI (3.0)</div>
+      </div>
+    </div>
+    <div class="stage-nav">
+      <div class="stage-nav-logo">Alana Dubie</div>
+      <ul class="stage-nav-links"><li><a>Home</a></li><li><a>Projects</a></li><li><a>About</a></li><li><a>Contact</a></li></ul>
+    </div>
+    <div class="stage-label">Selected Projects · 2024</div>
+    <div class="stage-hero">Tropical Plants</div>
+    <p class="stage-body">A procedural Houdini tool for generating tropical plant varieties with ramp-controlled frond profiles.</p>
+    <div class="stage-btn-row">
+      <span class="s-btn s-btn-outline">Outline / Secondary</span>
+      <span class="s-btn s-btn-ghost">Ghost / Tertiary</span>
+    </div>
+    <div class="stage-badge-row">
+      <span class="s-badge s-badge-accent">Procedural</span>
+      <span class="s-badge s-badge-accent">Houdini</span>
+      <span class="s-badge s-badge-neutral">2024</span>
+      <span class="s-badge s-badge-neutral">3D</span>
+    </div>
+    <div class="stage-card">
+      <div class="stage-card-img">4 : 3 image</div>
+      <div class="stage-card-body">
+        <div class="stage-card-tag">Procedural</div>
+        <div class="stage-card-title">Tropical Plants</div>
+        <div class="stage-card-desc">A fully procedural Houdini tool for generating tropical plant varieties.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

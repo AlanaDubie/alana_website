@@ -1,0 +1,1354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design Doc — Rank 02 &amp; Rank 03 + Light — Alana Dubie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+
+/* ============================================================
+   RESET
+   ============================================================ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+
+/* ============================================================
+   GLOBAL DESIGN TOKENS
+   Copy this block into your site's :root
+   ============================================================ */
+:root {
+  /* Fonts */
+  --ff-serif:   "Fraunces", Georgia, serif;
+  --ff-grotesk: "Space Grotesk", "Helvetica Neue", sans-serif;
+
+  /* Border radius — 2px on everything */
+  --radius: 2px;
+
+  /* Type scale — Perfect Fourth (1.333×) — base 17px
+     Each step = previous × 1.333
+     --fs-hero   : display tier, lives outside scale via clamp()
+     --fs-h1     : 40.27px  — section headings, page titles
+     --fs-h2     : 30.21px  — project titles, sub-headings
+     --fs-body   : 17px     — base / body text
+     --fs-label  : 12.75px  — section labels, badges, tags (uppercase)
+     --fs-caption: 9.57px   — captions, metadata, nav links, buttons
+  */
+  --fs-hero:    clamp(3rem, 8vw, 5.5rem);
+  --fs-h1:      2.5169rem;
+  --fs-h2:      1.8881rem;
+  --fs-body:    1.0625rem;
+  --fs-label:   0.7969rem;
+  --fs-caption: 0.5981rem;
+
+  /* Spacing scale */
+  --sp-xs:  4px;
+  --sp-sm:  8px;
+  --sp-md:  16px;
+  --sp-lg:  24px;
+  --sp-xl:  40px;
+  --sp-2xl: 64px;
+  --sp-3xl: 96px;
+
+  /* Type gap tokens (spacing between type roles) */
+  --gap-hero-label:  48px;   /* Hero → Section Label  */
+  --gap-label-h1:    12px;   /* Section Label → H1    */
+  --gap-h1-h2:       24px;   /* H1 → H2               */
+  --gap-h2-body:     24px;   /* H2 → Body             */
+  --gap-body-body:   16px;   /* Body → Body           */
+  --gap-body-caption:24px;   /* Body → Caption        */
+}
+
+
+/* ============================================================
+   PALETTE TOKENS — injected per section via style attribute
+   Usage: <section style="--bg:#111113; --ink:#f5f4f4; --accent:#00aaa8;">
+   These derived tokens are auto-computed from --bg, --ink, --accent
+   ============================================================ */
+.palette-doc {
+  --muted:     color-mix(in srgb, var(--ink) 58%, transparent);
+  --muted-lo:  color-mix(in srgb, var(--ink) 38%, transparent);
+  --hair:      color-mix(in srgb, var(--ink) 10%, transparent);
+  --surface:   color-mix(in srgb, var(--ink) 4%,  var(--bg));
+  --surface2:  color-mix(in srgb, var(--ink) 7%,  var(--bg));
+  --accent-lo: color-mix(in srgb, var(--accent) 45%, transparent);
+  --accent-bg: color-mix(in srgb, var(--accent) 16%, transparent);
+  background: var(--bg);
+  color: var(--ink);
+  border-top: 1px solid #1a1a1a;
+}
+
+
+/* ============================================================
+   BASE BODY
+   ============================================================ */
+body {
+  background: #0a0a0a;
+  font-family: var(--ff-grotesk);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ============================================================
+   TYPOGRAPHY CLASSES
+   Apply these directly in your site HTML
+   ============================================================ */
+
+/* Hero — display name, above the fold */
+.t-hero {
+  font-family: var(--ff-serif);
+  font-size: var(--fs-hero);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+}
+.t-hero em { color: var(--accent); font-style: italic; }
+
+/* H1 — section headings, page titles */
+.t-h1 {
+  font-family: var(--ff-serif);
+  font-size: var(--fs-h1);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+/* H2 — project titles, sub-headings */
+.t-h2 {
+  font-family: var(--ff-serif);
+  font-size: var(--fs-h2);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+/* Body — paragraph text */
+.t-body {
+  font-family: var(--ff-grotesk);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+/* Section Label — uppercase accent label above headings */
+.t-label {
+  font-family: var(--ff-grotesk);
+  font-size: var(--fs-label);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Caption — metadata, timestamps, small notes */
+.t-caption {
+  font-family: var(--ff-grotesk);
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted-lo);
+}
+
+
+/* ============================================================
+   COMPONENT TOKENS
+   ============================================================ */
+
+/* Buttons */
+.btn {
+  font-family: var(--ff-grotesk);
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 11px 22px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  transition: opacity 0.2s;
+}
+.btn-outline { background: var(--accent-bg); color: var(--ink); border: 1px solid var(--accent-lo); }
+.btn-ghost   { background: transparent; color: var(--muted); border: 1px solid var(--hair); }
+
+/* Badges / Tags */
+.badge {
+  font-family: var(--ff-grotesk);
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: var(--radius);
+  display: inline-block;
+}
+.badge-accent  { color: var(--accent); background: var(--accent-bg); border: 1px solid var(--accent-lo); }
+.badge-neutral { color: var(--muted); border: 1px solid var(--hair); }
+
+/* Nav */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-lg) var(--sp-xl);
+}
+.nav-logo {
+  font-family: var(--ff-serif);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  color: var(--ink);
+}
+.nav-links { display: flex; gap: 26px; list-style: none; }
+.nav-links a {
+  font-family: var(--ff-grotesk);
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* Project Card */
+.card {
+  border: 1px solid var(--hair);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+  transition: border-color 0.2s;
+}
+.card:hover {
+  border: none;
+  padding: 1px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 55%, transparent), color-mix(in srgb, var(--accent) 15%, transparent));
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.card:hover .card-img  { border-radius: var(--radius) var(--radius) 0 0; }
+.card:hover .card-body { background: var(--bg); border-radius: 0 0 var(--radius) var(--radius); }
+.card-img {
+  height: 100px;
+  background: linear-gradient(135deg, var(--surface2), var(--surface));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-caption);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-lo);
+}
+.card-body { padding: var(--sp-md) 18px; }
+.card-tag {
+  font-family: var(--ff-grotesk);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--sp-xs);
+}
+.card-title {
+  font-family: var(--ff-serif);
+  font-size: var(--fs-h2);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: var(--sp-xs);
+}
+.card-desc {
+  font-family: var(--ff-grotesk);
+  font-size: var(--fs-label);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Dividers */
+.divider-gradient {
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0.35;
+  margin: var(--sp-sm) 0;
+}
+.divider-solid {
+  height: 1px;
+  background: var(--hair);
+  margin: var(--sp-sm) 0;
+}
+
+
+/* ============================================================
+   DOC SHELL — design doc chrome only, not for your site
+   ============================================================ */
+.doc-inner  { max-width: 960px; margin: 0 auto; padding: 72px 40px 96px; }
+.doc-head   { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: var(--sp-xl); padding-bottom: 18px; border-bottom: 1px solid var(--hair); }
+.doc-num    { font-size: var(--fs-caption); letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.doc-title  { font-family: var(--ff-serif); font-weight: 300; font-size: var(--fs-h1); letter-spacing: -0.02em; }
+.doc-hexes  { text-align: right; font-size: var(--fs-caption); letter-spacing: 0.1em; color: var(--muted); line-height: 1.9; }
+
+.section          { margin-bottom: 80px; }
+.section:last-child { margin-bottom: 0; }
+.section-header   { display: flex; align-items: baseline; gap: 16px; margin-bottom: 36px; padding-bottom: 14px; border-bottom: 1px solid var(--hair); }
+.section-num      { font-size: var(--fs-caption); letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); flex-shrink: 0; }
+.section-title    { font-family: var(--ff-serif); font-size: var(--fs-h1); font-weight: 300; letter-spacing: -0.025em; color: var(--ink); }
+
+.rank-note        { font-size: var(--fs-body); color: var(--muted); margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--hair); max-width: 60ch; line-height: 1.75; }
+.info-box         { padding: 18px 22px; background: var(--surface); border: 1px solid var(--hair); border-radius: var(--radius); font-size: var(--fs-label); color: var(--muted); line-height: 2; }
+.info-box strong  { color: var(--accent); font-weight: 400; }
+
+/* Swatch strip */
+.swatch-strip { display: flex; height: 56px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--hair); margin-bottom: var(--sp-lg); }
+.swatch-seg   { display: flex; flex-direction: column; justify-content: flex-end; padding: 7px 10px; font-size: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase; }
+.seg-60 { width: 60%; background: var(--bg); color: var(--muted); }
+.seg-30 { width: 30%; }
+.seg-10 { width: 10%; background: var(--accent); }
+.seg-30, .seg-10 { border-left: 1px solid var(--hair); }
+
+.derived-row { display: flex; align-items: center; gap: 18px; margin-bottom: var(--sp-lg); font-size: var(--fs-caption); letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+.derived-row span[data-chip] { display: flex; align-items: center; gap: 8px; }
+.chip { width: 20px; height: 20px; border-radius: var(--radius); flex-shrink: 0; }
+
+/* Typography section */
+.type-family       { padding: 36px 0; border-bottom: 1px solid var(--hair); }
+.type-family:last-child  { border-bottom: none; padding-bottom: 0; }
+.type-family:first-child { padding-top: 0; }
+.type-family-label { font-size: var(--fs-caption); letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+.type-specimen-large { font-family: var(--ff-serif); font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 300; letter-spacing: -0.03em; line-height: 1.05; color: var(--ink); margin-bottom: 12px; }
+.type-specimen-mono  { font-size: var(--fs-label); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; line-height: 2; }
+.type-rules          { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
+.type-rule-item      { padding: 12px 14px; background: var(--surface); border: 1px solid var(--hair); border-radius: var(--radius); font-size: var(--fs-label); color: var(--muted); line-height: 1.9; }
+.type-rule-item strong { display: block; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 4px; font-size: var(--fs-caption); font-weight: 400; }
+
+/* Hierarchy table */
+.hierarchy-table { width: 100%; border-collapse: collapse; }
+.hierarchy-table th { font-size: var(--fs-caption); letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); text-align: left; padding: 0 16px 12px 0; border-bottom: 1px solid var(--hair); }
+.hierarchy-table td { padding: 20px 16px 20px 0; border-bottom: 1px solid var(--hair); vertical-align: middle; }
+.hierarchy-table tr:last-child td { border-bottom: none; }
+.h-level { font-size: var(--fs-caption); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.h-specs { font-size: var(--fs-caption); color: var(--muted); line-height: 2; white-space: nowrap; }
+
+/* Spacing section */
+.spacing-rows { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row  { display: grid; grid-template-columns: 48px 1fr 48px; gap: 16px; align-items: center; }
+.sp-name { font-size: var(--fs-caption); letter-spacing: 0.25em; color: var(--muted); text-transform: uppercase; }
+.sp-bar-wrap { display: flex; align-items: center; }
+.sp-bar  { height: 6px; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 65%, var(--bg))); border-radius: 1px; }
+.sp-val  { font-size: var(--fs-caption); color: var(--accent); text-align: right; }
+
+/* Components doc chrome */
+.comp-sub-label { font-size: var(--fs-caption); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.btn-row        { display: flex; gap: 10px; flex-wrap: wrap; }
+.badge-row      { display: flex; gap: 8px; flex-wrap: wrap; }
+.card-grid      { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.card-state-label { font-size: var(--fs-caption); letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted-lo); margin-bottom: 8px; }
+
+/* Cover & intro */
+.cover       { max-width: 960px; margin: 0 auto; padding: 72px 40px 56px; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 32px; }
+.cover-name  { font-family: var(--ff-serif); font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 300; letter-spacing: -0.03em; line-height: 1; color: #f3f3f3; }
+.cover-name em { font-style: italic; color: #6b8a88; }
+.cover-meta p  { font-size: var(--fs-caption); letter-spacing: 0.2em; text-transform: uppercase; color: #6b6b6b; line-height: 2.2; }
+
+.intro         { max-width: 960px; margin: 0 auto; padding: 64px 40px 32px; color: #c7c7c7; }
+.intro-eyebrow { font-size: var(--fs-caption); letter-spacing: 0.2em; text-transform: uppercase; color: #6b8a88; margin-bottom: 18px; }
+.intro h1      { font-family: var(--ff-serif); font-weight: 300; font-size: var(--fs-h1); letter-spacing: -0.03em; color: #f3f3f3; margin-bottom: 14px; }
+.intro p       { font-size: var(--fs-body); color: #8d8d8d; max-width: 56ch; line-height: 1.75; }
+
+.quicknav   { display: flex; gap: 6px; flex-wrap: wrap; max-width: 960px; margin: 28px auto 0; padding: 0 40px 64px; }
+.quicknav a { font-size: var(--fs-caption); letter-spacing: 0.2em; text-transform: uppercase; color: #8d8d8d; text-decoration: none; padding: 7px 14px; border: 1px solid #2a2a2a; border-radius: var(--radius); }
+.quicknav a span { opacity: .5; margin-right: 6px; }
+
+/* Demo nav used at bottom of each palette section */
+.stage-nav       { display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; background: var(--surface); border: 1px solid var(--hair); border-radius: var(--radius); margin-bottom: var(--sp-lg); }
+.stage-nav-logo  { font-family: var(--ff-serif); font-size: var(--fs-body); font-weight: 400; }
+.stage-nav-links { display: flex; gap: 26px; list-style: none; }
+.stage-nav-links a { font-size: var(--fs-caption); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.stage-nav-links a:hover { color: var(--accent); }
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 620px) {
+  .doc-inner   { padding: 48px 24px 64px; }
+  .cover       { padding: 48px 24px 40px; }
+  .type-rules  { grid-template-columns: 1fr; }
+  .card-grid   { grid-template-columns: 1fr; }
+  .hierarchy-table, .hierarchy-table tbody, .hierarchy-table tr, .hierarchy-table td { display: block; }
+  .hierarchy-table th { display: none; }
+  .hierarchy-table tr { padding: 16px 0; border-bottom: 1px solid var(--hair); }
+  .hierarchy-table td { padding: 4px 0; border-bottom: none; }
+}
+
+</style>
+</head>
+<body>
+
+
+<!-- ── Cover ──────────────────────────────────────────────── -->
+<div class="cover">
+  <h1 class="cover-name">Alana<br /><em>Dubie</em></h1>
+  <div class="cover-meta">
+    <p>Brand Style Guide</p>
+    <p>v1.0 · June 2026</p>
+    <p>Portfolio · Technical Artist</p>
+  </div>
+</div>
+
+<div class="intro">
+  <div class="intro-eyebrow">Design Doc · Rank 02 &amp; Rank 03 · + Light Variants</div>
+  <h1>Muted Cyan &amp; Harbor Teal</h1>
+  <p>Typography, type hierarchy, and spacing specs applied on top of the two runner-up palettes from Color Test v4. Same Fraunces / Space Grotesk pairing and 2px radius system as the primary doc — only the bg, surface, and accent values change between sections below. Two light "sand" background options are included at the end — same ink and accent, only the background hex differs.</p>
+</div>
+
+<div class="quicknav">
+  <a href="#p2-colors"><span>02·1</span>Muted Cyan — Colors</a>
+  <a href="#p2-type"><span>02·2</span>Muted Cyan — Type</a>
+  <a href="#p2-hierarchy"><span>02·3</span>Muted Cyan — Hierarchy</a>
+  <a href="#p2-spacing"><span>02·4</span>Muted Cyan — Spacing</a>
+  <a href="#p2-components"><span>02·5</span>Muted Cyan — Components</a>
+  <a href="#p5-colors"><span>03·1</span>Harbor Teal — Colors</a>
+  <a href="#p5-type"><span>03·2</span>Harbor Teal — Type</a>
+  <a href="#p5-hierarchy"><span>03·3</span>Harbor Teal — Hierarchy</a>
+  <a href="#p5-spacing"><span>03·4</span>Harbor Teal — Spacing</a>
+  <a href="#p5-components"><span>03·5</span>Harbor Teal — Components</a>
+  <a href="#pl-b-colors"><span>L·B·1</span>Light Sand B — Colors</a>
+  <a href="#pl-b-type"><span>L·B·2</span>Light Sand B — Type</a>
+  <a href="#pl-b-hierarchy"><span>L·B·3</span>Light Sand B — Hierarchy</a>
+  <a href="#pl-b-spacing"><span>L·B·4</span>Light Sand B — Spacing</a>
+  <a href="#pl-b-components"><span>L·B·5</span>Light Sand B — Components</a>
+  <a href="#pl-d-colors"><span>L·D·1</span>Light Sand D — Colors</a>
+  <a href="#pl-d-type"><span>L·D·2</span>Light Sand D — Type</a>
+  <a href="#pl-d-hierarchy"><span>L·D·3</span>Light Sand D — Hierarchy</a>
+  <a href="#pl-d-spacing"><span>L·D·4</span>Light Sand D — Spacing</a>
+  <a href="#pl-d-components"><span>L·D·5</span>Light Sand D — Components</a>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     RANK 02 — MUTED CYAN  #00aaa8
+     ══════════════════════════════════════════════════════════ -->
+<section class="palette-doc" id="p2-colors" style="--bg:#111113; --ink:#f5f4f4; --accent:#00aaa8;">
+  <div class="doc-inner">
+
+    <div class="doc-head">
+      <div>
+        <div class="doc-num">Rank 02 · 6.57:1 · AA Pass</div>
+        <div class="doc-title">Muted Cyan</div>
+      </div>
+      <div class="doc-hexes">
+        BG #111113 · 60%<br>
+        SURFACE #f5f4f4 · 30%<br>
+        ACCENT #00aaa8 · 10%<br>
+        <span style="opacity:.6;">BORDER #095656 · FILL #0e292b (derived)</span>
+      </div>
+    </div>
+
+    <div class="swatch-strip">
+      <div class="swatch-seg seg-60">#111113</div>
+      <div class="swatch-seg seg-30" style="background:#f5f4f4; color:#111113;">#f5f4f4</div>
+      <div class="swatch-seg seg-10" style="color:#111113;">#00aaa8</div>
+    </div>
+
+    <div class="derived-row">
+      <span data-chip><span class="chip" style="border:2px solid #095656;"></span>Border #095656</span>
+      <span data-chip><span class="chip" style="background:#0e292b;"></span>Fill #0e292b</span>
+    </div>
+
+    <p class="rank-note">6.57:1 — comfortably clears AA, the calmest of the three passing accents. Reads as a slightly greener, more desaturated teal vs the rank 01 cyan. Dark text on the accent fill lands at 6.57:1 (AA + AAA); surface text on the fill drops to 2.61:1 and fails — keep dark text on any accent-filled surface.</p>
+
+    <!-- ── 02·2 Typography ────────────────────────────────── -->
+    <div class="section" id="p2-type">
+      <div class="section-header">
+        <span class="section-num">02·2</span>
+        <h2 class="section-title">Typography</h2>
+      </div>
+
+      <div class="type-family">
+        <div class="type-family-label">Fraunces · Serif · Display &amp; Headings</div>
+        <div class="type-specimen-large">Tropical Plants<br /><em style="font-style:italic;">Procedural Tool</em></div>
+        <div class="type-rules">
+          <div class="type-rule-item"><strong>Use for</strong>Hero name, section headings, project titles, pull-quotes</div>
+          <div class="type-rule-item"><strong>Weights</strong>300 Light — primary use<br />300 Italic — name &amp; emphasis</div>
+          <div class="type-rule-item"><strong>Tracking</strong>Always negative<br />−0.02em to −0.03em</div>
+        </div>
+      </div>
+
+      <div class="type-family">
+        <div class="type-family-label">Space Grotesk · Sans-Serif · UI, Body &amp; Labels</div>
+        <div class="type-specimen-mono">Technical Artist · Houdini · Unity · Python · C#<br />Selected Projects · 2024 · Procedural · 3D</div>
+        <div class="type-rules">
+          <div class="type-rule-item"><strong>Use for</strong>Nav links, section labels, body text, captions, badges, tags</div>
+          <div class="type-rule-item"><strong>Weights</strong>400 Regular — all standard use<br />700 Bold — numbers only</div>
+          <div class="type-rule-item"><strong>Tracking</strong>Labels/tags: 0.2em<br />Body/paragraphs: 0em</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 02·3 Type Hierarchy ────────────────────────────── -->
+    <div class="section" id="p2-hierarchy">
+      <div class="section-header">
+        <span class="section-num">02·3</span>
+        <h2 class="section-title">Type Hierarchy</h2>
+      </div>
+
+      <table class="hierarchy-table">
+        <thead>
+          <tr>
+            <th style="width:110px;">Level</th>
+            <th>Specimen</th>
+            <th style="width:220px;">Specs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="h-level">Hero</td>
+            <td style="padding:12px 0 48px;"><span class="t-hero">Alana<br /><em>Dubie</em></span></td>
+            <td class="h-specs">Fraunces Italic · 300<br />clamp(3rem, 8vw, 5.5rem) · Display tier<br />Tracking −0.03em · Line-height 1<br />Class: <code>.t-hero</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Heading 1</td>
+            <td style="padding:12px 0 24px;"><span class="t-h1">Selected Work</span></td>
+            <td class="h-specs">Fraunces · 300<br />var(--fs-h1) · 2.5169rem · 40.27px<br />Tracking −0.025em<br />Class: <code>.t-h1</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Heading 2</td>
+            <td style="padding:12px 0 24px;"><span class="t-h2">Tropical Plants Tool</span></td>
+            <td class="h-specs">Fraunces · 300<br />var(--fs-h2) · 1.8881rem · 30.21px<br />Tracking −0.02em<br />Class: <code>.t-h2</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Body</td>
+            <td><span class="t-body">A procedural Houdini tool for generating tropical plant varieties with ramp-controlled frond profiles.</span></td>
+            <td class="h-specs">Space Grotesk · 400<br />var(--fs-body) · 1.0625rem · 17px<br />Line-height 1.75 · Muted 58%<br />Class: <code>.t-body</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Section Label</td>
+            <td><span class="t-label">Selected Projects · 2024</span></td>
+            <td class="h-specs">Space Grotesk · 400 · Uppercase<br />var(--fs-label) · 0.7969rem · 12.75px<br />Tracking 0.2em · Accent full<br />Class: <code>.t-label</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Caption</td>
+            <td><span class="t-caption">variations of scatter seed, leaf count, bend angle, color ramp, and layer configuration.</span></td>
+            <td class="h-specs">Space Grotesk · 400 · Uppercase<br />var(--fs-caption) · 0.5981rem · 9.57px<br />Tracking 0.3em · Muted-lo<br />Class: <code>.t-caption</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box" style="margin-top:14px;">
+        <strong>Type scale — Perfect Fourth (1.333×) · Base 17px</strong><br />
+        Each step multiplies by 1.333: 9.57 → 12.75 → 17 → 22.66 → 30.21 → 40.27px<br />
+        Hero lives outside the numbered scale on its own display tier via clamp().<br />
+        Reference: typescale.com · utopia.fyi
+      </div>
+    </div>
+
+    <!-- ── 02·4 Spacing & Radius ──────────────────────────── -->
+    <div class="section" id="p2-spacing">
+      <div class="section-header">
+        <span class="section-num">02·4</span>
+        <h2 class="section-title">Spacing &amp; Radius</h2>
+      </div>
+
+      <div class="spacing-rows">
+        <div class="spacing-row"><span class="sp-name">XS</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:4px;"></div></div><span class="sp-val">4px · --sp-xs</span></div>
+        <div class="spacing-row"><span class="sp-name">SM</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:8px;"></div></div><span class="sp-val">8px · --sp-sm</span></div>
+        <div class="spacing-row"><span class="sp-name">MD</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:16px;"></div></div><span class="sp-val">16px · --sp-md</span></div>
+        <div class="spacing-row"><span class="sp-name">LG</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:24px;"></div></div><span class="sp-val">24px · --sp-lg</span></div>
+        <div class="spacing-row"><span class="sp-name">XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:40px;"></div></div><span class="sp-val">40px · --sp-xl</span></div>
+        <div class="spacing-row"><span class="sp-name">2XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:64px;"></div></div><span class="sp-val">64px · --sp-2xl</span></div>
+        <div class="spacing-row"><span class="sp-name">3XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:96px;"></div></div><span class="sp-val">96px · --sp-3xl</span></div>
+      </div>
+
+      <div class="info-box" style="margin-top:20px;">
+        <strong>Common uses</strong><br />
+        Major section gap: <span style="color:var(--ink);">96px (--sp-3xl)</span> &nbsp;·&nbsp;
+        Card inner padding: <span style="color:var(--ink);">32–40px (--sp-xl)</span> &nbsp;·&nbsp;
+        Gap between cards: <span style="color:var(--ink);">24px (--sp-lg)</span><br />
+        Nav padding: <span style="color:var(--ink);">24px vertical (--sp-lg) / 40px horizontal (--sp-xl)</span><br />
+        <strong>Type gaps —</strong>
+        Hero → Label: <span style="color:var(--ink);">48px (--gap-hero-label)</span> &nbsp;·&nbsp;
+        Label → H1: <span style="color:var(--ink);">12px (--gap-label-h1)</span> &nbsp;·&nbsp;
+        H1 → H2: <span style="color:var(--ink);">24px (--gap-h1-h2)</span> &nbsp;·&nbsp;
+        H2 → Body: <span style="color:var(--ink);">24px (--gap-h2-body)</span> &nbsp;·&nbsp;
+        Body → Body: <span style="color:var(--ink);">16px (--gap-body-body)</span> &nbsp;·&nbsp;
+        Body → Caption: <span style="color:var(--ink);">24px (--gap-body-caption)</span>
+      </div>
+
+      <div class="info-box" style="margin-top:10px;">
+        <strong>Border Radius</strong> — <span style="color:var(--ink);">2px on everything · var(--radius)</span><br />
+        Cards, buttons, badges, inputs, modals, containers. Enough softness to feel intentional, never rounded or casual.
+      </div>
+    </div>
+
+    <!-- ── 02·5 Components ────────────────────────────────── -->
+    <div class="section" id="p2-components">
+      <div class="section-header">
+        <span class="section-num">02·5</span>
+        <h2 class="section-title">Components</h2>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Buttons</div>
+      <div class="btn-row" style="margin-bottom:28px;">
+        <span class="btn btn-outline">Outline / Secondary</span>
+        <span class="btn btn-ghost">Ghost / Tertiary</span>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Badges &amp; Tags</div>
+      <div class="badge-row" style="margin-bottom:36px;">
+        <span class="badge badge-accent">Procedural</span>
+        <span class="badge badge-accent">Houdini</span>
+        <span class="badge badge-neutral">2024</span>
+        <span class="badge badge-neutral">3D</span>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Dividers</div>
+      <div style="margin-bottom:36px;">
+        <p class="t-caption" style="margin-bottom:6px; text-transform:none; letter-spacing:0;">Gradient (accent → transparent)</p>
+        <div class="divider-gradient"></div>
+        <p class="t-caption" style="margin:12px 0 6px; text-transform:none; letter-spacing:0;">Solid border</p>
+        <div class="divider-solid"></div>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Project Card</div>
+      <div class="card-grid">
+        <div>
+          <div class="card-state-label">Default</div>
+          <div class="card">
+            <div class="card-img">4 : 3 image</div>
+            <div class="card-body">
+              <div class="card-tag">Procedural</div>
+              <div class="card-title">Tropical Plants</div>
+              <div class="card-desc">A fully procedural Houdini tool for generating tropical plant varieties.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card-state-label">Hover</div>
+          <div class="card" style="border:none; padding:1px; background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 55%, transparent), color-mix(in srgb, var(--accent) 15%, transparent)); box-shadow:0 0 16px color-mix(in srgb, var(--accent) 12%, transparent);">
+            <div class="card-img" style="border-radius:var(--radius) var(--radius) 0 0;">4 : 3 image</div>
+            <div class="card-body" style="background:var(--bg); border-radius:0 0 var(--radius) var(--radius);">
+              <div class="card-tag">Procedural</div>
+              <div class="card-title">Tropical Plants</div>
+              <div class="card-desc">A fully procedural Houdini tool for generating tropical plant varieties.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top:14px;">
+        <strong>Card hover border</strong> — Gradient border via 1px wrapper technique: border: none · padding: 1px · background: linear-gradient(135deg, accent → accent 30%). CSS border-image cannot be used with border-radius — wrapper is the correct approach.
+      </div>
+    </div>
+
+    <div class="stage-nav" style="margin-top:48px;">
+      <div class="stage-nav-logo">Alana Dubie</div>
+      <ul class="stage-nav-links">
+        <li><a>Home</a></li>
+        <li><a>Projects</a></li>
+        <li><a>About</a></li>
+        <li><a>Contact</a></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     RANK 03 — HARBOR TEAL  #0090a3
+     ══════════════════════════════════════════════════════════ -->
+<section class="palette-doc" id="p5-colors" style="--bg:#111113; --ink:#f5f4f4; --accent:#0090a3;">
+  <div class="doc-inner">
+
+    <div class="doc-head">
+      <div>
+        <div class="doc-num">Rank 03 · 5.93:1 · AA Pass</div>
+        <div class="doc-title">Harbor Teal</div>
+      </div>
+      <div class="doc-hexes">
+        BG #111113 · 60%<br>
+        SURFACE #f5f4f4 · 30%<br>
+        ACCENT #0090a3 · 10%<br>
+        <span style="opacity:.6;">BORDER #084a52 · FILL #0b2428 (derived)</span>
+      </div>
+    </div>
+
+    <div class="swatch-strip">
+      <div class="swatch-seg seg-60">#111113</div>
+      <div class="swatch-seg seg-30" style="background:#f5f4f4; color:#111113;">#f5f4f4</div>
+      <div class="swatch-seg seg-10" style="color:#111113;">#0090a3</div>
+    </div>
+
+    <div class="derived-row">
+      <span data-chip><span class="chip" style="border:2px solid #084a52;"></span>Border #084a52</span>
+      <span data-chip><span class="chip" style="background:#0b2428;"></span>Fill #0b2428</span>
+    </div>
+
+    <p class="rank-note">5.93:1 — narrowly clears AA. A deeper, more blue-shifted teal vs rank 02. Slightly more serious in tone. Same rules apply: dark text only on accent-filled surfaces; never light text on the fill.</p>
+
+    <!-- ── 03·2 Typography ────────────────────────────────── -->
+    <div class="section" id="p5-type">
+      <div class="section-header">
+        <span class="section-num">03·2</span>
+        <h2 class="section-title">Typography</h2>
+      </div>
+
+      <div class="type-family">
+        <div class="type-family-label">Fraunces · Serif · Display &amp; Headings</div>
+        <div class="type-specimen-large">Tropical Plants<br /><em style="font-style:italic;">Procedural Tool</em></div>
+        <div class="type-rules">
+          <div class="type-rule-item"><strong>Use for</strong>Hero name, section headings, project titles, pull-quotes</div>
+          <div class="type-rule-item"><strong>Weights</strong>300 Light — primary use<br />300 Italic — name &amp; emphasis</div>
+          <div class="type-rule-item"><strong>Tracking</strong>Always negative<br />−0.02em to −0.03em</div>
+        </div>
+      </div>
+
+      <div class="type-family">
+        <div class="type-family-label">Space Grotesk · Sans-Serif · UI, Body &amp; Labels</div>
+        <div class="type-specimen-mono">Technical Artist · Houdini · Unity · Python · C#<br />Selected Projects · 2024 · Procedural · 3D</div>
+        <div class="type-rules">
+          <div class="type-rule-item"><strong>Use for</strong>Nav links, section labels, body text, captions, badges, tags</div>
+          <div class="type-rule-item"><strong>Weights</strong>400 Regular — all standard use<br />700 Bold — numbers only</div>
+          <div class="type-rule-item"><strong>Tracking</strong>Labels/tags: 0.2em<br />Body/paragraphs: 0em</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 03·3 Type Hierarchy ────────────────────────────── -->
+    <div class="section" id="p5-hierarchy">
+      <div class="section-header">
+        <span class="section-num">03·3</span>
+        <h2 class="section-title">Type Hierarchy</h2>
+      </div>
+
+      <table class="hierarchy-table">
+        <thead>
+          <tr>
+            <th style="width:110px;">Level</th>
+            <th>Specimen</th>
+            <th style="width:220px;">Specs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="h-level">Hero</td>
+            <td style="padding:12px 0 48px;"><span class="t-hero">Alana<br /><em>Dubie</em></span></td>
+            <td class="h-specs">Fraunces Italic · 300<br />clamp(3rem, 8vw, 5.5rem) · Display tier<br />Tracking −0.03em · Line-height 1<br />Class: <code>.t-hero</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Heading 1</td>
+            <td style="padding:12px 0 24px;"><span class="t-h1">Selected Work</span></td>
+            <td class="h-specs">Fraunces · 300<br />var(--fs-h1) · 2.5169rem · 40.27px<br />Tracking −0.025em<br />Class: <code>.t-h1</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Heading 2</td>
+            <td style="padding:12px 0 24px;"><span class="t-h2">Tropical Plants Tool</span></td>
+            <td class="h-specs">Fraunces · 300<br />var(--fs-h2) · 1.8881rem · 30.21px<br />Tracking −0.02em<br />Class: <code>.t-h2</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Body</td>
+            <td><span class="t-body">A procedural Houdini tool for generating tropical plant varieties with ramp-controlled frond profiles.</span></td>
+            <td class="h-specs">Space Grotesk · 400<br />var(--fs-body) · 1.0625rem · 17px<br />Line-height 1.75 · Muted 58%<br />Class: <code>.t-body</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Section Label</td>
+            <td><span class="t-label">Selected Projects · 2024</span></td>
+            <td class="h-specs">Space Grotesk · 400 · Uppercase<br />var(--fs-label) · 0.7969rem · 12.75px<br />Tracking 0.2em · Accent full<br />Class: <code>.t-label</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Caption</td>
+            <td><span class="t-caption">variations of scatter seed, leaf count, bend angle, color ramp, and layer configuration.</span></td>
+            <td class="h-specs">Space Grotesk · 400 · Uppercase<br />var(--fs-caption) · 0.5981rem · 9.57px<br />Tracking 0.3em · Muted-lo<br />Class: <code>.t-caption</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box" style="margin-top:14px;">
+        <strong>Type scale — Perfect Fourth (1.333×) · Base 17px</strong><br />
+        Each step multiplies by 1.333: 9.57 → 12.75 → 17 → 22.66 → 30.21 → 40.27px<br />
+        Hero lives outside the numbered scale on its own display tier via clamp().<br />
+        Reference: typescale.com · utopia.fyi
+      </div>
+    </div>
+
+    <!-- ── 03·4 Spacing & Radius ──────────────────────────── -->
+    <div class="section" id="p5-spacing">
+      <div class="section-header">
+        <span class="section-num">03·4</span>
+        <h2 class="section-title">Spacing &amp; Radius</h2>
+      </div>
+
+      <div class="spacing-rows">
+        <div class="spacing-row"><span class="sp-name">XS</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:4px;"></div></div><span class="sp-val">4px · --sp-xs</span></div>
+        <div class="spacing-row"><span class="sp-name">SM</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:8px;"></div></div><span class="sp-val">8px · --sp-sm</span></div>
+        <div class="spacing-row"><span class="sp-name">MD</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:16px;"></div></div><span class="sp-val">16px · --sp-md</span></div>
+        <div class="spacing-row"><span class="sp-name">LG</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:24px;"></div></div><span class="sp-val">24px · --sp-lg</span></div>
+        <div class="spacing-row"><span class="sp-name">XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:40px;"></div></div><span class="sp-val">40px · --sp-xl</span></div>
+        <div class="spacing-row"><span class="sp-name">2XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:64px;"></div></div><span class="sp-val">64px · --sp-2xl</span></div>
+        <div class="spacing-row"><span class="sp-name">3XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:96px;"></div></div><span class="sp-val">96px · --sp-3xl</span></div>
+      </div>
+
+      <div class="info-box" style="margin-top:20px;">
+        <strong>Common uses</strong><br />
+        Major section gap: <span style="color:var(--ink);">96px (--sp-3xl)</span> &nbsp;·&nbsp;
+        Card inner padding: <span style="color:var(--ink);">32–40px (--sp-xl)</span> &nbsp;·&nbsp;
+        Gap between cards: <span style="color:var(--ink);">24px (--sp-lg)</span><br />
+        Nav padding: <span style="color:var(--ink);">24px vertical (--sp-lg) / 40px horizontal (--sp-xl)</span><br />
+        <strong>Type gaps —</strong>
+        Hero → Label: <span style="color:var(--ink);">48px (--gap-hero-label)</span> &nbsp;·&nbsp;
+        Label → H1: <span style="color:var(--ink);">12px (--gap-label-h1)</span> &nbsp;·&nbsp;
+        H1 → H2: <span style="color:var(--ink);">24px (--gap-h1-h2)</span> &nbsp;·&nbsp;
+        H2 → Body: <span style="color:var(--ink);">24px (--gap-h2-body)</span> &nbsp;·&nbsp;
+        Body → Body: <span style="color:var(--ink);">16px (--gap-body-body)</span> &nbsp;·&nbsp;
+        Body → Caption: <span style="color:var(--ink);">24px (--gap-body-caption)</span>
+      </div>
+
+      <div class="info-box" style="margin-top:10px;">
+        <strong>Border Radius</strong> — <span style="color:var(--ink);">2px on everything · var(--radius)</span><br />
+        Cards, buttons, badges, inputs, modals, containers. Enough softness to feel intentional, never rounded or casual.
+      </div>
+    </div>
+
+    <!-- ── 03·5 Components ────────────────────────────────── -->
+    <div class="section" id="p5-components">
+      <div class="section-header">
+        <span class="section-num">03·5</span>
+        <h2 class="section-title">Components</h2>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Buttons</div>
+      <div class="btn-row" style="margin-bottom:28px;">
+        <span class="btn btn-outline">Outline / Secondary</span>
+        <span class="btn btn-ghost">Ghost / Tertiary</span>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Badges &amp; Tags</div>
+      <div class="badge-row" style="margin-bottom:36px;">
+        <span class="badge badge-accent">Procedural</span>
+        <span class="badge badge-accent">Houdini</span>
+        <span class="badge badge-neutral">2024</span>
+        <span class="badge badge-neutral">3D</span>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Dividers</div>
+      <div style="margin-bottom:36px;">
+        <p class="t-caption" style="margin-bottom:6px; text-transform:none; letter-spacing:0;">Gradient (accent → transparent)</p>
+        <div class="divider-gradient"></div>
+        <p class="t-caption" style="margin:12px 0 6px; text-transform:none; letter-spacing:0;">Solid border</p>
+        <div class="divider-solid"></div>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Project Card</div>
+      <div class="card-grid">
+        <div>
+          <div class="card-state-label">Default</div>
+          <div class="card">
+            <div class="card-img">4 : 3 image</div>
+            <div class="card-body">
+              <div class="card-tag">Procedural</div>
+              <div class="card-title">Tropical Plants</div>
+              <div class="card-desc">A fully procedural Houdini tool for generating tropical plant varieties.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card-state-label">Hover</div>
+          <div class="card" style="border:none; padding:1px; background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 55%, transparent), color-mix(in srgb, var(--accent) 15%, transparent)); box-shadow:0 0 16px color-mix(in srgb, var(--accent) 12%, transparent);">
+            <div class="card-img" style="border-radius:var(--radius) var(--radius) 0 0;">4 : 3 image</div>
+            <div class="card-body" style="background:var(--bg); border-radius:0 0 var(--radius) var(--radius);">
+              <div class="card-tag">Procedural</div>
+              <div class="card-title">Tropical Plants</div>
+              <div class="card-desc">A fully procedural Houdini tool for generating tropical plant varieties.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top:14px;">
+        <strong>Card hover border</strong> — Gradient border via 1px wrapper technique: border: none · padding: 1px · background: linear-gradient(135deg, accent → accent 30%). CSS border-image cannot be used with border-radius — wrapper is the correct approach.
+      </div>
+    </div>
+
+    <div class="stage-nav" style="margin-top:48px;">
+      <div class="stage-nav-logo">Alana Dubie</div>
+      <ul class="stage-nav-links">
+        <li><a>Home</a></li>
+        <li><a>Projects</a></li>
+        <li><a>About</a></li>
+        <li><a>Contact</a></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     LIGHT — SAND — OPTION B  #0c6462
+     ══════════════════════════════════════════════════════════ -->
+<section class="palette-doc" id="pl-b-colors" style="--bg:#f0ded1; --ink:#3b3128; --accent:#0c6462;">
+  <div class="doc-inner">
+
+    <div class="doc-head">
+      <div>
+        <div class="doc-num">Light · Sand — Option B · 5.33:1 · AA Pass</div>
+        <div class="doc-title">Sand — Option B</div>
+      </div>
+      <div class="doc-hexes">
+        BG #F0DED1 · 60%<br>
+        SURFACE #3B3128 · 30%<br>
+        ACCENT #0C6462 · 10%<br>
+        <span style="opacity:.6;">BORDER #ACB9B0 · FILL #CCCABF (derived)</span>
+      </div>
+    </div>
+
+    <div class="swatch-strip">
+      <div class="swatch-seg seg-60">#F0DED1</div>
+      <div class="swatch-seg seg-30" style="background:#3b3128; color:#f0ded1;">#3B3128</div>
+      <div class="swatch-seg seg-10" style="color:#f0ded1;">#0C6462</div>
+    </div>
+
+    <div class="derived-row">
+      <span data-chip><span class="chip" style="border:2px solid #acb9b0;"></span>Border #ACB9B0</span>
+      <span data-chip><span class="chip" style="background:#cccabf;"></span>Fill #CCCABF</span>
+    </div>
+
+    <p class="rank-note">5.33:1 — clears AA for normal text. Ink contrast against this background is 9.71:1. This is the balanced sand tone — moderate warmth, sits between the brighter and duskier options tested. Light (bg-colored) text on the accent fill lands at 5.33:1 (AA pass); dark ink text on the fill drops to 1.82:1 and fails — keep light text on any accent-filled surface.</p>
+
+    <!-- ── 02·2 Typography ────────────────────────────────── -->
+    <div class="section" id="pl-b-type">
+      <div class="section-header">
+        <span class="section-num">B·2</span>
+        <h2 class="section-title">Typography</h2>
+      </div>
+
+      <div class="type-family">
+        <div class="type-family-label">Fraunces · Serif · Display &amp; Headings</div>
+        <div class="type-specimen-large">Tropical Plants<br /><em style="font-style:italic;">Procedural Tool</em></div>
+        <div class="type-rules">
+          <div class="type-rule-item"><strong>Use for</strong>Hero name, section headings, project titles, pull-quotes</div>
+          <div class="type-rule-item"><strong>Weights</strong>300 Light — primary use<br />300 Italic — name &amp; emphasis</div>
+          <div class="type-rule-item"><strong>Tracking</strong>Always negative<br />−0.02em to −0.03em</div>
+        </div>
+      </div>
+
+      <div class="type-family">
+        <div class="type-family-label">Space Grotesk · Sans-Serif · UI, Body &amp; Labels</div>
+        <div class="type-specimen-mono">Technical Artist · Houdini · Unity · Python · C#<br />Selected Projects · 2024 · Procedural · 3D</div>
+        <div class="type-rules">
+          <div class="type-rule-item"><strong>Use for</strong>Nav links, section labels, body text, captions, badges, tags</div>
+          <div class="type-rule-item"><strong>Weights</strong>400 Regular — all standard use<br />700 Bold — numbers only</div>
+          <div class="type-rule-item"><strong>Tracking</strong>Labels/tags: 0.2em<br />Body/paragraphs: 0em</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 02·3 Type Hierarchy ────────────────────────────── -->
+    <div class="section" id="pl-b-hierarchy">
+      <div class="section-header">
+        <span class="section-num">B·3</span>
+        <h2 class="section-title">Type Hierarchy</h2>
+      </div>
+
+      <table class="hierarchy-table">
+        <thead>
+          <tr>
+            <th style="width:110px;">Level</th>
+            <th>Specimen</th>
+            <th style="width:220px;">Specs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="h-level">Hero</td>
+            <td style="padding:12px 0 48px;"><span class="t-hero">Alana<br /><em>Dubie</em></span></td>
+            <td class="h-specs">Fraunces Italic · 300<br />clamp(3rem, 8vw, 5.5rem) · Display tier<br />Tracking −0.03em · Line-height 1<br />Class: <code>.t-hero</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Heading 1</td>
+            <td style="padding:12px 0 24px;"><span class="t-h1">Selected Work</span></td>
+            <td class="h-specs">Fraunces · 300<br />var(--fs-h1) · 2.5169rem · 40.27px<br />Tracking −0.025em<br />Class: <code>.t-h1</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Heading 2</td>
+            <td style="padding:12px 0 24px;"><span class="t-h2">Tropical Plants Tool</span></td>
+            <td class="h-specs">Fraunces · 300<br />var(--fs-h2) · 1.8881rem · 30.21px<br />Tracking −0.02em<br />Class: <code>.t-h2</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Body</td>
+            <td><span class="t-body">A procedural Houdini tool for generating tropical plant varieties with ramp-controlled frond profiles.</span></td>
+            <td class="h-specs">Space Grotesk · 400<br />var(--fs-body) · 1.0625rem · 17px<br />Line-height 1.75 · Muted 58%<br />Class: <code>.t-body</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Section Label</td>
+            <td><span class="t-label">Selected Projects · 2024</span></td>
+            <td class="h-specs">Space Grotesk · 400 · Uppercase<br />var(--fs-label) · 0.7969rem · 12.75px<br />Tracking 0.2em · Accent full<br />Class: <code>.t-label</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Caption</td>
+            <td><span class="t-caption">variations of scatter seed, leaf count, bend angle, color ramp, and layer configuration.</span></td>
+            <td class="h-specs">Space Grotesk · 400 · Uppercase<br />var(--fs-caption) · 0.5981rem · 9.57px<br />Tracking 0.3em · Muted-lo<br />Class: <code>.t-caption</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box" style="margin-top:14px;">
+        <strong>Type scale — Perfect Fourth (1.333×) · Base 17px</strong><br />
+        Each step multiplies by 1.333: 9.57 → 12.75 → 17 → 22.66 → 30.21 → 40.27px<br />
+        Hero lives outside the numbered scale on its own display tier via clamp().<br />
+        Reference: typescale.com · utopia.fyi
+      </div>
+    </div>
+
+    <!-- ── 02·4 Spacing & Radius ──────────────────────────── -->
+    <div class="section" id="pl-b-spacing">
+      <div class="section-header">
+        <span class="section-num">B·4</span>
+        <h2 class="section-title">Spacing &amp; Radius</h2>
+      </div>
+
+      <div class="spacing-rows">
+        <div class="spacing-row"><span class="sp-name">XS</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:4px;"></div></div><span class="sp-val">4px · --sp-xs</span></div>
+        <div class="spacing-row"><span class="sp-name">SM</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:8px;"></div></div><span class="sp-val">8px · --sp-sm</span></div>
+        <div class="spacing-row"><span class="sp-name">MD</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:16px;"></div></div><span class="sp-val">16px · --sp-md</span></div>
+        <div class="spacing-row"><span class="sp-name">LG</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:24px;"></div></div><span class="sp-val">24px · --sp-lg</span></div>
+        <div class="spacing-row"><span class="sp-name">XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:40px;"></div></div><span class="sp-val">40px · --sp-xl</span></div>
+        <div class="spacing-row"><span class="sp-name">2XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:64px;"></div></div><span class="sp-val">64px · --sp-2xl</span></div>
+        <div class="spacing-row"><span class="sp-name">3XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:96px;"></div></div><span class="sp-val">96px · --sp-3xl</span></div>
+      </div>
+
+      <div class="info-box" style="margin-top:20px;">
+        <strong>Common uses</strong><br />
+        Major section gap: <span style="color:var(--ink);">96px (--sp-3xl)</span> &nbsp;·&nbsp;
+        Card inner padding: <span style="color:var(--ink);">32–40px (--sp-xl)</span> &nbsp;·&nbsp;
+        Gap between cards: <span style="color:var(--ink);">24px (--sp-lg)</span><br />
+        Nav padding: <span style="color:var(--ink);">24px vertical (--sp-lg) / 40px horizontal (--sp-xl)</span><br />
+        <strong>Type gaps —</strong>
+        Hero → Label: <span style="color:var(--ink);">48px (--gap-hero-label)</span> &nbsp;·&nbsp;
+        Label → H1: <span style="color:var(--ink);">12px (--gap-label-h1)</span> &nbsp;·&nbsp;
+        H1 → H2: <span style="color:var(--ink);">24px (--gap-h1-h2)</span> &nbsp;·&nbsp;
+        H2 → Body: <span style="color:var(--ink);">24px (--gap-h2-body)</span> &nbsp;·&nbsp;
+        Body → Body: <span style="color:var(--ink);">16px (--gap-body-body)</span> &nbsp;·&nbsp;
+        Body → Caption: <span style="color:var(--ink);">24px (--gap-body-caption)</span>
+      </div>
+
+      <div class="info-box" style="margin-top:10px;">
+        <strong>Border Radius</strong> — <span style="color:var(--ink);">2px on everything · var(--radius)</span><br />
+        Cards, buttons, badges, inputs, modals, containers. Enough softness to feel intentional, never rounded or casual.
+      </div>
+    </div>
+
+    <!-- ── 02·5 Components ────────────────────────────────── -->
+    <div class="section" id="pl-b-components">
+      <div class="section-header">
+        <span class="section-num">B·5</span>
+        <h2 class="section-title">Components</h2>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Buttons</div>
+      <div class="btn-row" style="margin-bottom:28px;">
+        <span class="btn btn-outline">Outline / Secondary</span>
+        <span class="btn btn-ghost">Ghost / Tertiary</span>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Badges &amp; Tags</div>
+      <div class="badge-row" style="margin-bottom:36px;">
+        <span class="badge badge-accent">Procedural</span>
+        <span class="badge badge-accent">Houdini</span>
+        <span class="badge badge-neutral">2024</span>
+        <span class="badge badge-neutral">3D</span>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Dividers</div>
+      <div style="margin-bottom:36px;">
+        <p class="t-caption" style="margin-bottom:6px; text-transform:none; letter-spacing:0;">Gradient (accent → transparent)</p>
+        <div class="divider-gradient"></div>
+        <p class="t-caption" style="margin:12px 0 6px; text-transform:none; letter-spacing:0;">Solid border</p>
+        <div class="divider-solid"></div>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Project Card</div>
+      <div class="card-grid">
+        <div>
+          <div class="card-state-label">Default</div>
+          <div class="card">
+            <div class="card-img">4 : 3 image</div>
+            <div class="card-body">
+              <div class="card-tag">Procedural</div>
+              <div class="card-title">Tropical Plants</div>
+              <div class="card-desc">A fully procedural Houdini tool for generating tropical plant varieties.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card-state-label">Hover</div>
+          <div class="card" style="border:none; padding:1px; background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 55%, transparent), color-mix(in srgb, var(--accent) 15%, transparent)); box-shadow:0 0 16px color-mix(in srgb, var(--accent) 12%, transparent);">
+            <div class="card-img" style="border-radius:var(--radius) var(--radius) 0 0;">4 : 3 image</div>
+            <div class="card-body" style="background:var(--bg); border-radius:0 0 var(--radius) var(--radius);">
+              <div class="card-tag">Procedural</div>
+              <div class="card-title">Tropical Plants</div>
+              <div class="card-desc">A fully procedural Houdini tool for generating tropical plant varieties.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top:14px;">
+        <strong>Card hover border</strong> — Gradient border via 1px wrapper technique: border: none · padding: 1px · background: linear-gradient(135deg, accent → accent 30%). CSS border-image cannot be used with border-radius — wrapper is the correct approach.
+      </div>
+    </div>
+
+    <div class="stage-nav" style="margin-top:48px;">
+      <div class="stage-nav-logo">Alana Dubie</div>
+      <ul class="stage-nav-links">
+        <li><a>Home</a></li>
+        <li><a>Projects</a></li>
+        <li><a>About</a></li>
+        <li><a>Contact</a></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     LIGHT — SAND — OPTION D  #0c6462
+     ══════════════════════════════════════════════════════════ -->
+<section class="palette-doc" id="pl-d-colors" style="--bg:#f0dec4; --ink:#3b3128; --accent:#0c6462;">
+  <div class="doc-inner">
+
+    <div class="doc-head">
+      <div>
+        <div class="doc-num">Light · Sand — Option D · 5.29:1 · AA Pass</div>
+        <div class="doc-title">Sand — Option D</div>
+      </div>
+      <div class="doc-hexes">
+        BG #F0DEC4 · 60%<br>
+        SURFACE #3B3128 · 30%<br>
+        ACCENT #0C6462 · 10%<br>
+        <span style="opacity:.6;">BORDER #ACB9A7 · FILL #CCCAB4 (derived)</span>
+      </div>
+    </div>
+
+    <div class="swatch-strip">
+      <div class="swatch-seg seg-60">#F0DEC4</div>
+      <div class="swatch-seg seg-30" style="background:#3b3128; color:#f0dec4;">#3B3128</div>
+      <div class="swatch-seg seg-10" style="color:#f0dec4;">#0C6462</div>
+    </div>
+
+    <div class="derived-row">
+      <span data-chip><span class="chip" style="border:2px solid #acb9a7;"></span>Border #ACB9A7</span>
+      <span data-chip><span class="chip" style="background:#cccab4;"></span>Fill #CCCAB4</span>
+    </div>
+
+    <p class="rank-note">5.29:1 — clears AA for normal text. Ink contrast against this background is 9.63:1. This is the golden-sand tone, warmer hue than Option B and closest to a true beach-sand color. Light (bg-colored) text on the accent fill lands at 5.29:1 (AA pass); dark ink text on the fill drops to 1.82:1 and fails — keep light text on any accent-filled surface.</p>
+
+    <!-- ── 02·2 Typography ────────────────────────────────── -->
+    <div class="section" id="pl-d-type">
+      <div class="section-header">
+        <span class="section-num">D·2</span>
+        <h2 class="section-title">Typography</h2>
+      </div>
+
+      <div class="type-family">
+        <div class="type-family-label">Fraunces · Serif · Display &amp; Headings</div>
+        <div class="type-specimen-large">Tropical Plants<br /><em style="font-style:italic;">Procedural Tool</em></div>
+        <div class="type-rules">
+          <div class="type-rule-item"><strong>Use for</strong>Hero name, section headings, project titles, pull-quotes</div>
+          <div class="type-rule-item"><strong>Weights</strong>300 Light — primary use<br />300 Italic — name &amp; emphasis</div>
+          <div class="type-rule-item"><strong>Tracking</strong>Always negative<br />−0.02em to −0.03em</div>
+        </div>
+      </div>
+
+      <div class="type-family">
+        <div class="type-family-label">Space Grotesk · Sans-Serif · UI, Body &amp; Labels</div>
+        <div class="type-specimen-mono">Technical Artist · Houdini · Unity · Python · C#<br />Selected Projects · 2024 · Procedural · 3D</div>
+        <div class="type-rules">
+          <div class="type-rule-item"><strong>Use for</strong>Nav links, section labels, body text, captions, badges, tags</div>
+          <div class="type-rule-item"><strong>Weights</strong>400 Regular — all standard use<br />700 Bold — numbers only</div>
+          <div class="type-rule-item"><strong>Tracking</strong>Labels/tags: 0.2em<br />Body/paragraphs: 0em</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 02·3 Type Hierarchy ────────────────────────────── -->
+    <div class="section" id="pl-d-hierarchy">
+      <div class="section-header">
+        <span class="section-num">D·3</span>
+        <h2 class="section-title">Type Hierarchy</h2>
+      </div>
+
+      <table class="hierarchy-table">
+        <thead>
+          <tr>
+            <th style="width:110px;">Level</th>
+            <th>Specimen</th>
+            <th style="width:220px;">Specs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="h-level">Hero</td>
+            <td style="padding:12px 0 48px;"><span class="t-hero">Alana<br /><em>Dubie</em></span></td>
+            <td class="h-specs">Fraunces Italic · 300<br />clamp(3rem, 8vw, 5.5rem) · Display tier<br />Tracking −0.03em · Line-height 1<br />Class: <code>.t-hero</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Heading 1</td>
+            <td style="padding:12px 0 24px;"><span class="t-h1">Selected Work</span></td>
+            <td class="h-specs">Fraunces · 300<br />var(--fs-h1) · 2.5169rem · 40.27px<br />Tracking −0.025em<br />Class: <code>.t-h1</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Heading 2</td>
+            <td style="padding:12px 0 24px;"><span class="t-h2">Tropical Plants Tool</span></td>
+            <td class="h-specs">Fraunces · 300<br />var(--fs-h2) · 1.8881rem · 30.21px<br />Tracking −0.02em<br />Class: <code>.t-h2</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Body</td>
+            <td><span class="t-body">A procedural Houdini tool for generating tropical plant varieties with ramp-controlled frond profiles.</span></td>
+            <td class="h-specs">Space Grotesk · 400<br />var(--fs-body) · 1.0625rem · 17px<br />Line-height 1.75 · Muted 58%<br />Class: <code>.t-body</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Section Label</td>
+            <td><span class="t-label">Selected Projects · 2024</span></td>
+            <td class="h-specs">Space Grotesk · 400 · Uppercase<br />var(--fs-label) · 0.7969rem · 12.75px<br />Tracking 0.2em · Accent full<br />Class: <code>.t-label</code></td>
+          </tr>
+          <tr>
+            <td class="h-level">Caption</td>
+            <td><span class="t-caption">variations of scatter seed, leaf count, bend angle, color ramp, and layer configuration.</span></td>
+            <td class="h-specs">Space Grotesk · 400 · Uppercase<br />var(--fs-caption) · 0.5981rem · 9.57px<br />Tracking 0.3em · Muted-lo<br />Class: <code>.t-caption</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box" style="margin-top:14px;">
+        <strong>Type scale — Perfect Fourth (1.333×) · Base 17px</strong><br />
+        Each step multiplies by 1.333: 9.57 → 12.75 → 17 → 22.66 → 30.21 → 40.27px<br />
+        Hero lives outside the numbered scale on its own display tier via clamp().<br />
+        Reference: typescale.com · utopia.fyi
+      </div>
+    </div>
+
+    <!-- ── 02·4 Spacing & Radius ──────────────────────────── -->
+    <div class="section" id="pl-d-spacing">
+      <div class="section-header">
+        <span class="section-num">D·4</span>
+        <h2 class="section-title">Spacing &amp; Radius</h2>
+      </div>
+
+      <div class="spacing-rows">
+        <div class="spacing-row"><span class="sp-name">XS</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:4px;"></div></div><span class="sp-val">4px · --sp-xs</span></div>
+        <div class="spacing-row"><span class="sp-name">SM</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:8px;"></div></div><span class="sp-val">8px · --sp-sm</span></div>
+        <div class="spacing-row"><span class="sp-name">MD</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:16px;"></div></div><span class="sp-val">16px · --sp-md</span></div>
+        <div class="spacing-row"><span class="sp-name">LG</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:24px;"></div></div><span class="sp-val">24px · --sp-lg</span></div>
+        <div class="spacing-row"><span class="sp-name">XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:40px;"></div></div><span class="sp-val">40px · --sp-xl</span></div>
+        <div class="spacing-row"><span class="sp-name">2XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:64px;"></div></div><span class="sp-val">64px · --sp-2xl</span></div>
+        <div class="spacing-row"><span class="sp-name">3XL</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:96px;"></div></div><span class="sp-val">96px · --sp-3xl</span></div>
+      </div>
+
+      <div class="info-box" style="margin-top:20px;">
+        <strong>Common uses</strong><br />
+        Major section gap: <span style="color:var(--ink);">96px (--sp-3xl)</span> &nbsp;·&nbsp;
+        Card inner padding: <span style="color:var(--ink);">32–40px (--sp-xl)</span> &nbsp;·&nbsp;
+        Gap between cards: <span style="color:var(--ink);">24px (--sp-lg)</span><br />
+        Nav padding: <span style="color:var(--ink);">24px vertical (--sp-lg) / 40px horizontal (--sp-xl)</span><br />
+        <strong>Type gaps —</strong>
+        Hero → Label: <span style="color:var(--ink);">48px (--gap-hero-label)</span> &nbsp;·&nbsp;
+        Label → H1: <span style="color:var(--ink);">12px (--gap-label-h1)</span> &nbsp;·&nbsp;
+        H1 → H2: <span style="color:var(--ink);">24px (--gap-h1-h2)</span> &nbsp;·&nbsp;
+        H2 → Body: <span style="color:var(--ink);">24px (--gap-h2-body)</span> &nbsp;·&nbsp;
+        Body → Body: <span style="color:var(--ink);">16px (--gap-body-body)</span> &nbsp;·&nbsp;
+        Body → Caption: <span style="color:var(--ink);">24px (--gap-body-caption)</span>
+      </div>
+
+      <div class="info-box" style="margin-top:10px;">
+        <strong>Border Radius</strong> — <span style="color:var(--ink);">2px on everything · var(--radius)</span><br />
+        Cards, buttons, badges, inputs, modals, containers. Enough softness to feel intentional, never rounded or casual.
+      </div>
+    </div>
+
+    <!-- ── 02·5 Components ────────────────────────────────── -->
+    <div class="section" id="pl-d-components">
+      <div class="section-header">
+        <span class="section-num">D·5</span>
+        <h2 class="section-title">Components</h2>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Buttons</div>
+      <div class="btn-row" style="margin-bottom:28px;">
+        <span class="btn btn-outline">Outline / Secondary</span>
+        <span class="btn btn-ghost">Ghost / Tertiary</span>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Badges &amp; Tags</div>
+      <div class="badge-row" style="margin-bottom:36px;">
+        <span class="badge badge-accent">Procedural</span>
+        <span class="badge badge-accent">Houdini</span>
+        <span class="badge badge-neutral">2024</span>
+        <span class="badge badge-neutral">3D</span>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Dividers</div>
+      <div style="margin-bottom:36px;">
+        <p class="t-caption" style="margin-bottom:6px; text-transform:none; letter-spacing:0;">Gradient (accent → transparent)</p>
+        <div class="divider-gradient"></div>
+        <p class="t-caption" style="margin:12px 0 6px; text-transform:none; letter-spacing:0;">Solid border</p>
+        <div class="divider-solid"></div>
+      </div>
+
+      <div class="comp-sub-label" style="margin-bottom:14px;">Project Card</div>
+      <div class="card-grid">
+        <div>
+          <div class="card-state-label">Default</div>
+          <div class="card">
+            <div class="card-img">4 : 3 image</div>
+            <div class="card-body">
+              <div class="card-tag">Procedural</div>
+              <div class="card-title">Tropical Plants</div>
+              <div class="card-desc">A fully procedural Houdini tool for generating tropical plant varieties.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card-state-label">Hover</div>
+          <div class="card" style="border:none; padding:1px; background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 55%, transparent), color-mix(in srgb, var(--accent) 15%, transparent)); box-shadow:0 0 16px color-mix(in srgb, var(--accent) 12%, transparent);">
+            <div class="card-img" style="border-radius:var(--radius) var(--radius) 0 0;">4 : 3 image</div>
+            <div class="card-body" style="background:var(--bg); border-radius:0 0 var(--radius) var(--radius);">
+              <div class="card-tag">Procedural</div>
+              <div class="card-title">Tropical Plants</div>
+              <div class="card-desc">A fully procedural Houdini tool for generating tropical plant varieties.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top:14px;">
+        <strong>Card hover border</strong> — Gradient border via 1px wrapper technique: border: none · padding: 1px · background: linear-gradient(135deg, accent → accent 30%). CSS border-image cannot be used with border-radius — wrapper is the correct approach.
+      </div>
+    </div>
+
+    <div class="stage-nav" style="margin-top:48px;">
+      <div class="stage-nav-logo">Alana Dubie</div>
+      <ul class="stage-nav-links">
+        <li><a>Home</a></li>
+        <li><a>Projects</a></li>
+        <li><a>About</a></li>
+        <li><a>Contact</a></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+</body>
+</html>

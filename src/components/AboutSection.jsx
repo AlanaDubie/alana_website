@@ -1,5 +1,7 @@
 import { FaFileAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import { cld } from "../lib/cloudinary";
+
 
 export const AboutSection = () => {
   return (
@@ -12,7 +14,7 @@ export const AboutSection = () => {
 
           <div className="flex justify-center">
             <img
-              src="assets/Profile.jpg"
+              src={cld("Profile.jpg", { quality: "showcase" })}
               alt="Alana's Profile"
               className="rounded-sm shadow-lg w-64 xl:w-72 h-auto object-cover object-[center_30%] border border-primary/25"
             />
