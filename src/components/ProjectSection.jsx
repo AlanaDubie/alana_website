@@ -4,7 +4,6 @@ import {ProjectFilter} from "./ProjectFilter";
 import { cld } from "../lib/cloudinary";
 
 import { TropicalPlantsPage }   from "../pages/project_pages/TropicalPlantsPage";
-import { AsteroidGenPage }      from "../pages/project_pages/AsteroidGenPage";
 import { AsteroidSpawnerPage }  from "../pages/project_pages/AsteroidSpawnerPage";
 import { MacroMossPage }        from "../pages/project_pages/MacroMossPage";
 import { AutoMaterialPage }     from "../pages/project_pages/AutoMaterialPage";
@@ -17,15 +16,14 @@ import { NotFound }             from "../pages/NotFound.jsx";
 
 const projects = [
   { id: 1,  title: "Tropical Plants",                     description: "Houdini Digital Asset",     image: cld("card_img_plant_tool.png", { width: 600 }),       tags: ["Procedural"], detailComponent: <TropicalPlantsPage /> },
-  { id: 2,  title: "Space Backdrop & Asteroid Generator", description: "Houdini Digital Asset",     image: cld("card_img_asteroid_gen.png", { width: 600 }),     tags: ["Procedural"], detailComponent: <AsteroidGenPage /> },
-  { id: 3,  title: "Macro-Moss",                          description: "Houdini Digital Asset",     image: cld("card_img_macromoss.png", { width: 600 }),        tags: ["Procedural"], detailComponent: <MacroMossPage /> },
-  { id: 4,  title: "Auto-Material Tool",                  description: "Maya Python Script",        image: cld("card_img_mat_tool.png", { width: 600 }),         tags: ["Coding"],     detailComponent: <AutoMaterialPage /> },
-  { id: 5,  title: "Space Game – Asteroid Spawner Level", description: "Unity Space Game Level",    image: cld("card_img_asteroid_map.jpg", { width: 600 }),     tags: ["Coding"],     detailComponent: <AsteroidSpawnerPage /> },
-  { id: 6,  title: "Electric Shift",                      description: "VR Game",                   image: cld("card_img_electric_shift.png", { width: 600 }),  tags: ["Coding"],     detailComponent: <ElectricShiftPage /> },
-  { id: 7,  title: "Builder Beavers",                     description: "2D Tower Defense Game",     image: cld("card_img_builder_beavers.png", { width: 600 }), tags: ["Coding"],     detailComponent: <BuilderBeaversPage /> },
-  { id: 8,  title: "House Lighting",                      description: "3D Lighting Studies",       image: cld("card_img_house_light.png", { width: 600 }),     tags: ["3D"],         detailComponent: <HouseLightingPage /> },
-  { id: 9,  title: "Outside Dining",                      description: "3D Lighting Studies",       image: cld("card_img_outside_dining.jpg", { width: 600 }),  tags: ["3D"],         detailComponent: <OutsideDinePage /> },
-  { id: 10, title: "Underwater Scene",                    description: "3D Lighting Environment",   image: cld("card_img_underwater_scene.jpg", { width: 600 }),tags: ["3D"],         detailComponent: <UnderwaterScenePage /> },
+  { id: 2,  title: "Macro-Moss",                          description: "Houdini Digital Asset",     image: cld("card_img_macromoss.png", { width: 600 }),        tags: ["Procedural"], detailComponent: <MacroMossPage /> },
+  { id: 3,  title: "Auto-Material Tool",                  description: "Maya Python Script",        image: cld("card_img_mat_tool.png", { width: 600 }),         tags: ["Coding"],     detailComponent: <AutoMaterialPage /> },
+  { id: 4,  title: "Space Game – Asteroid Spawner",       description: "Unity Space Game Level",    image: cld("card_img_asteroid_map.jpg", { width: 600 }),     tags: ["Coding", "Procedural"],     detailComponent: <AsteroidSpawnerPage /> },
+  { id: 5,  title: "Electric Shift",                      description: "VR Game",                   image: cld("card_img_electric_shift.png", { width: 600 }),  tags: ["Coding"],     detailComponent: <ElectricShiftPage /> },
+  { id: 6,  title: "Builder Beavers",                     description: "2D Tower Defense Game",     image: cld("card_img_builder_beavers.png", { width: 600 }), tags: ["Coding"],     detailComponent: <BuilderBeaversPage /> },
+  { id: 7,  title: "House Lighting",                      description: "3D Lighting Studies",       image: cld("card_img_house_light.png", { width: 600 }),     tags: ["3D"],         detailComponent: <HouseLightingPage /> },
+  { id: 8,  title: "Outside Dining",                      description: "3D Lighting Studies",       image: cld("card_img_outside_dining.jpg", { width: 600 }),  tags: ["3D"],         detailComponent: <OutsideDinePage /> },
+  { id: 9,  title: "Underwater Temple",                  description: "3D Lighting Environment",   image: cld("card_img_underwater_scene.jpg", { width: 600 }),tags: ["3D"],         detailComponent: <UnderwaterScenePage /> },
   { id: 11, title: "ML Texture Organizer",                description: "Maya Python Script",        image: cld("card_img_underwater_scene.jpg", { width: 600 }),tags: ["Coding"],     detailComponent: <NotFound /> },
 ];
 
@@ -119,10 +117,17 @@ export const ProjectSection = () => {
               <div className="absolute inset-0 bg-linear-to-t from-background via-background/40 to-transparent
                               opacity-0 group-hover:opacity-100 transition-opacity duration-500
                               flex flex-col justify-end p-5">
-                <div className="flex flex-wrap gap-2">
+
+                <div className="flex flex-wrap items-center">
                   {project.tags.map((tag, i) => (
-                    <span key={i} className="caption-text font-medium tracking-[0.2em] text-primary">
+                    <span
+                      key={tag}
+                      className="caption-text font-medium tracking-[0.2em] text-primary flex items-center"
+                    >
                       {tag}
+                      {i < project.tags.length - 1 && (
+                        <span className="mx-2 text-primary/50">/</span>
+                      )}
                     </span>
                   ))}
                 </div>

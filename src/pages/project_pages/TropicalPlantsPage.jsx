@@ -1,83 +1,9 @@
 import MediaCarousel from "../../components/MediaCarousel";
+import { ParamTable } from "../../components/ParamTable";
+import { EditorialGrid } from "../../components/EditorialGrid";
 import { cld, cldVideo } from "../../lib/cloudinary";
 
-/* ── Local components ───────────────────────────────────────────────────── */
-const ParamTable = ({ params }) => (
-  <div className="grid grid-cols-[auto_1fr] border border-primary/10 rounded-sm overflow-hidden bg-card mt-4 mb-10">
-    {params.flatMap(([name, desc], i) => [
-      <span
-        key={`${name}-label`}
-        className={`caption-text uppercase text-xs text-primary/90 px-4 py-3 transition-colors ${
-          i !== 0 ? "border-t border-primary/10" : ""
-        }`}
-      >
-        {name}
-      </span>,
-      <span
-        key={`${name}-desc`}
-        className={`eyebrow tracking-wide italic text-foreground/70 lowercase px-4 py-3 transition-colors ${
-          i !== 0 ? "border-t border-primary/10" : ""
-        }`}
-      >
-        {desc}
-      </span>,
-    ])}
-  </div>
-);
-
-/* TODO: Make as component*/
-const EditorialGrid = ({ images, alt = "" }) => {
-  const top = images.slice(0, 3);
-  const bottom = images.slice(3, 5);
-  return (
-    <div className="flex flex-col gap-1">
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
-        {top.map((src, i) => (
-          <img
-            key={src}
-            src={src}
-            alt={`${alt} ${i + 1}`}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover border border-primary/10"
-            style={{
-              aspectRatio: "4/3",
-              borderRadius: i === 0 ? "4px 0 0 0" : i === 2 ? "0 4px 0 0" : "0",
-            }}
-          />
-        ))}
-      </div>
-      {bottom.length > 0 && (
-        <div
-          className={`grid gap-1 ${bottom.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}
-        >
-          {bottom.map((src, i) => (
-            <img
-              key={src}
-              src={src}
-              alt={`${alt} ${top.length + i + 1}`}
-              loading="lazy"
-              decoding="async"
-              className="w-full object-cover object-top border border-primary/10"
-              style={{
-                aspectRatio: "16/11",
-                borderRadius:
-                  bottom.length === 1
-                    ? "0 0 4px 4px"
-                    : i === 0
-                      ? "0 0 0 4px"
-                      : "0 0 4px 0",
-              }}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
 /* ── Media ──────────────────────────────────────────────────────────────── */
-
 const heroMedia = [
   {
     type: "videoFile",
@@ -130,7 +56,7 @@ export const TropicalPlantsPage = () => (
         </span>
       </p>
 
-      <p className="t-body mb-3">
+      <p className="t-body text-foreground mb-14">
         Two artist-friendly procedural vegetation tools built in Houdini,
         inspired by the stylized environments of Kingdom Hearts. The goal was to
         generate a wide range of tropical plant variants through parameters

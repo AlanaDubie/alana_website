@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function MediaCarousel({ items }) {
+export default function MediaCarousel({ items, showThumbnails = true }) {
   const [index, setIndex] = useState(0);
 
   const prev = () => setIndex((i) => (i === 0 ? items.length - 1 : i - 1));
 
   const next = () => setIndex((i) => (i === items.length - 1 ? 0 : i + 1));
+
+  const hasMultiple = items.length > 1;
 
   return (
     <div className="w-full mb-12 flex justify-center">
@@ -14,12 +16,14 @@ export default function MediaCarousel({ items }) {
         {/* ───── MAIN ROW ───── */}
         <div className="flex items-center justify-center lg:gap-10">
           {/* LEFT */}
-          <button
-            onClick={prev}
-            className="text-foreground/40 hover:text-primary px-6 transition select-none"
-          >
-            <ChevronLeft size={48} strokeWidth={1.5} />
-          </button>
+          {hasMultiple && (
+            <button
+              onClick={prev}
+              className="text-foreground/40 hover:text-primary px-6 transition select-none"
+            >
+              <ChevronLeft size={48} strokeWidth={1.5} />
+            </button>
+          )}
 
           {/* ───── VIEWPORT ───── */}
           <div
@@ -77,45 +81,49 @@ export default function MediaCarousel({ items }) {
           </div>
 
           {/* RIGHT */}
-          <button
-            onClick={next}
-            className="text-foreground/40 hover:text-primary px-6 transition select-none"
-          >
-            <ChevronRight size={48} strokeWidth={1.5} />
-          </button>
+          {hasMultiple && (
+            <button
+              onClick={next}
+              className="text-foreground/40 hover:text-primary px-6 transition select-none"
+            >
+              <ChevronRight size={48} strokeWidth={1.5} />
+            </button>
+          )}
         </div>
 
         {/* ───── THUMBNAILS ───── */}
-        <div className="flex gap-3 overflow-x-auto justify-center py-4 mb-4">
-          {items.map((item, i) => {
-            const active = i === index;
+        {showThumbnails && hasMultiple && (
+          <div className="flex gap-3 overflow-x-auto justify-center py-4 mb-4">
+            {items.map((item, i) => {
+              const active = i === index;
 
-            return (
-              <button
-                key={i}
-                onClick={() => setIndex(i)}
-                className={`relative shrink-0 transition duration-300 ${active ? "z-10" : ""}`}
-              >
-                <div
-                  className={`h-16 w-28 rounded-md transition duration-300
-                    ${
-                      active
-                        ? "scale-105 ring-2 ring-primary shadow-lg shadow-background"
-                        : "scale-100 ring-1 ring-primary/20 opacity-60 hover:opacity-100"
-                    }`}
+              return (
+                <button
+                  key={i}
+                  onClick={() => setIndex(i)}
+                  className={`relative shrink-0 transition duration-300 ${active ? "z-10" : ""}`}
                 >
-                  <div className="w-full h-full rounded-md overflow-hidden">
-                    <img
-                      src={getThumbnail(item)}
-                      className="w-full h-full object-cover"
-                      alt=""
-                    />
+                  <div
+                    className={`h-16 w-28 rounded-md transition duration-300
+                      ${
+                        active
+                          ? "scale-105 ring-2 ring-primary shadow-lg shadow-background"
+                          : "scale-100 ring-1 ring-primary/20 opacity-60 hover:opacity-100"
+                      }`}
+                  >
+                    <div className="w-full h-full rounded-md overflow-hidden">
+                      <img
+                        src={getThumbnail(item)}
+                        className="w-full h-full object-cover"
+                        alt=""
+                      />
+                    </div>
                   </div>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

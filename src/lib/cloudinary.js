@@ -21,3 +21,7 @@ export const cldVideo = (filename, { quality = "standard" } = {}) => {
 // PDFs/raw files — no transforms needed, just direct delivery
 export const cldRaw = (filename) =>
   `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${filename}`;
+
+// Cloudinary video thumbnail generator for Media Carousel
+export const cldThumb = (publicId, seekSeconds = 2) =>
+  `https://res.cloudinary.com/dguq85nkf/video/upload/so_${seekSeconds}/${publicId}.jpg`;

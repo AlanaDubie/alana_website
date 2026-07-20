@@ -1,34 +1,264 @@
+import MediaCarousel from "../../components/MediaCarousel";
+import { ParamTable } from "../../components/ParamTable";
+import { cld, cldThumb, cldVideo } from "../../lib/cloudinary";
+
+const CodeBlock = ({ code }) => (
+  <pre className="bg-card border border-primary/10 rounded-sm p-4 overflow-x-auto text-xs font-mono text-foreground/60 leading-relaxed mt-3 mb-10">
+    <code>{code}</code>
+  </pre>
+);
+
+/* ── Media ──────────────────────────────────────────────────────────────── */
+const heroMedia = [
+
+  { type: "image", src: cld("card_img_asteroid_gen.png", { quality: "original" }) },
+  { type: "image", src: cld("card_img_asteroid_map.jpg", { quality: "original" }) },
+
+  {
+    type: "videoFile",
+    src: cldVideo("asteroid_demo_param", { quality: "original" }),
+    thumb: cldThumb("asteroid_demo_param"),
+  },
+  { type: "image", src: cld("spacebackground.png", { quality: "original" }) },
+  { type: "image", src: cld("concept_ref.png", { quality: "original" }) },
+  {
+    type: "videoFile",
+    src: cldVideo("asteroid_spawn", { quality: "original" }),
+    thumb: cldThumb("asteroid_spawn"),
+  },
+];
+
 export const AsteroidSpawnerPage = () => (
-    <div className="container pt-8 mx-auto max-w-8xl text-left text-foreground overflow-x-hidden">
+  <div className="mx-auto max-w-8xl text-left text-foreground overflow-x-hidden">
+    <MediaCarousel items={heroMedia} />
 
-        <img src="assets/projects/asteroid/card_img_asteroid_map.jpeg" className="w-full lg:max-h-80 rounded-lg mb-8 object-cover" />
+    <div className="container pt-6 max-w-5xl px-4 mx-auto">
+      <span className="eyebrow">Procedural · COPs · Game Dev</span>
+      <h1 className="t-hero text-7xl mt-2 mb-4">
+        Space Game — Asteroid System
+      </h1>
+      <p className="eyebrow text-foreground/70 mb-8 normal-case">
+        Tools:
+        <span className="eyebrow normal-case text-foreground/70 border border-primary/20 rounded-sm px-2 py-1 ml-2">
+          Houdini
+        </span>
+        <span className="eyebrow normal-case text-foreground/70 border border-primary/20 rounded-sm px-2 py-1 ml-2">
+          Unity
+        </span>
+        <span className="eyebrow normal-case text-foreground/70 border border-primary/20 rounded-sm px-2 py-1 ml-2">
+          C#
+        </span>
+      </p>
 
-        <span className="text-xs font-light tracking-widest uppercase text-primary/70">Coding</span>
-        <h1 className="text-foreground text-6xl font-bold mt-2 mb-5">Space Game – Asteroid Spawner Level</h1>
-        <p className="text-foreground/40 text-sm mb-8">Tools:
-            <span className="text-foreground/70 border border-primary/30 rounded-md px-2 py-1 ml-2">Unity</span>
-            <span className="text-foreground/70 border border-primary/30 rounded-md px-2 py-1 ml-2">C#</span>
+      <p className="t-body text-foreground mb-14">
+        This project started as a group game development club project to make a
+        space shooter game where players navigate a ship through an asteroid field. I
+        was responsible for the asteroid system from start to finish: designing
+        the procedural asset and space backdrop in Houdini then building the
+        spawner system in Unity.
+      </p>
+
+      <hr className="border-primary/10 mb-14" />
+
+      {/* ── Concept & References ── */}
+
+      <section id="refs" className="mb-14 scroll-mt-8">
+        <h2 className="t-h1 mb-5">Concept & References</h2>
+        <p className="t-body mb-8">
+          The team wanted the asteroids to feel low-poly and stylized with a
+          backdrop full of star clusters and galaxies. I pulled references from
+          games likeEverspace to get a clear visual target before jumping into
+          Houdini and the team loved the direction.
         </p>
 
-        <div className="py-4 pb-8 text-foreground/70 text-sm leading-relaxed max-w-2xl">
-            <p>A space-themed game developed in Unity as part of a
-                group game development club project. I built the
-                asteroid spawning system, which populates the scene
-                at runtime by placing asteroids at randomized
-                positions within a defined sphere volume. Before each
-                spawn, the system runs a physics sphere check to
-                confirm the space is clear, preventing asteroids from
-                overlapping or clipping into each other.</p>
+        <img
+          src={cld("concept_ref.png", { width: 800 })}
+          className="w-full rounded-sm border border-primary/10"
+          alt="References"
+          loading="showcase"
+          decoding="async"
+        />
+      </section>
 
-            <p className="mt-4">Each asteroid is instantiated with a random rotation
-                and a uniformly randomized scale within a set min and
-                max range, keeping the field feeling natural and varied
-                without manual placement. The spawn count, asteroid
-                radius, and size variation are all exposed as serialized
-                fields in the Unity Inspector, making it easy for the
-                team to tweak the feel of the field without touching
-                the code.</p>
+      <hr className="border-primary/10 mb-14" />
+
+      {/* ── Procedural Asteroid ── */}
+      <section className="mb-14">
+        <span className="eyebrow">01</span>
+        <h2 className="t-h1 mt-2 mb-5">Procedural Asteroid</h2>
+        <p className="t-body mb-8">
+          The asteroid is built using layered noise and displacement to generate
+          non-repeating rock forms with natural erosion and fracture detail.
+          Surface breakup, scale, and deformation are all parameterized so a
+          wide range of variations can be produced without rebuilding the
+          network. Craters are also generated procedurally with control over
+          count, size range, and spread.
+        </p>
+
+        <img
+          src={cld("card_img_asteroid_gen.png", { width: 800 })}
+          className="w-2xl flex justify-center rounded-sm border border-primary/10"
+          alt="asteroid generation"
+          loading="showcase"
+          decoding="async"
+        />
+
+        <span className="eyebrow block mt-10">SOP Network</span>
+        <p className="t-body mt-3 mb-4">
+          The network splits into two branches. Mesh and texture creation on the
+          right, and a polycount-reduction branch on the left. The polygon count
+          is exposed as a parameter (default 500) so the team could hit their
+          performance targets without touching the network itself.
+        </p>
+        <img
+          src="assets/projects/asteroid/asteroid_node.png"
+          alt="Asteroid node network"
+          className="w-full rounded-sm border border-primary/10 mb-2"
+          loading="lazy"
+          decoding="async"
+        />
+
+        <ParamTable
+          params={[
+            [
+              "rock shape seed",
+              "randomizes the overall silhouette of the rock",
+            ],
+            ["crater count", "how many craters are generated on the surface"],
+            ["crater min size", "minimum size of each crater"],
+            ["crater max size", "maximum size of each crater"],
+            [
+              "crater spread seed",
+              "randomizes where the craters are distributed",
+            ],
+          ]}
+        />
+
+        <span className="t-h2 mb-3">Color Correcting & Texturing</span>
+        <img
+          src="assets/projects/asteroid/Color_correct_texturing.png"
+          alt="Color correcting and texturing"
+          className="w-full rounded-sm border border-primary/10 mt-3"
+          loading="lazy"
+          decoding="async"
+        />
+      </section>
+
+      <hr className="border-primary/10 mb-14" />
+
+      {/* ── Space Backdrop ── */}
+      <section className="mb-14">
+        <span className="eyebrow">02</span>
+        <h2 className="t-h1 mt-2 mb-5">Space Backdrop</h2>
+        <p className="t-body mb-8">
+          The space background — stars, galaxy clusters, and nebula color — was
+          built entirely from scratch inside Houdini COPs. I used noise and
+          blend nodes to get the layered depth of a real starfield, and it was
+          genuinely fun to experiment with how much personality you can get out
+          of just a few nodes.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <img
+            src="assets/projects/asteroid/space_nodes.png"
+            alt="Space background nodes"
+            className="w-full rounded-sm border border-primary/10"
+            loading="lazy"
+            decoding="async"
+          />
+          <img
+            src="assets/projects/asteroid/spacebackground.png"
+            alt="Space background result"
+            className="w-full rounded-sm border border-primary/10"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
+      </section>
+
+      <hr className="border-primary/10 mb-14" />
+
+      {/* ── Unity Spawner ── */}
+      <section className="mb-14">
+        <span className="eyebrow">03</span>
+        <h2 className="t-h1 mt-2 mb-5">Unity Spawner</h2>
+        <p className="t-body mb-8">
+          The spawning system populates the scene at runtime, placing asteroids
+          at randomized positions within a defined sphere volume. Before each
+          placement, a physics overlap check confirms the space is actually
+          clear — keeping asteroids from clipping into each other no matter how
+          dense the field gets. Each asteroid also gets a randomized rotation
+          and scale within a min/max range so the field never looks hand-placed.
+          Spawn count, sphere radius, and scale range are all serialized fields
+          in the Inspector so teammates could tune the field without ever
+          opening the script.
+        </p>
+
+        <span className="eyebrow block">Fields</span>
+        <CodeBlock
+          code={`public class AsteroidSpawner : MonoBehaviour
+  {
+      [Header("Spawn Area Sphere")]
+      public Transform spawnSphere;        // reference to your sphere object
+
+      [Header("Asteroid Settings")]
+      public GameObject asteroidPrefab;
+      public int asteroidCount = 50;       // Total number of asteroids to spawn
+      public float asteroidRadius = 2f;    // Size of the asteroid collision/spacing check
+
+      [Header("Asteroid Size Variation")]
+      public float asteroidMinScale = 0.5f;
+      public float asteroidMaxScale = 2f;
+
+      void Start()
+      {
+          for (int i = 0; i < asteroidCount; i++)
+          {
+              TrySpawnAsteroid();
+          }
+      }
+  }`}
+        />
+
+        <span className="eyebrow block">Spawn Logic</span>
+        <CodeBlock
+          code={`private void TrySpawnAsteroid()
+  {
+      // get radius from the sphere's scale
+      float radius = spawnSphere.localScale.x * 0.5f;
+
+      // pick a random point inside the sphere
+      Vector3 randomOffset = Random.insideUnitSphere * radius;
+      Vector3 spawnPosition = spawnSphere.position + randomOffset;
+
+      // check if the space is free using a sphere check
+      bool spaceFree = !Physics.CheckSphere(spawnPosition, asteroidRadius);
+
+      if (spaceFree)
+      {
+          // spawn asteroid with random rotation
+          GameObject asteroid = Instantiate(asteroidPrefab, spawnPosition, Random.rotation);
+
+          // random uniform scale
+          Vector3 originalScale = asteroidPrefab.transform.localScale;
+          float scale = Random.Range(asteroidMinScale, asteroidMaxScale);
+          asteroid.transform.localScale = originalScale * scale;
+      }
+      else
+      {
+          Debug.Log("Spawn blocked: asteroid too close to another one.");
+      }
+  }`}
+        />
+
+        <a
+          href="https://github.com/Its-Cryptic/CS4700-Semester-Project/blob/asteroid_spawner/Assets/AsteroidSpawner/Scripts/AsteroidSpawner.cs"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="caption-text normal-case border border-primary/20 rounded-sm px-4 py-2 text-primary/70 hover:text-primary hover:border-primary/50 transition-colors inline-flex items-center gap-2"
+        >
+          View Full Script on GitHub →
+        </a>
+      </section>
     </div>
+  </div>
 );
-    
