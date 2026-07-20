@@ -10,10 +10,8 @@ const CodeBlock = ({ code }) => (
 
 /* ── Media ──────────────────────────────────────────────────────────────── */
 const heroMedia = [
-
   { type: "image", src: cld("card_img_asteroid_gen.png", { quality: "original" }) },
   { type: "image", src: cld("card_img_asteroid_map.jpg", { quality: "original" }) },
-
   {
     type: "videoFile",
     src: cldVideo("asteroid_demo_param", { quality: "original" }),
@@ -51,31 +49,28 @@ export const AsteroidSpawnerPage = () => (
       </p>
 
       <p className="t-body text-foreground mb-14">
-        This project started as a group game development club project to make a
-        space shooter game where players navigate a ship through an asteroid field. I
-        was responsible for the asteroid system from start to finish: designing
-        the procedural asset and space backdrop in Houdini then building the
-        spawner system in Unity.
+        This project started as a group game development club project a space blaster game called “The Last Frontier” where players navigate a
+        ship through an asteroid field. I was responsible for the asteroid system from start to finish: designing the procedural asset and space backdrop
+        in Houdini, then building the asteroid spawner system in Unity.
       </p>
 
       <hr className="border-primary/10 mb-14" />
 
       {/* ── Concept & References ── */}
-
       <section id="refs" className="mb-14 scroll-mt-8">
         <h2 className="t-h1 mb-5">Concept & References</h2>
         <p className="t-body mb-8">
           The team wanted the asteroids to feel low-poly and stylized with a
           backdrop full of star clusters and galaxies. I pulled references from
-          games likeEverspace to get a clear visual target before jumping into
+          games like Everspace to get a clear visual target before jumping into
           Houdini and the team loved the direction.
         </p>
 
         <img
-          src={cld("concept_ref.png", { width: 800 })}
+          src={cld("concept_ref.png", { width: 1200 })}
           className="w-full rounded-sm border border-primary/10"
           alt="References"
-          loading="showcase"
+          loading="lazy"
           decoding="async"
         />
       </section>
@@ -95,50 +90,80 @@ export const AsteroidSpawnerPage = () => (
           count, size range, and spread.
         </p>
 
-        <img
-          src={cld("card_img_asteroid_gen.png", { width: 800 })}
-          className="w-2xl flex justify-center rounded-sm border border-primary/10"
-          alt="asteroid generation"
-          loading="showcase"
-          decoding="async"
-        />
+        <div className="flex flex-col items-center">
+          <img
+            src={cld("card_img_asteroid_gen.png", { width: 800 })}
+            className="w-lg rounded-sm border border-primary/10"
+            alt="asteroid generation"
+            loading="lazy"
+            decoding="async"
+          />
+          <p className="caption-text mt-3 normal-case text-foreground/40 mb-10">
+            A single asteroid variant generated from the procedural network
+          </p>
+        </div>
 
-        <span className="eyebrow block mt-10">SOP Network</span>
+        <span className="eyebrow block">Node Network</span>
         <p className="t-body mt-3 mb-4">
-          The network splits into two branches. Mesh and texture creation on the
-          right, and a polycount-reduction branch on the left. The polygon count
-          is exposed as a parameter (default 500) so the team could hit their
-          performance targets without touching the network itself.
+          The network splits into two branches. The mesh and texture creation on the right,
+          and a polycount-reduction branch on the left (currently set to 500 and can be adjustable).
         </p>
-        <img
-          src="assets/projects/asteroid/asteroid_node.png"
-          alt="Asteroid node network"
-          className="w-full rounded-sm border border-primary/10 mb-2"
+
+        <video
+          src={cldVideo("asteroid_showcase", { quality: "original" })}
+          poster={cldThumb("asteroid_showcase")}
+          className="w-4xl rounded-sm border border-primary/10 mb-8"
+          autoPlay
+          loop
           loading="lazy"
           decoding="async"
         />
 
+        <div className="flex flex-col items-center">
+          <img
+            src={cld("asteroid_node.png", { width: 800 })}
+            alt="Asteroid node network"
+            className="w-lg rounded-sm border border-primary/10"
+            loading="lazy"
+            decoding="async"
+          />
+          <p className="caption-text mt-3 normal-case text-foreground/40 mb-10">
+            Full SOP network, texture/mesh branch (right) and polycount-reduction branch (left).
+          </p>
+        </div>
+
+        <span className="eyebrow block">Asteroid Model Generator</span>
+        <video
+          src={cldVideo("asteroid_demo_param", { quality: "original" })}
+          poster={cldThumb("asteroid_demo_param")}
+          className="w-5xl rounded-sm border border-primary/10 mt-3 mb-10"
+          autoPlay
+          loop
+          loading="lazy"
+          decoding="async"
+        />
+
+        <h4 className="eyebrow normal-case text-foreground mb-2">
+          Parameters
+        </h4>
         <ParamTable
           params={[
-            [
-              "rock shape seed",
-              "randomizes the overall silhouette of the rock",
-            ],
+            ["rock shape seed", "randomizes the overall silhouette of the rock"],
             ["crater count", "how many craters are generated on the surface"],
             ["crater min size", "minimum size of each crater"],
             ["crater max size", "maximum size of each crater"],
-            [
-              "crater spread seed",
-              "randomizes where the craters are distributed",
-            ],
+            ["crater spread seed", "randomizes where the craters are distributed"],
           ]}
         />
 
-        <span className="t-h2 mb-3">Color Correcting & Texturing</span>
+        <h3 className="t-h2 mb-4">Color Correcting & Texturing</h3>
+        <p className="t-body mb-4">
+          All color correction and texturing for the asteroid was done procedurally in Houdini COPs.
+        </p>
         <img
-          src="assets/projects/asteroid/Color_correct_texturing.png"
+          src={cld("Color_correct_node.png", { width: 1200 })}
           alt="Color correcting and texturing"
-          className="w-full rounded-sm border border-primary/10 mt-3"
+          className="w-3xl rounded-sm border border-primary/10 mt-3"
           loading="lazy"
           decoding="async"
         />
@@ -151,28 +176,34 @@ export const AsteroidSpawnerPage = () => (
         <span className="eyebrow">02</span>
         <h2 className="t-h1 mt-2 mb-5">Space Backdrop</h2>
         <p className="t-body mb-8">
-          The space background — stars, galaxy clusters, and nebula color — was
-          built entirely from scratch inside Houdini COPs. I used noise and
-          blend nodes to get the layered depth of a real starfield, and it was
+          The space background that includes stars, galaxy clusters, and nebula color were all
+          built entirely from scratch inside Houdini COPs. For these effects, I used noise and
+          blend nodes to get the layered depth of a real starfield. It was
           genuinely fun to experiment with how much personality you can get out
-          of just a few nodes.
+          of just a few nodes!
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          <img
-            src="assets/projects/asteroid/space_nodes.png"
-            alt="Space background nodes"
-            className="w-full rounded-sm border border-primary/10"
-            loading="lazy"
-            decoding="async"
-          />
-          <img
-            src="assets/projects/asteroid/spacebackground.png"
-            alt="Space background result"
-            className="w-full rounded-sm border border-primary/10"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
+
+        <img
+          src={cld("spacebackground.png", { width: 1200 })}
+          alt="Space background result"
+          className="w-full rounded-sm border border-primary/10"
+          loading="lazy"
+          decoding="async"
+        />
+        <p className="caption-text mt-3 normal-case text-foreground/40 mb-10">
+          Final space backdrop render.
+        </p>
+
+        <img
+          src={cld("space_nodes.png", { width: 2000 })}
+          alt="Space background nodes"
+          className="w-full rounded-sm border border-primary/10"
+          loading="lazy"
+          decoding="async"
+        />
+        <p className="caption-text mt-3 normal-case text-foreground/40 mb-10">
+          COPs network generating the star and nebula layers.
+        </p>
       </section>
 
       <hr className="border-primary/10 mb-14" />
@@ -181,16 +212,26 @@ export const AsteroidSpawnerPage = () => (
       <section className="mb-14">
         <span className="eyebrow">03</span>
         <h2 className="t-h1 mt-2 mb-5">Unity Spawner</h2>
+
         <p className="t-body mb-8">
-          The spawning system populates the scene at runtime, placing asteroids
-          at randomized positions within a defined sphere volume. Before each
-          placement, a physics overlap check confirms the space is actually
-          clear — keeping asteroids from clipping into each other no matter how
-          dense the field gets. Each asteroid also gets a randomized rotation
-          and scale within a min/max range so the field never looks hand-placed.
-          Spawn count, sphere radius, and scale range are all serialized fields
-          in the Inspector so teammates could tune the field without ever
-          opening the script.
+          I built the asteroid spawning system, which populates the scene at runtime by placing asteroids at randomized positions within a defined sphere volume.
+          Before each spawn, the system runs a physics sphere check to confirm the space is clear, preventing asteroids from overlapping or clipping into each other.
+        </p>
+
+        <video
+          src={cldVideo("asteroid_spawn", { quality: "original" })}
+          poster={cldThumb("asteroid_spawn")}
+          className="w-full rounded-sm border border-primary/10 mt-3 mb-10"
+          autoPlay
+          loop
+          loading="lazy"
+          decoding="async"
+        />
+
+         <p className="t-body mb-8">
+          Each asteroid is instantiated with a random rotation and a uniformly randomized scale within a set min and max range, keeping the field feeling natural
+          and varied without manual placement. The spawn count, asteroid radius, and size variation are all exposed as serialized fields in the Unity Inspector,
+          making it easy for the team to tweak the feel of the field without touching the code.
         </p>
 
         <span className="eyebrow block">Fields</span>
