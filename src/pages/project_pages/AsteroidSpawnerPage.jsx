@@ -1,17 +1,48 @@
 import MediaCarousel from "../../components/MediaCarousel";
 import { ParamTable } from "../../components/ParamTable";
 import { cld, cldThumb, cldVideo } from "../../lib/cloudinary";
+import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
+import csharp from "react-syntax-highlighter/dist/esm/languages/hljs/csharp";
+import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+
+SyntaxHighlighter.registerLanguage("csharp", csharp);
 
 const CodeBlock = ({ code }) => (
-  <pre className="bg-card border border-primary/10 rounded-sm p-4 overflow-x-auto text-xs font-mono text-foreground/60 leading-relaxed mt-3 mb-10">
-    <code>{code}</code>
-  </pre>
+  <SyntaxHighlighter
+    language="csharp"
+    style={atomOneDark}
+    showLineNumbers
+    customStyle={{
+      borderRadius: "4px",
+      fontSize: "1rem",
+      lineHeight: "1.55",
+      padding: "1.25rem 1.5rem",
+      marginTop: "0.75rem",
+      marginBottom: "2.5rem",
+      fontFamily: "'JetBrains Mono', monospace",
+      border: "1px solid rgba(255,255,255,0.06)",
+    }}
+    lineNumberStyle={{
+      color: "rgba(255,255,255,0.18)",
+      minWidth: "2.5em",
+      paddingRight: "1.5em",
+      userSelect: "none",
+    }}
+  >
+    {code}
+  </SyntaxHighlighter>
 );
 
 /* ── Media ──────────────────────────────────────────────────────────────── */
 const heroMedia = [
-  { type: "image", src: cld("card_img_asteroid_gen.png", { quality: "original" }) },
-  { type: "image", src: cld("card_img_asteroid_map.jpg", { quality: "original" }) },
+  {
+    type: "image",
+    src: cld("card_img_asteroid_gen.png", { quality: "original" }),
+  },
+  {
+    type: "image",
+    src: cld("card_img_asteroid_map.jpg", { quality: "original" }),
+  },
   {
     type: "videoFile",
     src: cldVideo("asteroid_demo_param", { quality: "original" }),
@@ -49,8 +80,10 @@ export const AsteroidSpawnerPage = () => (
       </p>
 
       <p className="t-body text-foreground mb-14">
-        This project started as a group game development club project a space blaster game called “The Last Frontier” where players navigate a
-        ship through an asteroid field. I was responsible for the asteroid system from start to finish: designing the procedural asset and space backdrop
+        This project started as a group game development club project a space
+        blaster game called “The Last Frontier” where players navigate a ship
+        through an asteroid field. I was responsible for the asteroid system
+        from start to finish: designing the procedural asset and space backdrop
         in Houdini, then building the asteroid spawner system in Unity.
       </p>
 
@@ -105,12 +138,15 @@ export const AsteroidSpawnerPage = () => (
 
         <span className="eyebrow block">Node Network</span>
         <p className="t-body mt-3 mb-4">
-          The network splits into two branches. The mesh and texture creation on the right,
-          and a polycount-reduction branch on the left (currently set to 500 and can be adjustable).
+          The network splits into two branches. The mesh and texture creation on
+          the right, and a polycount-reduction branch on the left (currently set
+          to 500 and can be adjustable).
         </p>
 
         <video
-          src={cldVideo("asteroid_showcase", { quality: "original" })}
+          src={cldVideo("asteroid_showcase", {
+            quality: "original",
+          })}
           poster={cldThumb("asteroid_showcase")}
           className="w-4xl rounded-sm border border-primary/10 mb-8"
           autoPlay
@@ -128,7 +164,8 @@ export const AsteroidSpawnerPage = () => (
             decoding="async"
           />
           <p className="caption-text mt-3 normal-case text-foreground/40 mb-10">
-            Full SOP network, texture/mesh branch (right) and polycount-reduction branch (left).
+            Full SOP network, texture/mesh branch (right) and
+            polycount-reduction branch (left).
           </p>
         </div>
 
@@ -143,22 +180,27 @@ export const AsteroidSpawnerPage = () => (
           decoding="async"
         />
 
-        <h4 className="eyebrow normal-case text-foreground mb-2">
-          Parameters
-        </h4>
+        <h4 className="eyebrow normal-case text-foreground mb-2">Parameters</h4>
         <ParamTable
           params={[
-            ["rock shape seed", "randomizes the overall silhouette of the rock"],
+            [
+              "rock shape seed",
+              "randomizes the overall silhouette of the rock",
+            ],
             ["crater count", "how many craters are generated on the surface"],
             ["crater min size", "minimum size of each crater"],
             ["crater max size", "maximum size of each crater"],
-            ["crater spread seed", "randomizes where the craters are distributed"],
+            [
+              "crater spread seed",
+              "randomizes where the craters are distributed",
+            ],
           ]}
         />
 
         <h3 className="t-h2 mb-4">Color Correcting & Texturing</h3>
         <p className="t-body mb-4">
-          All color correction and texturing for the asteroid was done procedurally in Houdini COPs.
+          All color correction and texturing for the asteroid was done
+          procedurally in Houdini COPs.
         </p>
         <img
           src={cld("Color_correct_node.png", { width: 1200 })}
@@ -176,11 +218,11 @@ export const AsteroidSpawnerPage = () => (
         <span className="eyebrow">02</span>
         <h2 className="t-h1 mt-2 mb-5">Space Backdrop</h2>
         <p className="t-body mb-8">
-          The space background that includes stars, galaxy clusters, and nebula color were all
-          built entirely from scratch inside Houdini COPs. For these effects, I used noise and
-          blend nodes to get the layered depth of a real starfield. It was
-          genuinely fun to experiment with how much personality you can get out
-          of just a few nodes!
+          The space background that includes stars, galaxy clusters, and nebula
+          color were all built entirely from scratch inside Houdini COPs. For
+          these effects, I used noise and blend nodes to get the layered depth
+          of a real starfield. It was genuinely fun to experiment with how much
+          personality you can get out of just a few nodes!
         </p>
 
         <img
@@ -214,8 +256,11 @@ export const AsteroidSpawnerPage = () => (
         <h2 className="t-h1 mt-2 mb-5">Unity Spawner</h2>
 
         <p className="t-body mb-8">
-          I built the asteroid spawning system, which populates the scene at runtime by placing asteroids at randomized positions within a defined sphere volume.
-          Before each spawn, the system runs a physics sphere check to confirm the space is clear, preventing asteroids from overlapping or clipping into each other.
+          I built the asteroid spawning system, which populates the scene at
+          runtime by placing asteroids at randomized positions within a defined
+          sphere volume. Before each spawn, the system runs a physics sphere
+          check to confirm the space is clear, preventing asteroids from
+          overlapping or clipping into each other.
         </p>
 
         <video
@@ -228,10 +273,13 @@ export const AsteroidSpawnerPage = () => (
           decoding="async"
         />
 
-         <p className="t-body mb-8">
-          Each asteroid is instantiated with a random rotation and a uniformly randomized scale within a set min and max range, keeping the field feeling natural
-          and varied without manual placement. The spawn count, asteroid radius, and size variation are all exposed as serialized fields in the Unity Inspector,
-          making it easy for the team to tweak the feel of the field without touching the code.
+        <p className="t-body mb-8">
+          Each asteroid is instantiated with a random rotation and a uniformly
+          randomized scale within a set min and max range, keeping the field
+          feeling natural and varied without manual placement. The spawn count,
+          asteroid radius, and size variation are all exposed as serialized
+          fields in the Unity Inspector, making it easy for the team to tweak
+          the feel of the field without touching the code.
         </p>
 
         <span className="eyebrow block">Fields</span>
@@ -295,9 +343,9 @@ export const AsteroidSpawnerPage = () => (
           href="https://github.com/Its-Cryptic/CS4700-Semester-Project/blob/asteroid_spawner/Assets/AsteroidSpawner/Scripts/AsteroidSpawner.cs"
           target="_blank"
           rel="noopener noreferrer"
-          className="caption-text normal-case border border-primary/20 rounded-sm px-4 py-2 text-primary/70 hover:text-primary hover:border-primary/50 transition-colors inline-flex items-center gap-2"
+          className="eyebrow normal-case border border-primary/20 rounded-sm px-4 py-2 text-primary/70 hover:text-primary hover:border-primary/50 transition-colors inline-flex items-center gap-2"
         >
-          View Full Script on GitHub →
+          View on GitHub
         </a>
       </section>
     </div>
