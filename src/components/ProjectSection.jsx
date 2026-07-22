@@ -12,6 +12,7 @@ import { BuilderBeaversPage }   from "../pages/project_pages/BuilderBeaversPage"
 import { HouseLightingPage }    from "../pages/project_pages/HouseLightingPage";
 import { OutsideDinePage }      from "../pages/project_pages/OutsideDinePage";
 import { UnderwaterScenePage }  from "../pages/project_pages/UnderwaterScenePage";
+import { PBRClassifierPage } from "../pages/project_pages/PBRClassifierPage.jsx";
 import { NotFound }             from "../pages/NotFound.jsx";
 
 const projects = [
@@ -24,7 +25,7 @@ const projects = [
   { id: 7,  title: "House Lighting",                      description: "3D Lighting Studies",       image: cld("card_img_house_light.png", { width: 600 }),     tags: ["3D"],         detailComponent: <HouseLightingPage /> },
   { id: 8,  title: "Outside Dining",                      description: "3D Lighting Studies",       image: cld("card_img_outside_dining.jpg", { width: 600 }),  tags: ["3D"],         detailComponent: <OutsideDinePage /> },
   { id: 9,  title: "Underwater Temple",                  description: "3D Lighting Environment",   image: cld("card_img_underwater_scene.jpg", { width: 600 }),tags: ["3D"],         detailComponent: <UnderwaterScenePage /> },
-  { id: 11, title: "ML Texture Organizer",                description: "Maya Python Script",        image: cld("card_img_underwater_scene.jpg", { width: 600 }),tags: ["Coding"],     detailComponent: <NotFound /> },
+  { id: 11, title: "ML Assisted PBR Classifier",                description: "Maya Python Script",        image: cld("ml_render1", { width: 600 }),tags: ["Coding"],     detailComponent: <PBRClassifierPage /> },
 ];
 
 const allTags = [...new Set(projects.flatMap((p) => p.tags))];

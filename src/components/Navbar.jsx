@@ -4,16 +4,17 @@ import { Menu, X } from "lucide-react";
 import { FaGithub, FaLinkedin, FaDiscord } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
-
 const navItems = [
   { name: "PROJECTS", href: "#projects" },
-  { name: "ABOUT",    href: "#about"    },
-  { name: "CONTACT",  href: "#contact"  },
+  { name: "ABOUT", href: "#about" },
+  { name: "RESUME", href: "assets/AlanaResume.pdf" },
+  { name: "REEL", href: "#reel"},
+  { name: "CONTACT", href: "#contact" },
 ];
 
 export const Navbar = () => {
-  const [isScrolled,  setIsScrolled]  = useState(false);
-  const [isMenuOpen,  setIsMenuOpen]  = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -27,7 +28,10 @@ export const Navbar = () => {
     } else {
       document.body.style.overflow = "unset";
     }
-    return () => { document.body.style.overflow = "unset"; };
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
   }, [isMenuOpen]);
 
   return (
@@ -41,18 +45,26 @@ export const Navbar = () => {
         )}
       >
         <div className="container flex items-center justify-between relative">
-
-          {/* Logo — Fraunces serif 300 */}
-          <a href="#hero" className="t-h2 font-normal font-serif tracking-tight text-lg text-foreground hover:text-primary transition-colors duration-300">
+          {/* Logo */}
+          <a
+            href="#hero"
+            className="t-h2 font-normal font-serif tracking-tight text-lg text-foreground hover:text-primary transition-colors duration-300"
+          >
             Alana Dubie
           </a>
 
-          {/* Desktop nav — caption-text utility */}
+          {/* Desktop nav */}
           <div className="hidden md:flex space-x-10">
             {navItems.map((item, key) => (
               <a
                 key={key}
                 href={item.href}
+                target={item.href.endsWith(".pdf") ? "_blank" : undefined}
+                rel={
+                  item.href.endsWith(".pdf")
+                    ? "noopener noreferrer"
+                    : undefined
+                }
                 className="caption-text font-medium tracking-[0.2em] text-foreground/55 hover:text-primary transition-colors duration-300"
               >
                 {item.name}
@@ -74,12 +86,16 @@ export const Navbar = () => {
       </nav>
 
       {/* Mobile overlay */}
-      <div className={cn(
-        "fixed top-0 left-0 w-full h-screen bg-background backdrop-blur-md z-40 flex flex-col md:hidden",
-        "transition-all duration-300",
-        isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-      )}>
-        {/* Overlay header row */}
+      <div
+        className={cn(
+          "fixed top-0 left-0 w-full h-screen bg-background backdrop-blur-md z-40 flex flex-col md:hidden",
+          "transition-all duration-300",
+          isMenuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        )}
+      >
+        {/* Overlay header */}
         <div className="flex items-center justify-between px-4 py-5">
           <a
             href="#hero"
@@ -88,6 +104,7 @@ export const Navbar = () => {
           >
             Alana Dubie
           </a>
+
           <button
             onClick={() => setIsMenuOpen(false)}
             className="p-2 text-foreground relative z-50"
@@ -102,6 +119,12 @@ export const Navbar = () => {
             <a
               key={key}
               href={item.href}
+              target={item.href.endsWith(".pdf") ? "_blank" : undefined}
+              rel={
+                item.href.endsWith(".pdf")
+                  ? "noopener noreferrer"
+                  : undefined
+              }
               className="eyebrow normal-case text-foreground/60 hover:text-primary transition-colors duration-300"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -110,20 +133,37 @@ export const Navbar = () => {
           ))}
 
           <div className="flex gap-6 justify-center pt-4 mt-49">
-            <a href="mailto:alanaldubie@gmail.com"
-              className="text-foreground/50 hover:text-primary transition-colors duration-300">
+            <a
+              href="mailto:alanaldubie@gmail.com"
+              className="text-foreground/50 hover:text-primary transition-colors duration-300"
+            >
               <MdEmail size={25} />
             </a>
-            <a href="https://linkedin.com/in/alana-dubie" target="_blank" rel="noopener noreferrer"
-              className="text-foreground/50 hover:text-primary transition-colors duration-300">
+
+            <a
+              href="https://linkedin.com/in/alana-dubie"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground/50 hover:text-primary transition-colors duration-300"
+            >
               <FaLinkedin size={25} />
             </a>
-            <a href="https://github.com/alanadubie" target="_blank" rel="noopener noreferrer"
-              className="text-foreground/50 hover:text-primary transition-colors duration-300">
+
+            <a
+              href="https://github.com/alanadubie"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground/50 hover:text-primary transition-colors duration-300"
+            >
               <FaGithub size={25} />
             </a>
-            <a href="https://discord.com/users/alana808" target="_blank" rel="noopener noreferrer"
-              className="text-foreground/50 hover:text-primary transition-colors duration-300">
+
+            <a
+              href="https://discord.com/users/alana808"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground/50 hover:text-primary transition-colors duration-300"
+            >
               <FaDiscord size={25} />
             </a>
           </div>

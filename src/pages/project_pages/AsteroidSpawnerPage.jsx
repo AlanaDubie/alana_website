@@ -79,13 +79,22 @@ export const AsteroidSpawnerPage = () => (
         </span>
       </p>
 
-      <p className="t-body text-foreground mb-14">
+      <p className="t-body text-foreground mb-8">
         This project started as a group game development club project a space
         blaster game called “The Last Frontier” where players navigate a ship
         through an asteroid field. I was responsible for the asteroid system
         from start to finish: designing the procedural asset and space backdrop
         in Houdini, then building the asteroid spawner system in Unity.
       </p>
+
+      <a
+        href="https://github.com/Its-Cryptic/CS4700-Semester-Project/blob/asteroid_spawner/Assets/AsteroidSpawner/Scripts/AsteroidSpawner.cs"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mb-14 eyebrow normal-case border border-primary/20 rounded-sm px-4 py-2 text-primary/70 hover:text-primary hover:border-primary/50 transition-colors inline-flex items-center gap-2"
+      >
+        View on GitHub
+      </a>
 
       <hr className="border-primary/10 mb-14" />
 
@@ -339,14 +348,6 @@ export const AsteroidSpawnerPage = () => (
   }`}
         />
 
-        <a
-          href="https://github.com/Its-Cryptic/CS4700-Semester-Project/blob/asteroid_spawner/Assets/AsteroidSpawner/Scripts/AsteroidSpawner.cs"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="eyebrow normal-case border border-primary/20 rounded-sm px-4 py-2 text-primary/70 hover:text-primary hover:border-primary/50 transition-colors inline-flex items-center gap-2"
-        >
-          View on GitHub
-        </a>
       </section>
     </div>
   </div>
