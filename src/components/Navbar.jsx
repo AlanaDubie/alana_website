@@ -6,9 +6,10 @@ import { MdEmail } from "react-icons/md";
 
 const navItems = [
   { name: "PROJECTS", href: "#projects" },
+  { name: "REEL", href: "#reel" },
+
   { name: "ABOUT", href: "#about" },
   { name: "RESUME", href: "assets/AlanaResume.pdf" },
-  { name: "REEL", href: "#reel"},
   { name: "CONTACT", href: "#contact" },
 ];
 
