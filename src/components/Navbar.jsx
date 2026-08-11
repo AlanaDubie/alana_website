@@ -3,17 +3,52 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { FaGithub, FaLinkedin, FaDiscord } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import { cldRaw } from "../lib/cloudinary";
 
 const navItems = [
   { name: "PROJECTS", href: "#projects" },
   { name: "REEL", href: "#reel" },
-
-  { name: "ABOUT", href: "#about" },
-  { name: "RESUME", href: "assets/AlanaResume.pdf" },
+  { name: "RESUME", href: cldRaw("AlanaResume.pdf") },
   { name: "CONTACT", href: "#contact" },
+  { name: "ABOUT", action: "about" },
+
 ];
 
-export const Navbar = () => {
+/* Renders a plain <a> for anchors/external files, or a <button> that
+   opens the About drawer for the ABOUT item. Regular links fire
+   onNavigate so the caller can close the About drawer if it's open. */
+const NavItem = ({ item, className, onClick, onAboutClick, onNavigate }) => {
+  if (item.action === "about") {
+    return (
+      <button
+        onClick={() => {
+          onAboutClick?.();
+          onClick?.();
+        }}
+        className={cn("appearance-none bg-transparent border-0 p-0 m-0 cursor-pointer", className)}
+      >
+        {item.name}
+      </button>
+    );
+  }
+
+  return (
+    <a
+      href={item.href}
+      target={item.href.endsWith(".pdf") ? "_blank" : undefined}
+      rel={item.href.endsWith(".pdf") ? "noopener noreferrer" : undefined}
+      className={className}
+      onClick={() => {
+        onNavigate?.();
+        onClick?.();
+      }}
+    >
+      {item.name}
+    </a>
+  );
+};
+
+export const Navbar = ({ onAboutClick, onNavigate }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -49,27 +84,22 @@ export const Navbar = () => {
           {/* Logo */}
           <a
             href="#hero"
+            onClick={() => onNavigate?.()}
             className="t-h2 font-normal font-serif tracking-tight text-lg text-foreground hover:text-primary transition-colors duration-300"
           >
             Alana Dubie
           </a>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex space-x-10">
+          <div className="hidden md:flex gap-10">
             {navItems.map((item, key) => (
-              <a
+              <NavItem
                 key={key}
-                href={item.href}
-                target={item.href.endsWith(".pdf") ? "_blank" : undefined}
-                rel={
-                  item.href.endsWith(".pdf")
-                    ? "noopener noreferrer"
-                    : undefined
-                }
+                item={item}
+                onAboutClick={onAboutClick}
+                onNavigate={onNavigate}
                 className="caption-text font-medium tracking-[0.2em] text-foreground/55 hover:text-primary transition-colors duration-300"
-              >
-                {item.name}
-              </a>
+              />
             ))}
           </div>
 
@@ -100,7 +130,7 @@ export const Navbar = () => {
         <div className="flex items-center justify-between px-4 py-5">
           <a
             href="#hero"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={() => { onNavigate?.(); setIsMenuOpen(false); }}
             className="t-h2 font-normal font-serif tracking-tight text-lg text-foreground hover:text-primary transition-colors duration-300"
           >
             Alana Dubie
@@ -115,22 +145,16 @@ export const Navbar = () => {
           </button>
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center space-y-8">
+        <div className="flex-1 flex flex-col items-center justify-center gap-8">
           {navItems.map((item, key) => (
-            <a
+            <NavItem
               key={key}
-              href={item.href}
-              target={item.href.endsWith(".pdf") ? "_blank" : undefined}
-              rel={
-                item.href.endsWith(".pdf")
-                  ? "noopener noreferrer"
-                  : undefined
-              }
+              item={item}
+              onAboutClick={onAboutClick}
+              onNavigate={onNavigate}
               className="eyebrow normal-case text-foreground/60 hover:text-primary transition-colors duration-300"
               onClick={() => setIsMenuOpen(false)}
-            >
-              {item.name}
-            </a>
+            />
           ))}
 
           <div className="flex gap-6 justify-center pt-4 mt-49">

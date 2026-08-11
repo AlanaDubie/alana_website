@@ -20,7 +20,7 @@ export const HeroSection = () => {
           </h1>
 
           <div className="mt-6 mb-10">
-            <p className="eyebrow">CS Student · Tools Developer · Technical Artist</p>
+            <p className="eyebrow">Software Engineer · Tools Developer · Technical Artist</p>
           </div>
 
           <div className="h-px bg-primary/12" />
